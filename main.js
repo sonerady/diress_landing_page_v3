@@ -2392,17 +2392,17 @@ const poseImages = [
     '/assets/poses/pose-9-Photoroom.png'
 ];
 
-// Pose names for labels
-const poseNames = [
-    'Confident Stand',
-    'Casual Lean',
-    'Editorial Pose',
-    'Power Stance',
-    'Relaxed Walk',
-    'Dynamic Turn',
-    'Elegant Pose',
-    'Street Style',
-    'Studio Classic'
+// Pose data for labels (small title and big title)
+const poseData = [
+    { small: 'Classic Elegance', big: 'Sophisticated Full Body Pose' },
+    { small: 'Side Profile', big: 'Sleek Silhouette Look' },
+    { small: 'Minimalist Focus', big: 'Subtle Neck & Shoulder Detail' },
+    { small: 'Dynamic Motion', big: 'Free-Spirited Active Pose' },
+    { small: 'Artistic Mystery', big: 'Modern Moody Expression' },
+    { small: 'Symmetrical Balance', big: 'Hand-to-Face Aesthetic Style' },
+    { small: 'Urban Movement', big: 'Confident Walking Stance' },
+    { small: 'Casual Charm', big: 'Relaxed Daily Lifestyle Pose' },
+    { small: 'Wind-Swept Detail', big: 'Flowing Motion & Natural Look' }
 ];
 
 // DOM elements for pose labels
@@ -2454,9 +2454,12 @@ const poseFragmentShader = `
             color = texture2D(uTexture, vUv);
         }
 
-        // Apply white overlay (mix with white based on uWhiteOverlay value)
-        vec3 white = vec3(1.0, 1.0, 1.0);
-        color.rgb = mix(color.rgb, white, uWhiteOverlay);
+        // Apply white overlay only to non-transparent pixels (preserve PNG transparency)
+        // Only apply white overlay where there is actual content (alpha > 0)
+        if (color.a > 0.01) {
+            vec3 white = vec3(1.0, 1.0, 1.0);
+            color.rgb = mix(color.rgb, white, uWhiteOverlay);
+        }
 
         color.a *= uOpacity;
         gl_FragColor = color;
@@ -2539,8 +2542,8 @@ function initPoseThreeJS() {
             label.className = 'pose-label';
             label.style.opacity = '0'; // Start hidden
             label.innerHTML = `
-                <span class="pose-number">POSE ${String(i + 1).padStart(2, '0')}</span>
-                <span class="pose-name">${poseNames[i]}</span>
+                <span class="pose-small-title">${poseData[i].small}</span>
+                <span class="pose-big-title">${poseData[i].big}</span>
             `;
             labelsContainer.appendChild(label);
             poseLabels.push(label);
@@ -2693,7 +2696,12 @@ function updatePoseLabelPosition(index, plane, opacity, relPos, progress = 0) {
     let labelOpacity = 0;
     let labelBlur = 0;
 
-    if (relPos === 0 && progress > 0) {
+    if (relPos === -1) {
+        // Image returning from camera (reverse scroll) - fade in as it comes back
+        labelOpacity = progress; // Fade in with progress
+        labelBlur = 0;
+        label.style.zIndex = 200; // Highest z-index for returning label
+    } else if (relPos === 0 && progress > 0) {
         // Front card exiting - fade out quickly as it leaves
         labelOpacity = Math.max(0, 1 - (progress * 2)); // Fade out faster
         labelBlur = 0;
@@ -2720,29 +2728,64 @@ function updatePoseLabelPosition(index, plane, opacity, relPos, progress = 0) {
     label.style.visibility = labelOpacity < 0.05 ? 'hidden' : 'visible';
 }
 
-// Update for reverse scrolling
+// Update for reverse scrolling - previous image comes back from camera
 function updatePoseStackThreeJSReverse(progress) {
     posePlanes.forEach((plane, index) => {
         if (!plane) return;
 
         const currentRelPos = (index - currentPoseIndex + totalPoses) % totalPoses;
-        const prevRelPos = (index - ((currentPoseIndex - 1 + totalPoses) % totalPoses) + totalPoses) % totalPoses;
 
+        // Get properties for current and previous positions
         const currentProps = getPoseProperties3D(currentRelPos);
-        const prevProps = getPoseProperties3D(prevRelPos);
 
-        // Interpolate back toward previous positions
-        const x = lerp(currentProps.x, prevProps.x, progress);
-        const z = lerp(currentProps.z, prevProps.z, progress);
-        const rotY = lerp(currentProps.rotY, prevProps.rotY, progress);
-        const scale = lerp(currentProps.scale, prevProps.scale, progress);
-        const blur = lerp(currentProps.blur, prevProps.blur, progress);
-        const opacity = lerp(currentProps.opacity, prevProps.opacity, progress);
-        const whiteOverlay = lerp(currentProps.whiteOverlay, prevProps.whiteOverlay, progress);
+        let x, z, rotY, scale, blur, opacity, whiteOverlay;
+
+        // The previous image (index = currentPoseIndex - 1) should come back from camera
+        const prevImageIndex = (currentPoseIndex - 1 + totalPoses) % totalPoses;
+
+        if (index === prevImageIndex) {
+            // This is the image that exited toward camera - bring it back
+            // Start from camera position (z=3, x=-1.5, scale=1.3, opacity=0) and go to front position
+            x = lerp(-1.5, 0, progress);
+            z = lerp(3, 0.5, progress);
+            rotY = lerp(0.4, 0, progress);
+            scale = lerp(1.3, 1, progress);
+            blur = lerp(10, 0, progress);
+            opacity = lerp(0, 1, progress);
+            whiteOverlay = 0;
+
+            // This should be in front when coming back
+            plane.renderOrder = 200;
+        } else if (currentRelPos === 0) {
+            // Current front card moves back to position 1
+            const nextProps = getPoseProperties3D(1);
+            x = lerp(currentProps.x, nextProps.x, progress);
+            z = lerp(currentProps.z, nextProps.z, progress);
+            rotY = lerp(currentProps.rotY, nextProps.rotY, progress);
+            scale = lerp(currentProps.scale, nextProps.scale, progress);
+            blur = lerp(currentProps.blur, nextProps.blur, progress);
+            opacity = lerp(currentProps.opacity, nextProps.opacity, progress);
+            whiteOverlay = lerp(currentProps.whiteOverlay, nextProps.whiteOverlay, progress);
+
+            plane.renderOrder = 100 - currentRelPos;
+        } else {
+            // Other cards move back one position
+            const nextRelPos = Math.min(currentRelPos + 1, 4);
+            const nextProps = getPoseProperties3D(nextRelPos);
+            x = lerp(currentProps.x, nextProps.x, progress);
+            z = lerp(currentProps.z, nextProps.z, progress);
+            rotY = lerp(currentProps.rotY, nextProps.rotY, progress);
+            scale = lerp(currentProps.scale, nextProps.scale, progress);
+            blur = lerp(currentProps.blur, nextProps.blur, progress);
+            opacity = lerp(currentProps.opacity, nextProps.opacity, progress);
+            whiteOverlay = lerp(currentProps.whiteOverlay, nextProps.whiteOverlay, progress);
+
+            plane.renderOrder = 100 - currentRelPos;
+        }
 
         plane.position.x = x;
         plane.position.z = z;
-        plane.position.y = 0; // Centered vertically
+        plane.position.y = 0;
         plane.rotation.y = rotY;
         plane.scale.set(scale, scale, 1);
 
@@ -2752,10 +2795,9 @@ function updatePoseStackThreeJSReverse(progress) {
             plane.material.uniforms.uWhiteOverlay.value = whiteOverlay;
         }
 
-        plane.renderOrder = 100 - currentRelPos;
-
-        // Update corresponding label position with progress for smooth fade
-        updatePoseLabelPosition(index, plane, opacity, currentRelPos, progress);
+        // Update label
+        const labelRelPos = (index === prevImageIndex) ? -1 : currentRelPos; // -1 for returning image
+        updatePoseLabelPosition(index, plane, opacity, labelRelPos, progress);
     });
 }
 

@@ -2705,21 +2705,22 @@ footer {
     padding-right: 20px;
 }
 
-.pose-label .pose-name {
-    font-family: 'Playfair Display', serif;
-    font-size: 28px;
-    font-weight: 600;
-    color: #1a1a1a;
-    line-height: 1.1;
-    white-space: nowrap;
+.pose-label .pose-small-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.5);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
 }
 
-.pose-label .pose-number {
-    font-family: 'Poppins', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    color: rgba(0, 0, 0, 0.4);
-    letter-spacing: 2px;
+.pose-label .pose-big-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #1a1a1a;
+    line-height: 1.2;
+    white-space: nowrap;
 }
 
 /* ========================================
