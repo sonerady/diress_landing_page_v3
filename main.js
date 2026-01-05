@@ -1234,8 +1234,13 @@ window.addEventListener('wheel', (e) => {
         if (result === 'next') {
             currentStep = 3;
             currentSubStep = 0;
+            isScrolling = true; // Lock scrolling to prevent momentum
             transitionToScene(4);
             updateUI();
+            // Keep scroll locked longer to prevent substep skipping
+            setTimeout(() => {
+                isScrolling = false;
+            }, 800);
         } else if (result === 'prev') {
             currentStep = 1;
             transitionToScene(3);
