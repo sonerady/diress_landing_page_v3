@@ -807,7 +807,7 @@ const retouchPlanes = [];
 const textureLoader = new THREE.TextureLoader();
 
 // Card size will be calculated based on screen aspect ratio
-let retouchCardSize = 1.8; // Much larger card size for full height
+let retouchCardSize = 1.9; // Slightly smaller card size
 let retouchGap = 0.2;
 
 function createRetouchCarousel() {
@@ -821,7 +821,7 @@ function createRetouchCarousel() {
     // Card dimensions - full height cards
     const cardHeight = retouchCardSize;
     const cardWidth = cardHeight / screenAspect; // Maintain proper aspect ratio
-    retouchGap = cardWidth * 0.02; // Minimal gap between cards
+    retouchGap = 0; // No gap between cards
 
     retouchImages.forEach((data, i) => {
         const geometry = new THREE.PlaneGeometry(cardWidth, cardHeight);
