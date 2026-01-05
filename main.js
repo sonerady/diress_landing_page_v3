@@ -1124,7 +1124,15 @@ function renderSteps() {
             else if (currentStep === 5) transitionToScene(4); // Same as Customize Model
             else if (currentStep === 6) {
                 currentPoseIndex = 0;
-                updatePoseStack();
+                accumulatedPoseScroll = 0;
+                poseScrollProgress = 0;
+                poseScrollLocked = true;
+                updatePoseStackThreeJS(0);
+                setTimeout(() => {
+                    poseScrollLocked = false;
+                    accumulatedPoseScroll = 0;
+                    poseScrollProgress = 0;
+                }, 300);
             }
             updateUI();
         };
@@ -1258,8 +1266,15 @@ window.addEventListener('wheel', (e) => {
                 currentPoseIndex = 0;
                 accumulatedPoseScroll = 0;
                 poseScrollProgress = 0;
+                poseScrollLocked = true; // Lock scroll to prevent momentum interference
                 updatePoseStackThreeJS(0);
                 updateUI();
+                // Unlock after a short delay to allow momentum to settle
+                setTimeout(() => {
+                    poseScrollLocked = false;
+                    accumulatedPoseScroll = 0;
+                    poseScrollProgress = 0;
+                }, 300);
             } else {
                 currentStep = Math.min(currentStep + 1, steps.length - 1);
                 updateUI();
@@ -1292,8 +1307,14 @@ window.addEventListener('wheel', (e) => {
                 currentPoseIndex = totalPoses - 1;
                 accumulatedPoseScroll = 0;
                 poseScrollProgress = 0;
+                poseScrollLocked = true;
                 updatePoseStackThreeJS(0);
                 updateUI();
+                setTimeout(() => {
+                    poseScrollLocked = false;
+                    accumulatedPoseScroll = 0;
+                    poseScrollProgress = 0;
+                }, 300);
             } else {
                 currentStep = Math.max(currentStep - 1, 0);
                 if (currentStep === 0) transitionToScene(0);
@@ -2346,10 +2367,11 @@ initChangeColorBadges();
 // Change Pose Section (Step 6) - THREE.JS VERSION
 // ========================================
 let currentPoseIndex = 0;
-const totalPoses = 5;
+const totalPoses = 9;
 let poseScrollProgress = 0;
 const POSE_SCROLL_THRESHOLD = 300;
 let accumulatedPoseScroll = 0;
+let poseScrollLocked = false; // Prevents scroll processing immediately after entering step 6
 
 // Three.js Pose Scene
 let poseScene, poseCamera, poseRenderer;
@@ -2357,14 +2379,34 @@ let posePlanes = [];
 let poseTextures = [];
 let poseAnimationId = null;
 
-// Pose images (using center_image.png for all, can be different)
+// Pose images from assets/poses folder
 const poseImages = [
-    '/assets/center_image.png',
-    '/assets/center_image.png',
-    '/assets/center_image.png',
-    '/assets/center_image.png',
-    '/assets/center_image.png'
+    '/assets/poses/pose-1-Photoroom.png',
+    '/assets/poses/pose-2-Photoroom.png',
+    '/assets/poses/pose-3-Photoroom.png',
+    '/assets/poses/pose-4-Photoroom.png',
+    '/assets/poses/pose-5-Photoroom.png',
+    '/assets/poses/pose-6-Photoroom.png',
+    '/assets/poses/pose-7-Photoroom.png',
+    '/assets/poses/pose-8-Photoroom.png',
+    '/assets/poses/pose-9-Photoroom.png'
 ];
+
+// Pose names for labels
+const poseNames = [
+    'Confident Stand',
+    'Casual Lean',
+    'Editorial Pose',
+    'Power Stance',
+    'Relaxed Walk',
+    'Dynamic Turn',
+    'Elegant Pose',
+    'Street Style',
+    'Studio Classic'
+];
+
+// DOM elements for pose labels
+let poseLabels = [];
 
 // Blur shader for pose cards
 const poseVertexShader = `
@@ -2379,35 +2421,42 @@ const poseFragmentShader = `
     uniform sampler2D uTexture;
     uniform float uBlur;
     uniform float uOpacity;
+    uniform float uWhiteOverlay;
     varying vec2 vUv;
 
-    vec4 blur13(sampler2D image, vec2 uv, vec2 resolution, vec2 direction) {
+    // High quality 9-tap Gaussian blur
+    vec4 blur9(sampler2D image, vec2 uv, vec2 resolution, vec2 direction) {
         vec4 color = vec4(0.0);
-        vec2 off1 = vec2(1.411764705882353) * direction;
-        vec2 off2 = vec2(3.2941176470588234) * direction;
-        vec2 off3 = vec2(5.176470588235294) * direction;
-        color += texture2D(image, uv) * 0.1964825501511404;
-        color += texture2D(image, uv + (off1 / resolution)) * 0.2969069646728344;
-        color += texture2D(image, uv - (off1 / resolution)) * 0.2969069646728344;
-        color += texture2D(image, uv + (off2 / resolution)) * 0.09447039785044732;
-        color += texture2D(image, uv - (off2 / resolution)) * 0.09447039785044732;
-        color += texture2D(image, uv + (off3 / resolution)) * 0.010381362401148057;
-        color += texture2D(image, uv - (off3 / resolution)) * 0.010381362401148057;
+        vec2 off1 = vec2(1.3846153846) * direction;
+        vec2 off2 = vec2(3.2307692308) * direction;
+        color += texture2D(image, uv) * 0.2270270270;
+        color += texture2D(image, uv + (off1 / resolution)) * 0.3162162162;
+        color += texture2D(image, uv - (off1 / resolution)) * 0.3162162162;
+        color += texture2D(image, uv + (off2 / resolution)) * 0.0702702703;
+        color += texture2D(image, uv - (off2 / resolution)) * 0.0702702703;
         return color;
     }
 
     void main() {
-        vec2 resolution = vec2(512.0, 512.0);
+        vec2 resolution = vec2(1024.0, 1024.0);
         vec4 color;
 
         if (uBlur > 0.01) {
-            // Two-pass blur approximation
-            vec4 blurH = blur13(uTexture, vUv, resolution, vec2(uBlur, 0.0));
-            vec4 blurV = blur13(uTexture, vUv, resolution, vec2(0.0, uBlur));
-            color = mix(blurH, blurV, 0.5);
+            // Multi-pass blur for smoother effect
+            float blurAmount = uBlur * 1.5;
+            vec4 blurH = blur9(uTexture, vUv, resolution, vec2(blurAmount, 0.0));
+            vec4 blurV = blur9(uTexture, vUv, resolution, vec2(0.0, blurAmount));
+            // Additional diagonal passes for smoother blur
+            vec4 blurD1 = blur9(uTexture, vUv, resolution, vec2(blurAmount * 0.707, blurAmount * 0.707));
+            vec4 blurD2 = blur9(uTexture, vUv, resolution, vec2(blurAmount * 0.707, -blurAmount * 0.707));
+            color = (blurH + blurV + blurD1 + blurD2) * 0.25;
         } else {
             color = texture2D(uTexture, vUv);
         }
+
+        // Apply white overlay (mix with white based on uWhiteOverlay value)
+        vec3 white = vec3(1.0, 1.0, 1.0);
+        color.rgb = mix(color.rgb, white, uWhiteOverlay);
 
         color.a *= uOpacity;
         gl_FragColor = color;
@@ -2418,17 +2467,18 @@ function initPoseThreeJS() {
     const container = document.getElementById('pose-canvas-container');
     if (!container) return;
 
-    // Create scene
+    // Create scene - null background for PNG transparency
     poseScene = new THREE.Scene();
-    poseScene.background = new THREE.Color(0xffffff);
+    poseScene.background = null;
 
     // Create camera (perspective for 3D effect)
     const aspect = container.clientWidth / container.clientHeight;
     poseCamera = new THREE.PerspectiveCamera(50, aspect, 0.1, 1000);
     poseCamera.position.set(0, 0, 5);
 
-    // Create renderer
+    // Create renderer with transparency support
     poseRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    poseRenderer.setClearColor(0x000000, 0); // Transparent background
     poseRenderer.setSize(container.clientWidth, container.clientHeight);
     poseRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(poseRenderer.domElement);
@@ -2453,7 +2503,8 @@ function initPoseThreeJS() {
                 uniforms: {
                     uTexture: { value: texture },
                     uBlur: { value: 0.0 },
-                    uOpacity: { value: 1.0 }
+                    uOpacity: { value: 1.0 },
+                    uWhiteOverlay: { value: 0.0 }
                 },
                 vertexShader: poseVertexShader,
                 fragmentShader: poseFragmentShader,
@@ -2476,6 +2527,32 @@ function initPoseThreeJS() {
             }
         });
     });
+
+    // Create pose labels
+    const labelsContainer = document.getElementById('pose-labels-container');
+    if (labelsContainer) {
+        labelsContainer.innerHTML = '';
+        poseLabels = [];
+
+        for (let i = 0; i < totalPoses; i++) {
+            const label = document.createElement('div');
+            label.className = 'pose-label';
+            label.style.opacity = '0'; // Start hidden
+            label.innerHTML = `
+                <span class="pose-number">POSE ${String(i + 1).padStart(2, '0')}</span>
+                <span class="pose-name">${poseNames[i]}</span>
+            `;
+            labelsContainer.appendChild(label);
+            poseLabels.push(label);
+        }
+    }
+
+    // Initial label positioning after a short delay (wait for textures to load)
+    setTimeout(() => {
+        if (posePlanes.length > 0) {
+            updatePoseStackThreeJS(0);
+        }
+    }, 100);
 
     // Handle resize
     window.addEventListener('resize', () => {
@@ -2507,19 +2584,17 @@ function lerp(a, b, t) {
 // Get 3D properties for each card position
 function getPoseProperties3D(position) {
     const props = [
-        { x: 0, z: 0.5, rotY: 0, blur: 0, opacity: 1, scale: 1 },           // Front (active)
-        { x: 1.2, z: -1.5, rotY: -0.15, blur: 3, opacity: 0.7, scale: 0.95 },   // 1st back
-        { x: 2.4, z: -3.0, rotY: -0.25, blur: 6, opacity: 0.5, scale: 0.9 },    // 2nd back
-        { x: 3.6, z: -4.5, rotY: -0.35, blur: 9, opacity: 0.35, scale: 0.85 },  // 3rd back
-        { x: 4.8, z: -6.0, rotY: -0.45, blur: 12, opacity: 0.2, scale: 0.8 }    // 4th back
+        { x: 0, z: 0.5, rotY: 0, blur: 0, opacity: 1, scale: 1, whiteOverlay: 0 },           // Front (active)
+        { x: 1.4, z: -1.5, rotY: -0.12, blur: 2, opacity: 0.85, scale: 0.95, whiteOverlay: 0.15 },   // 1st back
+        { x: 2.8, z: -3.0, rotY: -0.2, blur: 4, opacity: 0.7, scale: 0.9, whiteOverlay: 0.3 },    // 2nd back
+        { x: 4.2, z: -4.5, rotY: -0.28, blur: 6, opacity: 0.55, scale: 0.85, whiteOverlay: 0.45 },  // 3rd back
+        { x: 5.6, z: -6.0, rotY: -0.35, blur: 8, opacity: 0.4, scale: 0.8, whiteOverlay: 0.6 }    // 4th back
     ];
     return props[Math.min(position, 4)];
 }
 
 // Update Three.js pose stack with scroll progress
 function updatePoseStackThreeJS(progress) {
-    const currentPoseEl = document.querySelector('.current-pose');
-
     posePlanes.forEach((plane, index) => {
         if (!plane) return;
 
@@ -2529,7 +2604,7 @@ function updatePoseStackThreeJS(progress) {
         const currentProps = getPoseProperties3D(currentRelPos);
         const nextProps = getPoseProperties3D(nextRelPos);
 
-        let x, z, rotY, blur, opacity, scale;
+        let x, z, rotY, blur, opacity, scale, whiteOverlay;
 
         if (currentRelPos === 0 && progress > 0) {
             // Front card exiting - moves toward camera, scales up, fades out
@@ -2537,8 +2612,9 @@ function updatePoseStackThreeJS(progress) {
             z = lerp(0.5, 3, progress);
             rotY = lerp(0, 0.4, progress);
             scale = lerp(1, 1.3, progress);
-            blur = lerp(0, 15, progress);
+            blur = lerp(0, 10, progress);
             opacity = lerp(1, 0, progress);
+            whiteOverlay = 0;
         } else if (currentRelPos === 0) {
             // Front card at rest
             x = 0;
@@ -2547,6 +2623,7 @@ function updatePoseStackThreeJS(progress) {
             scale = 1;
             blur = 0;
             opacity = 1;
+            whiteOverlay = 0;
         } else {
             // Back cards - interpolate toward front
             x = lerp(currentProps.x, nextProps.x, progress);
@@ -2555,12 +2632,13 @@ function updatePoseStackThreeJS(progress) {
             scale = lerp(currentProps.scale, nextProps.scale, progress);
             blur = lerp(currentProps.blur, nextProps.blur, progress);
             opacity = lerp(currentProps.opacity, nextProps.opacity, progress);
+            whiteOverlay = lerp(currentProps.whiteOverlay, nextProps.whiteOverlay, progress);
         }
 
-        // Apply 3D transforms
+        // Apply 3D transforms - centered vertically (y = 0)
         plane.position.x = x;
         plane.position.z = z;
-        plane.position.y = -0.8; // Bottom aligned
+        plane.position.y = 0; // Centered vertically
         plane.rotation.y = rotY;
         plane.scale.set(scale, scale, 1);
 
@@ -2568,22 +2646,82 @@ function updatePoseStackThreeJS(progress) {
         if (plane.material.uniforms) {
             plane.material.uniforms.uBlur.value = blur;
             plane.material.uniforms.uOpacity.value = opacity;
+            plane.material.uniforms.uWhiteOverlay.value = whiteOverlay;
         }
 
         // Set render order based on z position (closer = higher)
         plane.renderOrder = 100 - currentRelPos;
-    });
 
-    // Update counter
-    if (currentPoseEl) {
-        currentPoseEl.textContent = String(currentPoseIndex + 1).padStart(2, '0');
+        // Update corresponding label position with progress for smooth fade
+        updatePoseLabelPosition(index, plane, opacity, currentRelPos, progress);
+    });
+}
+
+// Update label position to match 3D plane position
+function updatePoseLabelPosition(index, plane, opacity, relPos, progress = 0) {
+    if (!poseLabels[index] || !poseCamera || !poseRenderer) return;
+
+    const label = poseLabels[index];
+    const container = poseRenderer.domElement;
+    const rect = container.getBoundingClientRect();
+
+    // Get the left edge of the plane in 3D space
+    const planeWidth = plane.geometry.parameters.width;
+    const leftEdge = new THREE.Vector3(
+        plane.position.x - (planeWidth / 2) * plane.scale.x,
+        plane.position.y,
+        plane.position.z
+    );
+
+    // Project to 2D screen coordinates
+    leftEdge.project(poseCamera);
+
+    // Convert to pixel coordinates
+    const screenX = (leftEdge.x * 0.5 + 0.5) * rect.width;
+    const screenY = (-leftEdge.y * 0.5 + 0.5) * rect.height;
+
+    // Position label closer to the image (reduced gap)
+    label.style.left = `${screenX - 8}px`;
+    label.style.top = `${screenY}px`;
+    label.style.transform = 'translateX(-100%) translateY(-50%)';
+
+    // Set z-index based on relative position (front = higher z-index)
+    // relPos 0 = front (highest), relPos 1 = behind front, etc.
+    label.style.zIndex = 100 - relPos;
+
+    // Calculate label opacity and blur based on position and progress
+    let labelOpacity = 0;
+    let labelBlur = 0;
+
+    if (relPos === 0 && progress > 0) {
+        // Front card exiting - fade out quickly as it leaves
+        labelOpacity = Math.max(0, 1 - (progress * 2)); // Fade out faster
+        labelBlur = 0;
+    } else if (relPos === 0) {
+        // Front card at rest - full visibility
+        labelOpacity = 1;
+        labelBlur = 0;
+    } else if (relPos === 1 && progress > 0.35) {
+        // Next card (1st behind) - only show after 35% scroll progress
+        // Map progress from 0.35-1.0 to 0-1 for smooth fade in
+        const adjustedProgress = (progress - 0.35) / 0.65;
+        labelOpacity = adjustedProgress * 0.85; // Max 0.85 opacity for back label
+        labelBlur = 4 - (adjustedProgress * 4); // Start at 4px blur, go to 0
+    } else {
+        // All other cards (relPos >= 2) or relPos 1 with low progress - hide completely
+        labelOpacity = 0;
+        labelBlur = 0;
     }
+
+    label.style.opacity = labelOpacity;
+    label.style.filter = labelBlur > 0 ? `blur(${labelBlur}px)` : 'none';
+
+    // Hide label completely when opacity is very low (prevents ghost visibility)
+    label.style.visibility = labelOpacity < 0.05 ? 'hidden' : 'visible';
 }
 
 // Update for reverse scrolling
 function updatePoseStackThreeJSReverse(progress) {
-    const currentPoseEl = document.querySelector('.current-pose');
-
     posePlanes.forEach((plane, index) => {
         if (!plane) return;
 
@@ -2600,29 +2738,33 @@ function updatePoseStackThreeJSReverse(progress) {
         const scale = lerp(currentProps.scale, prevProps.scale, progress);
         const blur = lerp(currentProps.blur, prevProps.blur, progress);
         const opacity = lerp(currentProps.opacity, prevProps.opacity, progress);
+        const whiteOverlay = lerp(currentProps.whiteOverlay, prevProps.whiteOverlay, progress);
 
         plane.position.x = x;
         plane.position.z = z;
-        plane.position.y = -0.8;
+        plane.position.y = 0; // Centered vertically
         plane.rotation.y = rotY;
         plane.scale.set(scale, scale, 1);
 
         if (plane.material.uniforms) {
             plane.material.uniforms.uBlur.value = blur;
             plane.material.uniforms.uOpacity.value = opacity;
+            plane.material.uniforms.uWhiteOverlay.value = whiteOverlay;
         }
 
         plane.renderOrder = 100 - currentRelPos;
-    });
 
-    if (currentPoseEl) {
-        currentPoseEl.textContent = String(currentPoseIndex + 1).padStart(2, '0');
-    }
+        // Update corresponding label position with progress for smooth fade
+        updatePoseLabelPosition(index, plane, opacity, currentRelPos, progress);
+    });
 }
 
 // Handle pose scroll - called from wheel event
 function handlePoseScroll(deltaY) {
     if (currentStep !== 6) return 'handled';
+
+    // If scroll is locked (just entered step 6), ignore scroll events
+    if (poseScrollLocked) return 'handled';
 
     // Accumulate scroll
     accumulatedPoseScroll += deltaY * 0.5;
