@@ -188,39 +188,7 @@ body {
     z-index: 50 !important;
 }
 
-/* Right edge fade gradient for Retouch slider */
-.main-container.step-4 .art-wrapper::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 40px;
-    height: 100%;
-    background: linear-gradient(to left,
-            rgba(255, 255, 255, 1) 0%,
-            rgba(255, 255, 255, 1) 40%,
-            rgba(255, 255, 255, 0.6) 70%,
-            rgba(255, 255, 255, 0) 100%);
-    z-index: 60;
-    pointer-events: none;
-}
-
-/* Left edge fade gradient for Retouch slider */
-.main-container.step-4 .art-wrapper::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 40px;
-    height: 100%;
-    background: linear-gradient(to right,
-            rgba(255, 255, 255, 1) 0%,
-            rgba(255, 255, 255, 1) 40%,
-            rgba(255, 255, 255, 0.6) 70%,
-            rgba(255, 255, 255, 0) 100%);
-    z-index: 60;
-    pointer-events: none;
-}
+/* Right and Left edge gradients removed for Retouch slider */
 
 /* Ensure Center Image is above gradients in Step 3 and Step 5, nudged slightly right */
 .main-container.step-3 .col-center,
