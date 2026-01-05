@@ -1122,6 +1122,10 @@ function renderSteps() {
             else if (currentStep === 3) transitionToScene(4);
             else if (currentStep === 4) transitionToScene(0); // Reset to scene 0 for Retouch
             else if (currentStep === 5) transitionToScene(4); // Same as Customize Model
+            else if (currentStep === 6) {
+                currentPoseIndex = 0;
+                updatePoseStack();
+            }
             updateUI();
         };
         verticalSlider.appendChild(item);
@@ -1194,6 +1198,25 @@ window.addEventListener('mousemove', (e) => {
 });
 
 window.addEventListener('wheel', (e) => {
+    // Special handling for Change Pose step (Step 6) - progressive scroll
+    if (currentStep === 6) {
+        e.preventDefault();
+        const result = handlePoseScroll(e.deltaY);
+
+        // result: 'handled' = still scrolling within poses
+        //         'next' = go to next step
+        //         'prev' = go to previous step
+        if (result === 'next') {
+            currentStep = 7;
+            updateUI();
+        } else if (result === 'prev') {
+            currentStep = 5;
+            updateUI();
+        }
+        // 'handled' means stay in step 6
+        return;
+    }
+
     if (isScrolling) return;
     if (Math.abs(e.deltaY) > 15) {
         isScrolling = true;
@@ -1229,6 +1252,14 @@ window.addEventListener('wheel', (e) => {
                 currentStep = 5;
                 transitionToScene(4); // Use same video background as Customize Model
                 updateUI();
+            } else if (currentStep === 5) {
+                // From Change Color to Change Pose (Step 6)
+                currentStep = 6;
+                currentPoseIndex = 0;
+                accumulatedPoseScroll = 0;
+                poseScrollProgress = 0;
+                updatePoseStackThreeJS(0);
+                updateUI();
             } else {
                 currentStep = Math.min(currentStep + 1, steps.length - 1);
                 updateUI();
@@ -1255,6 +1286,14 @@ window.addEventListener('wheel', (e) => {
                 // From Change Color back to Retouch (Step 4)
                 currentStep = 4;
                 updateUI();
+            } else if (currentStep === 7) {
+                // From Image to Video back to Change Pose (Step 6)
+                currentStep = 6;
+                currentPoseIndex = totalPoses - 1;
+                accumulatedPoseScroll = 0;
+                poseScrollProgress = 0;
+                updatePoseStackThreeJS(0);
+                updateUI();
             } else {
                 currentStep = Math.max(currentStep - 1, 0);
                 if (currentStep === 0) transitionToScene(0);
@@ -1263,7 +1302,7 @@ window.addEventListener('wheel', (e) => {
         }
         setTimeout(() => isScrolling = false, 800);
     }
-});
+}, { passive: false });
 
 // Auto-hover animation for model cards on page load
 function startAutoHoverAnimation() {
@@ -2302,4 +2341,338 @@ function initChangeColorBadges() {
 
 // Initialize Change Color Badges
 initChangeColorBadges();
+
+// ========================================
+// Change Pose Section (Step 6) - THREE.JS VERSION
+// ========================================
+let currentPoseIndex = 0;
+const totalPoses = 5;
+let poseScrollProgress = 0;
+const POSE_SCROLL_THRESHOLD = 300;
+let accumulatedPoseScroll = 0;
+
+// Three.js Pose Scene
+let poseScene, poseCamera, poseRenderer;
+let posePlanes = [];
+let poseTextures = [];
+let poseAnimationId = null;
+
+// Pose images (using center_image.png for all, can be different)
+const poseImages = [
+    '/assets/center_image.png',
+    '/assets/center_image.png',
+    '/assets/center_image.png',
+    '/assets/center_image.png',
+    '/assets/center_image.png'
+];
+
+// Blur shader for pose cards
+const poseVertexShader = `
+    varying vec2 vUv;
+    void main() {
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+`;
+
+const poseFragmentShader = `
+    uniform sampler2D uTexture;
+    uniform float uBlur;
+    uniform float uOpacity;
+    varying vec2 vUv;
+
+    vec4 blur13(sampler2D image, vec2 uv, vec2 resolution, vec2 direction) {
+        vec4 color = vec4(0.0);
+        vec2 off1 = vec2(1.411764705882353) * direction;
+        vec2 off2 = vec2(3.2941176470588234) * direction;
+        vec2 off3 = vec2(5.176470588235294) * direction;
+        color += texture2D(image, uv) * 0.1964825501511404;
+        color += texture2D(image, uv + (off1 / resolution)) * 0.2969069646728344;
+        color += texture2D(image, uv - (off1 / resolution)) * 0.2969069646728344;
+        color += texture2D(image, uv + (off2 / resolution)) * 0.09447039785044732;
+        color += texture2D(image, uv - (off2 / resolution)) * 0.09447039785044732;
+        color += texture2D(image, uv + (off3 / resolution)) * 0.010381362401148057;
+        color += texture2D(image, uv - (off3 / resolution)) * 0.010381362401148057;
+        return color;
+    }
+
+    void main() {
+        vec2 resolution = vec2(512.0, 512.0);
+        vec4 color;
+
+        if (uBlur > 0.01) {
+            // Two-pass blur approximation
+            vec4 blurH = blur13(uTexture, vUv, resolution, vec2(uBlur, 0.0));
+            vec4 blurV = blur13(uTexture, vUv, resolution, vec2(0.0, uBlur));
+            color = mix(blurH, blurV, 0.5);
+        } else {
+            color = texture2D(uTexture, vUv);
+        }
+
+        color.a *= uOpacity;
+        gl_FragColor = color;
+    }
+`;
+
+function initPoseThreeJS() {
+    const container = document.getElementById('pose-canvas-container');
+    if (!container) return;
+
+    // Create scene
+    poseScene = new THREE.Scene();
+    poseScene.background = new THREE.Color(0xffffff);
+
+    // Create camera (perspective for 3D effect)
+    const aspect = container.clientWidth / container.clientHeight;
+    poseCamera = new THREE.PerspectiveCamera(50, aspect, 0.1, 1000);
+    poseCamera.position.set(0, 0, 5);
+
+    // Create renderer
+    poseRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    poseRenderer.setSize(container.clientWidth, container.clientHeight);
+    poseRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(poseRenderer.domElement);
+
+    // Load textures and create planes
+    const textureLoader = new THREE.TextureLoader();
+
+    poseImages.forEach((imgSrc, index) => {
+        textureLoader.load(imgSrc, (texture) => {
+            texture.minFilter = THREE.LinearFilter;
+            texture.magFilter = THREE.LinearFilter;
+
+            poseTextures[index] = texture;
+
+            // Calculate aspect ratio for the plane
+            const imgAspect = texture.image.width / texture.image.height;
+            const planeHeight = 4.5; // Base height in 3D units
+            const planeWidth = planeHeight * imgAspect;
+
+            // Create material with custom shader
+            const material = new THREE.ShaderMaterial({
+                uniforms: {
+                    uTexture: { value: texture },
+                    uBlur: { value: 0.0 },
+                    uOpacity: { value: 1.0 }
+                },
+                vertexShader: poseVertexShader,
+                fragmentShader: poseFragmentShader,
+                transparent: true,
+                side: THREE.DoubleSide
+            });
+
+            // Create plane geometry
+            const geometry = new THREE.PlaneGeometry(planeWidth, planeHeight);
+            const plane = new THREE.Mesh(geometry, material);
+
+            // Store reference
+            plane.userData.index = index;
+            posePlanes[index] = plane;
+            poseScene.add(plane);
+
+            // Initial positioning
+            if (posePlanes.length === totalPoses) {
+                updatePoseStackThreeJS(0);
+            }
+        });
+    });
+
+    // Handle resize
+    window.addEventListener('resize', () => {
+        if (!container || !poseRenderer || !poseCamera) return;
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+        poseCamera.aspect = width / height;
+        poseCamera.updateProjectionMatrix();
+        poseRenderer.setSize(width, height);
+    });
+
+    // Start render loop
+    animatePoseScene();
+}
+
+function animatePoseScene() {
+    poseAnimationId = requestAnimationFrame(animatePoseScene);
+
+    if (poseRenderer && poseScene && poseCamera && currentStep === 6) {
+        poseRenderer.render(poseScene, poseCamera);
+    }
+}
+
+// Interpolate between two values
+function lerp(a, b, t) {
+    return a + (b - a) * t;
+}
+
+// Get 3D properties for each card position
+function getPoseProperties3D(position) {
+    const props = [
+        { x: 0, z: 0.5, rotY: 0, blur: 0, opacity: 1, scale: 1 },           // Front (active)
+        { x: 1.2, z: -1.5, rotY: -0.15, blur: 3, opacity: 0.7, scale: 0.95 },   // 1st back
+        { x: 2.4, z: -3.0, rotY: -0.25, blur: 6, opacity: 0.5, scale: 0.9 },    // 2nd back
+        { x: 3.6, z: -4.5, rotY: -0.35, blur: 9, opacity: 0.35, scale: 0.85 },  // 3rd back
+        { x: 4.8, z: -6.0, rotY: -0.45, blur: 12, opacity: 0.2, scale: 0.8 }    // 4th back
+    ];
+    return props[Math.min(position, 4)];
+}
+
+// Update Three.js pose stack with scroll progress
+function updatePoseStackThreeJS(progress) {
+    const currentPoseEl = document.querySelector('.current-pose');
+
+    posePlanes.forEach((plane, index) => {
+        if (!plane) return;
+
+        const currentRelPos = (index - currentPoseIndex + totalPoses) % totalPoses;
+        const nextRelPos = (index - ((currentPoseIndex + 1) % totalPoses) + totalPoses) % totalPoses;
+
+        const currentProps = getPoseProperties3D(currentRelPos);
+        const nextProps = getPoseProperties3D(nextRelPos);
+
+        let x, z, rotY, blur, opacity, scale;
+
+        if (currentRelPos === 0 && progress > 0) {
+            // Front card exiting - moves toward camera, scales up, fades out
+            x = lerp(0, -1.5, progress);
+            z = lerp(0.5, 3, progress);
+            rotY = lerp(0, 0.4, progress);
+            scale = lerp(1, 1.3, progress);
+            blur = lerp(0, 15, progress);
+            opacity = lerp(1, 0, progress);
+        } else if (currentRelPos === 0) {
+            // Front card at rest
+            x = 0;
+            z = 0.5;
+            rotY = 0;
+            scale = 1;
+            blur = 0;
+            opacity = 1;
+        } else {
+            // Back cards - interpolate toward front
+            x = lerp(currentProps.x, nextProps.x, progress);
+            z = lerp(currentProps.z, nextProps.z, progress);
+            rotY = lerp(currentProps.rotY, nextProps.rotY, progress);
+            scale = lerp(currentProps.scale, nextProps.scale, progress);
+            blur = lerp(currentProps.blur, nextProps.blur, progress);
+            opacity = lerp(currentProps.opacity, nextProps.opacity, progress);
+        }
+
+        // Apply 3D transforms
+        plane.position.x = x;
+        plane.position.z = z;
+        plane.position.y = -0.8; // Bottom aligned
+        plane.rotation.y = rotY;
+        plane.scale.set(scale, scale, 1);
+
+        // Update shader uniforms
+        if (plane.material.uniforms) {
+            plane.material.uniforms.uBlur.value = blur;
+            plane.material.uniforms.uOpacity.value = opacity;
+        }
+
+        // Set render order based on z position (closer = higher)
+        plane.renderOrder = 100 - currentRelPos;
+    });
+
+    // Update counter
+    if (currentPoseEl) {
+        currentPoseEl.textContent = String(currentPoseIndex + 1).padStart(2, '0');
+    }
+}
+
+// Update for reverse scrolling
+function updatePoseStackThreeJSReverse(progress) {
+    const currentPoseEl = document.querySelector('.current-pose');
+
+    posePlanes.forEach((plane, index) => {
+        if (!plane) return;
+
+        const currentRelPos = (index - currentPoseIndex + totalPoses) % totalPoses;
+        const prevRelPos = (index - ((currentPoseIndex - 1 + totalPoses) % totalPoses) + totalPoses) % totalPoses;
+
+        const currentProps = getPoseProperties3D(currentRelPos);
+        const prevProps = getPoseProperties3D(prevRelPos);
+
+        // Interpolate back toward previous positions
+        const x = lerp(currentProps.x, prevProps.x, progress);
+        const z = lerp(currentProps.z, prevProps.z, progress);
+        const rotY = lerp(currentProps.rotY, prevProps.rotY, progress);
+        const scale = lerp(currentProps.scale, prevProps.scale, progress);
+        const blur = lerp(currentProps.blur, prevProps.blur, progress);
+        const opacity = lerp(currentProps.opacity, prevProps.opacity, progress);
+
+        plane.position.x = x;
+        plane.position.z = z;
+        plane.position.y = -0.8;
+        plane.rotation.y = rotY;
+        plane.scale.set(scale, scale, 1);
+
+        if (plane.material.uniforms) {
+            plane.material.uniforms.uBlur.value = blur;
+            plane.material.uniforms.uOpacity.value = opacity;
+        }
+
+        plane.renderOrder = 100 - currentRelPos;
+    });
+
+    if (currentPoseEl) {
+        currentPoseEl.textContent = String(currentPoseIndex + 1).padStart(2, '0');
+    }
+}
+
+// Handle pose scroll - called from wheel event
+function handlePoseScroll(deltaY) {
+    if (currentStep !== 6) return 'handled';
+
+    // Accumulate scroll
+    accumulatedPoseScroll += deltaY * 0.5;
+
+    // Calculate progress
+    poseScrollProgress = accumulatedPoseScroll / POSE_SCROLL_THRESHOLD;
+    poseScrollProgress = Math.max(-1, Math.min(1, poseScrollProgress));
+
+    // Update Three.js visuals
+    if (poseScrollProgress >= 0) {
+        updatePoseStackThreeJS(poseScrollProgress);
+    } else {
+        updatePoseStackThreeJSReverse(Math.abs(poseScrollProgress));
+    }
+
+    // Check if transition is complete (forward)
+    if (poseScrollProgress >= 1) {
+        if (currentPoseIndex < totalPoses - 1) {
+            currentPoseIndex++;
+            accumulatedPoseScroll = 0;
+            poseScrollProgress = 0;
+            updatePoseStackThreeJS(0);
+            return 'handled';
+        } else {
+            accumulatedPoseScroll = 0;
+            poseScrollProgress = 0;
+            updatePoseStackThreeJS(0);
+            return 'next';
+        }
+    }
+
+    // Check if transition is complete (backward)
+    if (poseScrollProgress <= -1) {
+        if (currentPoseIndex > 0) {
+            currentPoseIndex--;
+            accumulatedPoseScroll = 0;
+            poseScrollProgress = 0;
+            updatePoseStackThreeJS(0);
+            return 'handled';
+        } else {
+            accumulatedPoseScroll = 0;
+            poseScrollProgress = 0;
+            updatePoseStackThreeJS(0);
+            return 'prev';
+        }
+    }
+
+    return 'handled';
+}
+
+// Initialize Three.js Pose Scene
+initPoseThreeJS();
 

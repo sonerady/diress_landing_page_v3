@@ -2632,6 +2632,123 @@ footer {
 }
 
 /* ========================================
+   Change Pose Section (Step 6) - Three.js Version
+   ======================================== */
+.change-pose-section {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 85;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.main-container.step-6 .change-pose-section {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Hide other elements in step 6 */
+.main-container.step-6 .art-wrapper {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.main-container.step-6 .customize-grid-container {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Three.js Canvas Container */
+.pose-canvas-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+}
+
+.pose-canvas-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Left side content - positioned to the left of the centered image */
+.pose-content-left {
+    position: absolute;
+    left: 5%;
+    bottom: 15%;
+    z-index: 25;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 340px;
+}
+
+.pose-tag {
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.pose-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+    line-height: 1.1;
+}
+
+.pose-description {
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.55);
+    line-height: 1.7;
+    margin: 0;
+}
+
+.pose-counter {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: 24px;
+}
+
+.current-pose {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.pose-separator {
+    font-family: 'Poppins', sans-serif;
+    font-size: 22px;
+    color: rgba(0, 0, 0, 0.25);
+}
+
+.total-poses {
+    font-family: 'Poppins', sans-serif;
+    font-size: 22px;
+    font-weight: 300;
+    color: rgba(0, 0, 0, 0.35);
+}
+
+/* ========================================
    Change Color Section (Step 5)
    ======================================== */
 .change-color-section {
