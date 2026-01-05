@@ -156,10 +156,11 @@ body {
     visibility: visible;
     background: linear-gradient(to bottom,
             rgba(255, 255, 255, 1) 0%,
-            rgba(255, 255, 255, 0.95) 30%,
-            rgba(255, 255, 255, 0.6) 60%,
+            rgba(255, 255, 255, 1) 40%,
+            rgba(255, 255, 255, 0.8) 60%,
+            rgba(255, 255, 255, 0.3) 80%,
             rgba(255, 255, 255, 0) 100%);
-    height: 180px;
+    height: 200px;
     z-index: 80 !important;
 }
 
@@ -168,10 +169,11 @@ body {
     visibility: visible;
     background: linear-gradient(to top,
             rgba(255, 255, 255, 1) 0%,
-            rgba(255, 255, 255, 0.95) 30%,
-            rgba(255, 255, 255, 0.6) 60%,
+            rgba(255, 255, 255, 1) 40%,
+            rgba(255, 255, 255, 0.8) 60%,
+            rgba(255, 255, 255, 0.3) 80%,
             rgba(255, 255, 255, 0) 100%);
-    height: 160px;
+    height: 180px;
     z-index: 80 !important;
 }
 
