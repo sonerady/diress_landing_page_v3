@@ -21,7 +21,7 @@ const foregroundImages = [
     null                                                     // Scene 4
 ];
 const steps = [
-    'Virtual Model', 'Select Scene', 'Ecommerce Kits', 'Customize Model', 'Retouch', 'Change Color', 'Change Pose', 'Image to Video'
+    'Virtual Model', 'Select Scene', 'Change Pose', 'Customize Model', 'Retouch', 'Change Color', 'Ecommerce Kits', 'Image to Video'
 ];
 
 // Customize Model Sub-steps
@@ -1118,11 +1118,8 @@ function renderSteps() {
             currentStep = index;
             if (currentStep === 0) transitionToScene(0);
             else if (currentStep === 1) transitionToScene(1);
-            else if (currentStep === 2) transitionToScene(0); // Reset to scene 0 for Ecommerce
-            else if (currentStep === 3) transitionToScene(4);
-            else if (currentStep === 4) transitionToScene(0); // Reset to scene 0 for Retouch
-            else if (currentStep === 5) transitionToScene(4); // Same as Customize Model
-            else if (currentStep === 6) {
+            else if (currentStep === 2) {
+                // Change Pose
                 currentPoseIndex = 0;
                 accumulatedPoseScroll = 0;
                 poseScrollProgress = 0;
@@ -1132,12 +1129,15 @@ function renderSteps() {
                     poseScrollLocked = false;
                     accumulatedPoseScroll = 0;
                     poseScrollProgress = 0;
-                    // Force update labels after unlock
                     if (posePlanes.length > 0) {
                         updatePoseStackThreeJS(0);
                     }
                 }, 300);
             }
+            else if (currentStep === 3) transitionToScene(4); // Customize Model
+            else if (currentStep === 4) transitionToScene(0); // Retouch
+            else if (currentStep === 5) transitionToScene(4); // Change Color
+            else if (currentStep === 6) transitionToScene(0); // Ecommerce Kits (now Step 6)
             updateUI();
         };
         verticalSlider.appendChild(item);
@@ -1210,8 +1210,8 @@ window.addEventListener('mousemove', (e) => {
 });
 
 window.addEventListener('wheel', (e) => {
-    // Special handling for Change Pose step (Step 6) - progressive scroll
-    if (currentStep === 6) {
+    // Special handling for Change Pose step (Step 2) - progressive scroll
+    if (currentStep === 2) {
         e.preventDefault();
         const result = handlePoseScroll(e.deltaY);
 
@@ -1219,13 +1219,16 @@ window.addEventListener('wheel', (e) => {
         //         'next' = go to next step
         //         'prev' = go to previous step
         if (result === 'next') {
-            currentStep = 7;
+            currentStep = 3;
+            currentSubStep = 0;
+            transitionToScene(4);
             updateUI();
         } else if (result === 'prev') {
-            currentStep = 5;
+            currentStep = 1;
+            transitionToScene(3);
             updateUI();
         }
-        // 'handled' means stay in step 6
+        // 'handled' means stay in step 2
         return;
     }
 
@@ -1242,15 +1245,25 @@ window.addEventListener('wheel', (e) => {
                 // Through scenes 1->2->3 within Step 1
                 transitionToScene(currentScene + 1);
             } else if (currentStep === 1 && currentScene >= 3) {
-                // From Scene 3 to Ecommerce Kits (Step 2)
+                // From Scene 3 to Change Pose (Step 2)
                 currentStep = 2;
+                currentPoseIndex = 0;
+                accumulatedPoseScroll = 0;
+                poseScrollProgress = 0;
+                poseScrollLocked = true;
+                transitionToScene(0); // Reset scene for Change Pose
+                updatePoseStackThreeJS(0);
                 updateUI();
-            } else if (currentStep === 2) {
-                // To Customize Model (Step 3)
-                currentStep = 3;
-                currentSubStep = 0;
-                transitionToScene(4);
+                setTimeout(() => {
+                    poseScrollLocked = false;
+                    accumulatedPoseScroll = 0;
+                    poseScrollProgress = 0;
+                    if (posePlanes.length > 0) {
+                        updatePoseStackThreeJS(0);
+                    }
+                }, 300);
             } else if (currentStep === 3) {
+                // Customize Model sub-steps
                 if (currentSubStep < subSteps.length - 1) {
                     currentSubStep++;
                     updateUI();
@@ -1262,27 +1275,17 @@ window.addEventListener('wheel', (e) => {
             } else if (currentStep === 4) {
                 // From Retouch to Change Color (Step 5)
                 currentStep = 5;
-                transitionToScene(4); // Use same video background as Customize Model
+                transitionToScene(4);
                 updateUI();
             } else if (currentStep === 5) {
-                // From Change Color to Change Pose (Step 6)
+                // From Change Color to Ecommerce Kits (Step 6)
                 currentStep = 6;
-                currentPoseIndex = 0;
-                accumulatedPoseScroll = 0;
-                poseScrollProgress = 0;
-                poseScrollLocked = true; // Lock scroll to prevent momentum interference
-                updatePoseStackThreeJS(0);
+                transitionToScene(0); // Reset scene for Ecommerce Kits
                 updateUI();
-                // Unlock after a short delay and ensure labels are visible
-                setTimeout(() => {
-                    poseScrollLocked = false;
-                    accumulatedPoseScroll = 0;
-                    poseScrollProgress = 0;
-                    // Force update labels after unlock
-                    if (posePlanes.length > 0) {
-                        updatePoseStackThreeJS(0);
-                    }
-                }, 300);
+            } else if (currentStep === 6) {
+                // From Ecommerce Kits to Image to Video (Step 7)
+                currentStep = 7;
+                updateUI();
             } else {
                 currentStep = Math.min(currentStep + 1, steps.length - 1);
                 updateUI();
@@ -1294,35 +1297,38 @@ window.addEventListener('wheel', (e) => {
                 transitionToScene(0);
             } else if (currentStep === 1 && currentScene > 1) {
                 transitionToScene(currentScene - 1);
-            } else if (currentStep === 2) {
-                currentStep = 1;
-                transitionToScene(3); // Go back to Scene 3
             } else if (currentStep === 3) {
+                // From Customize Model back
                 if (currentSubStep > 0) {
                     currentSubStep--;
                     updateUI();
                 } else {
+                    // Back to Change Pose (Step 2)
                     currentStep = 2;
+                    currentPoseIndex = totalPoses - 1;
+                    accumulatedPoseScroll = 0;
+                    poseScrollProgress = 0;
+                    poseScrollLocked = true;
+                    updatePoseStackThreeJS(0);
                     updateUI();
+                    setTimeout(() => {
+                        poseScrollLocked = false;
+                        accumulatedPoseScroll = 0;
+                        poseScrollProgress = 0;
+                    }, 300);
                 }
             } else if (currentStep === 5) {
                 // From Change Color back to Retouch (Step 4)
                 currentStep = 4;
                 updateUI();
-            } else if (currentStep === 7) {
-                // From Image to Video back to Change Pose (Step 6)
-                currentStep = 6;
-                currentPoseIndex = totalPoses - 1;
-                accumulatedPoseScroll = 0;
-                poseScrollProgress = 0;
-                poseScrollLocked = true;
-                updatePoseStackThreeJS(0);
+            } else if (currentStep === 6) {
+                // From Ecommerce Kits back to Change Color (Step 5)
+                currentStep = 5;
                 updateUI();
-                setTimeout(() => {
-                    poseScrollLocked = false;
-                    accumulatedPoseScroll = 0;
-                    poseScrollProgress = 0;
-                }, 300);
+            } else if (currentStep === 7) {
+                // From Image to Video back to Ecommerce Kits (Step 6)
+                currentStep = 6;
+                updateUI();
             } else {
                 currentStep = Math.max(currentStep - 1, 0);
                 if (currentStep === 0) transitionToScene(0);
@@ -2583,7 +2589,7 @@ function initPoseThreeJS() {
 function animatePoseScene() {
     poseAnimationId = requestAnimationFrame(animatePoseScene);
 
-    if (poseRenderer && poseScene && poseCamera && currentStep === 6) {
+    if (poseRenderer && poseScene && poseCamera && currentStep === 2) {
         poseRenderer.render(poseScene, poseCamera);
     }
 }
@@ -2812,7 +2818,7 @@ function updatePoseStackThreeJSReverse(progress) {
 
 // Handle pose scroll - called from wheel event
 function handlePoseScroll(deltaY) {
-    if (currentStep !== 6) return 'handled';
+    if (currentStep !== 2) return 'handled';
 
     // If scroll is locked (just entered step 6), ignore scroll events
     if (poseScrollLocked) return 'handled';

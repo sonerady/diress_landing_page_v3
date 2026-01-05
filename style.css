@@ -513,69 +513,69 @@ body {
 
 
 
-/* Border for Scene 0 and Step 2 (Ecommerce Kits) */
+/* Border for Scene 0 and Step 6 (Ecommerce Kits) */
 .main-container.step-0.scene-0 .vertical-slider-container,
-.main-container.step-2 .vertical-slider-container {
+.main-container.step-6 .vertical-slider-container {
     border: 2px solid #cfcfcf4d !important;
     box-shadow: none !important;
     background: rgba(255, 255, 255, 0.7) !important;
 }
 
-/* Step 2 (Ecommerce Kits) - Reset slider colors to dark theme */
-.main-container.step-2 .vertical-slider-container .step-item .step-label {
+/* Step 6 (Ecommerce Kits) - Reset slider colors to dark theme */
+.main-container.step-6 .vertical-slider-container .step-item .step-label {
     color: rgba(0, 0, 0, 0.3) !important;
 }
 
-.main-container.step-2 .vertical-slider-container .step-item.active .step-label {
+.main-container.step-6 .vertical-slider-container .step-item.active .step-label {
     color: #000 !important;
 }
 
-.main-container.step-2 .vertical-slider-container .step-item .step-dot {
+.main-container.step-6 .vertical-slider-container .step-item .step-dot {
     background: rgba(0, 0, 0, 0.15) !important;
 }
 
-.main-container.step-2 .vertical-slider-container .step-item.active .step-dot {
+.main-container.step-6 .vertical-slider-container .step-item.active .step-dot {
     background: #000 !important;
 }
 
-.main-container.step-2 .vertical-slider-container .step-line {
+.main-container.step-6 .vertical-slider-container .step-line {
     background: rgba(0, 0, 0, 0.1) !important;
 }
 
-/* Step 2 (Ecommerce Kits) - Reset header/footer to dark theme */
-.main-container.step-2 .logo-text {
+/* Step 6 (Ecommerce Kits) - Reset header/footer to dark theme */
+.main-container.step-6 .logo-text {
     color: #333 !important;
 }
 
-.main-container.step-2 nav a {
+.main-container.step-6 nav a {
     color: #b0b0b0 !important;
     font-weight: 400 !important;
 }
 
-.main-container.step-2 nav a.active,
-.main-container.step-2 nav a:hover {
+.main-container.step-6 nav a.active,
+.main-container.step-6 nav a:hover {
     color: #333 !important;
     text-shadow: none !important;
 }
 
-.main-container.step-2 .get-started-btn {
+.main-container.step-6 .get-started-btn {
     background: linear-gradient(to top, #f0f0f0 0%, #ffffff 100%) !important;
     color: #222 !important;
     border-color: rgba(0, 0, 0, 0.18) !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02) !important;
 }
 
-.main-container.step-2 .socials i,
-.main-container.step-2 .legal-link {
+.main-container.step-6 .socials i,
+.main-container.step-6 .legal-link {
     color: #888 !important;
 }
 
-.main-container.step-2 .socials i:hover,
-.main-container.step-2 .legal-link:hover {
+.main-container.step-6 .socials i:hover,
+.main-container.step-6 .legal-link:hover {
     color: #333 !important;
 }
 
-.main-container.step-2 .legal-separator {
+.main-container.step-6 .legal-separator {
     color: #ddd !important;
 }
 
@@ -1373,7 +1373,7 @@ body {
     transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.main-container.step-2 .ecommerce-section {
+.main-container.step-6 .ecommerce-section {
     opacity: 1;
     visibility: visible;
 }
@@ -2651,18 +2651,18 @@ footer {
     background: #ffffff;
 }
 
-.main-container.step-6 .change-pose-section {
+.main-container.step-2 .change-pose-section {
     opacity: 1;
     visibility: visible;
 }
 
-/* Hide other elements in step 6 */
-.main-container.step-6 .art-wrapper {
+/* Hide other elements in step 2 (Change Pose) */
+.main-container.step-2 .art-wrapper {
     opacity: 0;
     visibility: hidden;
 }
 
-.main-container.step-6 .customize-grid-container {
+.main-container.step-2 .customize-grid-container {
     opacity: 0;
     visibility: hidden;
 }
