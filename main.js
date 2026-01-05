@@ -1120,23 +1120,32 @@ function renderSteps() {
             else if (currentStep === 1) transitionToScene(1);
             else if (currentStep === 2) {
                 // Change Pose
-                transitionToScene(0);
+                poseScrollLocked = true;
                 currentPoseIndex = 0;
                 accumulatedPoseScroll = 0;
                 poseScrollProgress = 0;
-                poseScrollLocked = true;
-                updatePoseStackThreeJS(0);
-                // Longer timeout to ensure previous scroll momentum is gone
-                setTimeout(() => {
+                transitionToScene(0);
+                if (posePlanes.length > 0) {
+                    updatePoseStackThreeJS(0);
+                }
+                // Keep resetting until lock is released to prevent momentum buildup
+                const resetInterval = setInterval(() => {
                     accumulatedPoseScroll = 0;
                     poseScrollProgress = 0;
                     if (posePlanes.length > 0) {
                         updatePoseStackThreeJS(0);
                     }
-                    setTimeout(() => {
-                        poseScrollLocked = false;
-                    }, 100);
-                }, 500);
+                }, 50);
+                // Release lock after momentum should be gone
+                setTimeout(() => {
+                    clearInterval(resetInterval);
+                    accumulatedPoseScroll = 0;
+                    poseScrollProgress = 0;
+                    if (posePlanes.length > 0) {
+                        updatePoseStackThreeJS(0);
+                    }
+                    poseScrollLocked = false;
+                }, 800);
             }
             else if (currentStep === 3) transitionToScene(4); // Customize Model
             else if (currentStep === 4) transitionToScene(0); // Retouch
@@ -1251,26 +1260,33 @@ window.addEventListener('wheel', (e) => {
             } else if (currentStep === 1 && currentScene >= 3) {
                 // From Scene 3 to Change Pose (Step 2)
                 currentStep = 2;
+                poseScrollLocked = true;
                 currentPoseIndex = 0;
                 accumulatedPoseScroll = 0;
                 poseScrollProgress = 0;
-                poseScrollLocked = true;
                 transitionToScene(0); // Reset scene for Change Pose
-                updatePoseStackThreeJS(0);
+                if (posePlanes.length > 0) {
+                    updatePoseStackThreeJS(0);
+                }
                 updateUI();
-                // Longer timeout to ensure previous scroll momentum is gone
-                setTimeout(() => {
-                    // Reset again to clear any accumulated scroll during transition
+                // Keep resetting until lock is released to prevent momentum buildup
+                const resetInterval = setInterval(() => {
                     accumulatedPoseScroll = 0;
                     poseScrollProgress = 0;
                     if (posePlanes.length > 0) {
                         updatePoseStackThreeJS(0);
                     }
-                    // Unlock after values are reset
-                    setTimeout(() => {
-                        poseScrollLocked = false;
-                    }, 100);
-                }, 500);
+                }, 50);
+                // Release lock after momentum should be gone
+                setTimeout(() => {
+                    clearInterval(resetInterval);
+                    accumulatedPoseScroll = 0;
+                    poseScrollProgress = 0;
+                    if (posePlanes.length > 0) {
+                        updatePoseStackThreeJS(0);
+                    }
+                    poseScrollLocked = false;
+                }, 800);
             } else if (currentStep === 3) {
                 // Customize Model sub-steps
                 if (currentSubStep < subSteps.length - 1) {
