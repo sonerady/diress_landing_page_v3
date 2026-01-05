@@ -2036,8 +2036,8 @@ function resetMoodAnimations() {
 updateUI = function () {
     originalUpdateUI();
 
-    // Ecommerce animation for Step 2
-    if (currentStep === 2) {
+    // Ecommerce animation for Step 6
+    if (currentStep === 6) {
         playEcommerceLoadingAnimation();
     }
 
@@ -2871,10 +2871,11 @@ function handlePoseScroll(deltaY) {
             updatePoseStackThreeJS(0);
             return 'handled';
         } else {
+            // At first pose - don't go back to previous step, just reset
             accumulatedPoseScroll = 0;
             poseScrollProgress = 0;
             updatePoseStackThreeJS(0);
-            return 'prev';
+            return 'handled'; // Stay in Change Pose, don't go to prev step
         }
     }
 
