@@ -807,7 +807,7 @@ const retouchPlanes = [];
 const textureLoader = new THREE.TextureLoader();
 
 // Card size will be calculated based on screen aspect ratio
-let retouchCardSize = 0.65; // Slightly larger card size
+let retouchCardSize = 1.8; // Much larger card size for full height
 let retouchGap = 0.2;
 
 function createRetouchCarousel() {
@@ -815,13 +815,13 @@ function createRetouchCarousel() {
     retouchPlanes.forEach(p => retouchGroup.remove(p));
     retouchPlanes.length = 0;
 
-    // Calculate aspect ratio to make cards appear square on screen
+    // Calculate aspect ratio to make cards fill the screen height
     const screenAspect = artWrapper.clientWidth / artWrapper.clientHeight;
 
-    // Card dimensions - make height taller to compensate for wide screens
-    const cardWidth = retouchCardSize;
-    const cardHeight = retouchCardSize * screenAspect; // Compensate for screen aspect ratio
-    retouchGap = cardWidth * 0.3;
+    // Card dimensions - full height cards
+    const cardHeight = retouchCardSize;
+    const cardWidth = cardHeight / screenAspect; // Maintain proper aspect ratio
+    retouchGap = cardWidth * 0.02; // Minimal gap between cards
 
     retouchImages.forEach((data, i) => {
         const geometry = new THREE.PlaneGeometry(cardWidth, cardHeight);
@@ -840,8 +840,8 @@ function createRetouchCarousel() {
                 tBefore: { value: beforeTexture },
                 tAfter: { value: afterTexture },
                 borderColor: { value: new THREE.Color(0x000000) },
-                borderWidth: { value: 0.02 },
-                cornerRadius: { value: 0.08 } // Rounded corners
+                borderWidth: { value: 0.0 }, // No border
+                cornerRadius: { value: 0.0 } // No rounded corners
             },
             vertexShader: retouchVertexShader,
             fragmentShader: retouchFragmentShader,
@@ -849,8 +849,8 @@ function createRetouchCarousel() {
         });
 
         const plane = new THREE.Mesh(geometry, material);
-        plane.position.x = (i - retouchImages.length / 2) * (cardWidth + retouchGap);
-        plane.position.z = 1.0;
+        plane.position.x = (i - retouchImages.length / 2 + 0.5) * (cardWidth + retouchGap);
+        plane.position.z = 0.5; // Closer to camera for full screen effect
         retouchPlanes.push(plane);
         retouchGroup.add(plane);
     });
@@ -917,9 +917,12 @@ function animate() {
         plane.visible = false; // Hide ONLY in Retouch step
         if (textPlane) textPlane.visible = false;
 
-        const stepSize = retouchCardSize + retouchGap;
+        // Calculate current card width based on screen aspect
+        const screenAspect = artWrapper.clientWidth / artWrapper.clientHeight;
+        const cardWidth = retouchCardSize / screenAspect;
+        const stepSize = cardWidth + retouchGap;
         const totalWidth = retouchImages.length * stepSize;
-        const speed = 0.0015; // Smooth slow speed
+        const speed = 0.002; // Smooth slow speed
 
         retouchPlanes.forEach(p => {
             p.position.x += speed;
