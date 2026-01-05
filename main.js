@@ -1132,6 +1132,10 @@ function renderSteps() {
                     poseScrollLocked = false;
                     accumulatedPoseScroll = 0;
                     poseScrollProgress = 0;
+                    // Force update labels after unlock
+                    if (posePlanes.length > 0) {
+                        updatePoseStackThreeJS(0);
+                    }
                 }, 300);
             }
             updateUI();
@@ -1269,11 +1273,15 @@ window.addEventListener('wheel', (e) => {
                 poseScrollLocked = true; // Lock scroll to prevent momentum interference
                 updatePoseStackThreeJS(0);
                 updateUI();
-                // Unlock after a short delay to allow momentum to settle
+                // Unlock after a short delay and ensure labels are visible
                 setTimeout(() => {
                     poseScrollLocked = false;
                     accumulatedPoseScroll = 0;
                     poseScrollProgress = 0;
+                    // Force update labels after unlock
+                    if (posePlanes.length > 0) {
+                        updatePoseStackThreeJS(0);
+                    }
                 }, 300);
             } else {
                 currentStep = Math.min(currentStep + 1, steps.length - 1);
@@ -2544,6 +2552,7 @@ function initPoseThreeJS() {
             label.innerHTML = `
                 <span class="pose-small-title">${poseData[i].small}</span>
                 <span class="pose-big-title">${poseData[i].big}</span>
+                <span class="pose-counter">${String(i + 1).padStart(2, '0')} / ${String(totalPoses).padStart(2, '0')}</span>
             `;
             labelsContainer.appendChild(label);
             poseLabels.push(label);
@@ -2683,8 +2692,8 @@ function updatePoseLabelPosition(index, plane, opacity, relPos, progress = 0) {
     const screenX = (leftEdge.x * 0.5 + 0.5) * rect.width;
     const screenY = (-leftEdge.y * 0.5 + 0.5) * rect.height;
 
-    // Position label closer to the image (reduced gap)
-    label.style.left = `${screenX - 8}px`;
+    // Position label close to the image (right-aligned, touching image edge)
+    label.style.left = `${screenX - 12}px`;
     label.style.top = `${screenY}px`;
     label.style.transform = 'translateX(-100%) translateY(-50%)';
 
