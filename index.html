@@ -4,7 +4,11 @@
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/assets/icon.png" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <!-- Mobile Status Bar - Black -->
+  <meta name="theme-color" content="#000000">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Diress - AI Fashion Model Generator | Professional Product Photos for E-commerce</title>
   <meta name="description" content="Transform amateur product photos into professional e-commerce images with AI-powered virtual models. No studio, no photographer needed. Perfect for clothing, jewelry, shoes & accessories.">
   <meta name="keywords" content="AI fashion model, virtual model photography, e-commerce product photos, AI clothing model, product photography AI, virtual try-on, AI model generator, fashion photography">
@@ -84,6 +88,36 @@
             </video>
             <div class="mobile-animated-text" id="mobile-animated-text">
               <span class="mobile-text-line">No Photographer Needed</span>
+            </div>
+          </div>
+
+          <!-- Mobile Step 1: AI Background Screen -->
+          <div class="mobile-step-content mobile-step-1" id="mobile-step-1">
+            <video class="mobile-step-video" id="mobile-bg-video" autoplay muted loop playsinline>
+              <source src="/assets/mobile-videos/scene-1.mp4" type="video/mp4">
+            </video>
+
+            <!-- Mobile Scene Overlay - Bottom Left -->
+            <div class="mobile-scene-overlay" id="mobile-scene-overlay">
+              <!-- Scene Thumbnails -->
+              <div class="mobile-scene-thumbs">
+                <div class="mobile-scene-thumb active" data-scene="0">
+                  <img src="/assets/center_image_scene_1.png" alt="Scene 1">
+                </div>
+                <div class="mobile-scene-thumb" data-scene="1">
+                  <img src="/assets/center_image_scene_2.png" alt="Scene 2">
+                </div>
+                <div class="mobile-scene-thumb" data-scene="2">
+                  <img src="/assets/center_image_scene_3.png" alt="Scene 3">
+                </div>
+              </div>
+
+              <!-- Scene Text Content -->
+              <div class="mobile-scene-text">
+                <span class="mobile-scene-tag">5000+ Backgrounds</span>
+                <h3 class="mobile-scene-title" id="mobile-scene-title">Rustic Wooden Barn</h3>
+                <p class="mobile-scene-desc" id="mobile-scene-desc">Showcase your clothing in authentic rustic settings. Perfect for casual wear and vintage styles.</p>
+              </div>
             </div>
           </div>
 

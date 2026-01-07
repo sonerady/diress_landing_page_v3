@@ -3131,6 +3131,14 @@ if (mobilePrevBtn) {
 
 if (mobileNextBtn) {
     mobileNextBtn.addEventListener('click', () => {
+        // On Step 1, cycle through videos before advancing to next step
+        if (currentStep === 1 && isMobile()) {
+            // mobileStep1NextVideo is defined later, so we call it via window
+            if (typeof mobileStep1NextVideo === 'function' && mobileStep1NextVideo()) {
+                return; // Video changed, don't advance step yet
+            }
+        }
+
         if (currentStep < steps.length - 1) {
             mobileSlideTransition('next', () => {
                 currentStep++;
@@ -3219,10 +3227,18 @@ function rotateMobileText() {
 setInterval(rotateMobileText, 3000);
 
 // Update mobile step content visibility based on current step
-let mobileSceneAutoChangeInterval = null;
+let mobileStep1VideoIndex = 0;
+const mobileStep1Videos = [
+    '/assets/mobile-videos/scene-1.mp4',
+    '/assets/mobile-videos/scene-2.mp4',
+    '/assets/mobile-videos/scene-3.mp4'
+];
 
 function updateMobileStepContent() {
     if (!isMobile()) return;
+
+    const mobileStep1 = document.getElementById('mobile-step-1');
+    const mobileBgVideo = document.getElementById('mobile-bg-video');
 
     // Hide/show mobile step 0 content based on current step
     if (mobileStep0) {
@@ -3233,61 +3249,114 @@ function updateMobileStepContent() {
         }
     }
 
-    // Force video texture update when entering Step 1 (AI Background)
-    if (currentStep === 1 && isMobile()) {
-        // Ensure scene is set to 1 and video plays immediately
-        if (currentScene < 1 || currentScene > 3) {
-            currentScene = 1;
+    // Hide/show mobile step 1 content based on current step
+    if (mobileStep1) {
+        if (currentStep === 1) {
+            mobileStep1.style.display = 'flex';
+            // Start playing the video
+            if (mobileBgVideo) {
+                mobileBgVideo.play().catch(e => console.log('Mobile bg video play blocked:', e));
+            }
+        } else {
+            mobileStep1.style.display = 'none';
+            if (mobileBgVideo) {
+                mobileBgVideo.pause();
+            }
+            // Reset video index when leaving Step 1
+            mobileStep1VideoIndex = 0;
+            if (mobileBgVideo) {
+                mobileBgVideo.src = mobileStep1Videos[0];
+            }
         }
+    }
+}
 
-        // Force instant transition - no animation
-        const activeTexture = textures[currentScene];
-        if (activeTexture) {
-            uniforms.texture1.value = activeTexture;
-            uniforms.texture2.value = activeTexture;
-            uniforms.progress.value = 0;
-            targetProgress = 0;
+// Change to next video on mobile Step 1 when next button is pressed
+// Mobile Step 1 scene data
+const mobileSceneData = [
+    {
+        title: 'Rustic Wooden Barn',
+        desc: 'Showcase your clothing in authentic rustic settings. Perfect for casual wear and vintage styles.'
+    },
+    {
+        title: 'Cozy Mountain Lodge',
+        desc: 'Display your products in a warm mountain cabin atmosphere. Ideal for winter collections and knitwear.'
+    },
+    {
+        title: 'Bali Rice Terraces',
+        desc: 'Present your fashion against stunning tropical backgrounds. Perfect for summer and resort wear.'
+    }
+];
+
+// Update mobile scene overlay UI
+function updateMobileSceneOverlay() {
+    const thumbs = document.querySelectorAll('.mobile-scene-thumb');
+    const title = document.getElementById('mobile-scene-title');
+    const desc = document.getElementById('mobile-scene-desc');
+
+    if (!thumbs.length || !title || !desc) return;
+
+    // Update active thumb
+    thumbs.forEach((thumb, index) => {
+        if (index === mobileStep1VideoIndex) {
+            thumb.classList.add('active');
+        } else {
+            thumb.classList.remove('active');
         }
+    });
 
-        // Ensure video is playing
-        const videos = [videoElement1, videoElement2, videoElement3];
-        const videoIndex = currentScene - 1;
-        if (videos[videoIndex]) {
-            videos[videoIndex].currentTime = 0;
-            videos[videoIndex].play().catch(e => console.log('Video play blocked:', e));
-        }
+    // Update text with animation
+    title.style.opacity = '0';
+    desc.style.opacity = '0';
 
-        // Pause other videos
-        videos.forEach((v, i) => {
-            if (i !== videoIndex && v) v.pause();
+    setTimeout(() => {
+        title.textContent = mobileSceneData[mobileStep1VideoIndex].title;
+        desc.textContent = mobileSceneData[mobileStep1VideoIndex].desc;
+        title.style.opacity = '1';
+        desc.style.opacity = '1';
+    }, 150);
+}
+
+// Mobile scene thumb click handlers
+function initMobileSceneThumbs() {
+    const thumbs = document.querySelectorAll('.mobile-scene-thumb');
+    const mobileBgVideo = document.getElementById('mobile-bg-video');
+
+    thumbs.forEach((thumb, index) => {
+        thumb.addEventListener('click', () => {
+            if (mobileStep1VideoIndex === index) return;
+
+            mobileStep1VideoIndex = index;
+            if (mobileBgVideo) {
+                mobileBgVideo.src = mobileStep1Videos[mobileStep1VideoIndex];
+                mobileBgVideo.load();
+                mobileBgVideo.play().catch(e => console.log('Mobile bg video play blocked:', e));
+            }
+            updateMobileSceneOverlay();
         });
+    });
+}
+
+// Initialize mobile scene thumbs
+initMobileSceneThumbs();
+
+function mobileStep1NextVideo() {
+    if (!isMobile() || currentStep !== 1) return false;
+
+    const mobileBgVideo = document.getElementById('mobile-bg-video');
+    if (!mobileBgVideo) return false;
+
+    // If we haven't shown all 3 videos yet, show next video
+    if (mobileStep1VideoIndex < 2) {
+        mobileStep1VideoIndex++;
+        mobileBgVideo.src = mobileStep1Videos[mobileStep1VideoIndex];
+        mobileBgVideo.load();
+        mobileBgVideo.play().catch(e => console.log('Mobile bg video play blocked:', e));
+        updateMobileSceneOverlay();
+        return true; // Video changed, don't advance step
     }
 
-    // Auto-change scenes every 3 seconds on mobile Step 1 (AI Background)
-    if (currentStep === 1 && isMobile()) {
-        if (!mobileSceneAutoChangeInterval) {
-            // Wait 3 seconds before starting the auto-change cycle
-            setTimeout(() => {
-                if (currentStep === 1 && isMobile() && !mobileSceneAutoChangeInterval) {
-                    mobileSceneAutoChangeInterval = setInterval(() => {
-                        if (currentStep === 1 && isMobile()) {
-                            // Cycle through scenes 1, 2, 3
-                            let nextScene = currentScene + 1;
-                            if (nextScene > 3) nextScene = 1;
-                            transitionToScene(nextScene);
-                            updateUI();
-                        }
-                    }, 3000);
-                }
-            }, 3000);
-        }
-    } else {
-        // Clear interval when not on Step 1
-        if (mobileSceneAutoChangeInterval) {
-            clearInterval(mobileSceneAutoChangeInterval);
-            mobileSceneAutoChangeInterval = null;
-        }
-    }
+    return false; // All videos shown, allow step advance
 }
 
 // Call on init
