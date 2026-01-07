@@ -5867,6 +5867,49 @@ footer {
     }
 
     /* Animated Color Palette Grid (Hair Color substep) */
+    /* Hair Style Video Background with Blur Overlay */
+    .mobile-hairstyle-video-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s ease, visibility 0.4s ease;
+        overflow: hidden;
+    }
+
+    .mobile-hairstyle-video-container.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .mobile-hairstyle-video {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        object-fit: cover;
+        opacity: 0.5;
+    }
+
+    .mobile-hairstyle-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+
     .mobile-color-palette-grid {
         position: absolute;
         top: 0;
@@ -5933,7 +5976,7 @@ footer {
         max-height: 85vh;
         max-width: 90vw;
         object-fit: contain;
-        z-index: 10;
+        z-index: 40;
         opacity: 0;
         visibility: hidden;
         transition: opacity 0.5s ease;
@@ -5982,7 +6025,7 @@ footer {
         max-height: 85vh;
         max-width: 90vw;
         object-fit: contain;
-        z-index: 10;
+        z-index: 40;
         opacity: 0;
         visibility: hidden;
         transition: opacity 0.5s ease;
@@ -6015,6 +6058,74 @@ footer {
     .mobile-ethnicity-title.active {
         opacity: 1;
         visibility: visible;
+    }
+
+    /* Mood Grid - White animated palette like ethnicity */
+    .mobile-mood-grid {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        grid-template-rows: repeat(15, 1fr);
+        gap: 3px;
+        padding: 0;
+        background: #ffffff;
+        z-index: 1;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    .mobile-mood-grid.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .mobile-mood-grid .mobile-mood-cell {
+        border-radius: 4px;
+        transition: transform 0.2s ease;
+    }
+
+    /* Mood Emoji Rain Container */
+    .mobile-mood-emoji-rain {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 3;
+        pointer-events: none;
+        overflow: hidden;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    .mobile-mood-emoji-rain.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .mood-emoji {
+        position: absolute;
+        top: -60px;
+        font-size: 24px;
+        animation: emojifall linear infinite;
+        opacity: 0.7;
+    }
+
+    @keyframes emojifall {
+        0% {
+            transform: translateY(0) rotate(0deg);
+            opacity: 0.7;
+        }
+        100% {
+            transform: translateY(110vh) rotate(360deg);
+            opacity: 0.3;
+        }
     }
 
     /* Background Color Boxes - Grid Layout (other substeps) */
@@ -6053,7 +6164,7 @@ footer {
         max-height: 85vh;
         max-width: 90vw;
         object-fit: contain;
-        z-index: 10;
+        z-index: 40;
     }
 
     /* Feature Tags - Top Right */

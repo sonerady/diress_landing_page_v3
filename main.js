@@ -3363,6 +3363,10 @@ function updateMobileCustomizeInfo() {
             const mobileCustomizeModel = document.getElementById('mobile-customize-model');
             const mobileSkinToneImage = document.getElementById('mobile-skin-tone-image');
             const mobileEthnicityImage = document.getElementById('mobile-ethnicity-image');
+            const mobileHairstyleVideoContainer = document.getElementById('mobile-hairstyle-video-container');
+            const mobileHairstyleVideo = document.getElementById('mobile-hairstyle-video');
+
+            const mobileMoodGrid = document.getElementById('mobile-mood-grid');
 
             if (currentSubStep === 0) {
                 // Hair Color - show animated color palette
@@ -3370,53 +3374,102 @@ function updateMobileCustomizeInfo() {
                     mobileColorPaletteGrid.classList.add('active');
                     generateMobileColorPalette();
                 }
+                if (mobileHairstyleVideoContainer) mobileHairstyleVideoContainer.classList.remove('active');
+                if (mobileHairstyleVideo) mobileHairstyleVideo.pause();
                 if (mobileSkinToneGrid) mobileSkinToneGrid.classList.remove('active');
                 if (mobileEthnicityGrid) mobileEthnicityGrid.classList.remove('active');
+                if (mobileMoodGrid) mobileMoodGrid.classList.remove('active');
                 if (mobileCustomizeColors) mobileCustomizeColors.classList.add('hidden');
                 if (mobileCustomizeModel) mobileCustomizeModel.style.display = 'block';
                 if (mobileSkinToneImage) mobileSkinToneImage.classList.remove('active');
                 if (mobileEthnicityImage) mobileEthnicityImage.classList.remove('active');
                 stopMobileSkinToneRotation();
                 stopMobileEthnicityRotation();
+                stopMoodEmojiRain();
+            } else if (currentSubStep === 1) {
+                // Hair Style - show video background with blur overlay
+                if (mobileColorPaletteGrid) mobileColorPaletteGrid.classList.remove('active');
+                if (mobileHairstyleVideoContainer) mobileHairstyleVideoContainer.classList.add('active');
+                if (mobileHairstyleVideo) mobileHairstyleVideo.play().catch(() => {});
+                if (mobileSkinToneGrid) mobileSkinToneGrid.classList.remove('active');
+                if (mobileEthnicityGrid) mobileEthnicityGrid.classList.remove('active');
+                if (mobileMoodGrid) mobileMoodGrid.classList.remove('active');
+                if (mobileCustomizeColors) mobileCustomizeColors.classList.add('hidden');
+                if (mobileCustomizeModel) mobileCustomizeModel.style.display = 'block';
+                if (mobileSkinToneImage) mobileSkinToneImage.classList.remove('active');
+                if (mobileEthnicityImage) mobileEthnicityImage.classList.remove('active');
+                stopMobileSkinToneRotation();
+                stopMobileEthnicityRotation();
+                stopMoodEmojiRain();
             } else if (currentSubStep === 2) {
                 // Skin Tone - show skin tone palette and rotating images
                 if (mobileColorPaletteGrid) mobileColorPaletteGrid.classList.remove('active');
+                if (mobileHairstyleVideoContainer) mobileHairstyleVideoContainer.classList.remove('active');
+                if (mobileHairstyleVideo) mobileHairstyleVideo.pause();
                 if (mobileSkinToneGrid) {
                     mobileSkinToneGrid.classList.add('active');
                     generateMobileSkinTonePalette();
                 }
                 if (mobileEthnicityGrid) mobileEthnicityGrid.classList.remove('active');
+                if (mobileMoodGrid) mobileMoodGrid.classList.remove('active');
                 if (mobileCustomizeColors) mobileCustomizeColors.classList.add('hidden');
                 if (mobileCustomizeModel) mobileCustomizeModel.style.display = 'none';
                 if (mobileSkinToneImage) mobileSkinToneImage.classList.add('active');
                 if (mobileEthnicityImage) mobileEthnicityImage.classList.remove('active');
                 startMobileSkinToneRotation();
                 stopMobileEthnicityRotation();
+                stopMoodEmojiRain();
             } else if (currentSubStep === 3) {
                 // Ethnicity - show ethnicity palette and rotating images
                 if (mobileColorPaletteGrid) mobileColorPaletteGrid.classList.remove('active');
+                if (mobileHairstyleVideoContainer) mobileHairstyleVideoContainer.classList.remove('active');
+                if (mobileHairstyleVideo) mobileHairstyleVideo.pause();
                 if (mobileSkinToneGrid) mobileSkinToneGrid.classList.remove('active');
                 if (mobileEthnicityGrid) {
                     mobileEthnicityGrid.classList.add('active');
                     generateMobileEthnicityPalette();
                 }
+                if (mobileMoodGrid) mobileMoodGrid.classList.remove('active');
                 if (mobileCustomizeColors) mobileCustomizeColors.classList.add('hidden');
                 if (mobileCustomizeModel) mobileCustomizeModel.style.display = 'none';
                 if (mobileSkinToneImage) mobileSkinToneImage.classList.remove('active');
                 if (mobileEthnicityImage) mobileEthnicityImage.classList.add('active');
                 stopMobileSkinToneRotation();
                 startMobileEthnicityRotation();
-            } else {
-                // Other substeps - show static color boxes and default model
+                stopMoodEmojiRain();
+            } else if (currentSubStep === 4) {
+                // Mood - show white palette and emoji rain
                 if (mobileColorPaletteGrid) mobileColorPaletteGrid.classList.remove('active');
+                if (mobileHairstyleVideoContainer) mobileHairstyleVideoContainer.classList.remove('active');
+                if (mobileHairstyleVideo) mobileHairstyleVideo.pause();
                 if (mobileSkinToneGrid) mobileSkinToneGrid.classList.remove('active');
                 if (mobileEthnicityGrid) mobileEthnicityGrid.classList.remove('active');
+                if (mobileMoodGrid) {
+                    mobileMoodGrid.classList.add('active');
+                    generateMobileMoodPalette();
+                }
+                if (mobileCustomizeColors) mobileCustomizeColors.classList.add('hidden');
+                if (mobileCustomizeModel) mobileCustomizeModel.style.display = 'block';
+                if (mobileSkinToneImage) mobileSkinToneImage.classList.remove('active');
+                if (mobileEthnicityImage) mobileEthnicityImage.classList.remove('active');
+                stopMobileSkinToneRotation();
+                stopMobileEthnicityRotation();
+                startMoodEmojiRain();
+            } else {
+                // Other substeps (Body Shape) - show static color boxes and default model
+                if (mobileColorPaletteGrid) mobileColorPaletteGrid.classList.remove('active');
+                if (mobileHairstyleVideoContainer) mobileHairstyleVideoContainer.classList.remove('active');
+                if (mobileHairstyleVideo) mobileHairstyleVideo.pause();
+                if (mobileSkinToneGrid) mobileSkinToneGrid.classList.remove('active');
+                if (mobileEthnicityGrid) mobileEthnicityGrid.classList.remove('active');
+                if (mobileMoodGrid) mobileMoodGrid.classList.remove('active');
                 if (mobileCustomizeColors) mobileCustomizeColors.classList.remove('hidden');
                 if (mobileCustomizeModel) mobileCustomizeModel.style.display = 'block';
                 if (mobileSkinToneImage) mobileSkinToneImage.classList.remove('active');
                 if (mobileEthnicityImage) mobileEthnicityImage.classList.remove('active');
                 stopMobileSkinToneRotation();
                 stopMobileEthnicityRotation();
+                stopMoodEmojiRain();
             }
         }
     }
@@ -3645,6 +3698,111 @@ function stopMobileEthnicityRotation() {
     const ethnicityTitle = document.getElementById('mobile-ethnicity-title');
     if (ethnicityTitle) {
         ethnicityTitle.classList.remove('active');
+    }
+}
+
+// Generate Mobile Mood Palette with white animation (like ethnicity)
+let mobileMoodAnimationId = null;
+let mobileMoodEmojiInterval = null;
+
+function generateMobileMoodPalette() {
+    const grid = document.getElementById('mobile-mood-grid');
+    if (!grid || grid.children.length > 0) return;
+
+    const cells = [];
+    // 10 columns x 15 rows = 150 cells
+    for (let i = 0; i < 150; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'mobile-mood-cell';
+        cell.dataset.index = i;
+        grid.appendChild(cell);
+        cells.push(cell);
+    }
+
+    // White and cream tones - same as ethnicity
+    let time = 0;
+    function animateMobileMood() {
+        time += 0.008;
+        cells.forEach((cell, index) => {
+            const row = Math.floor(index / 10);
+            const col = index % 10;
+
+            // White and cream tones - very low saturation, high lightness
+            const baseHue = 40 + (Math.sin(row * 0.4 + time * 2.5) * 15 + Math.cos(col * 0.4 + time * 2) * 10);
+            const baseSat = 5;
+            const saturation = baseSat + Math.sin(time * 1.8 + index * 0.03) * 5;
+            const baseLight = 93 + (Math.sin(row * 0.3 + time) * 3);
+            const lightness = baseLight + Math.cos(time * 2.2 + index * 0.04) * 3;
+
+            cell.style.backgroundColor = `hsl(${baseHue}, ${saturation}%, ${lightness}%)`;
+        });
+        mobileMoodAnimationId = requestAnimationFrame(animateMobileMood);
+    }
+    animateMobileMood();
+}
+
+// Mood Emojis for falling effect
+const moodEmojis = ['😊', '😄', '😎', '🥰', '😍', '🤗', '😌', '🙂', '😇', '🤩', '😁', '😋', '🥳', '😏', '🤔', '😴', '😢', '😤', '😠', '🥺'];
+
+function startMoodEmojiRain() {
+    const container = document.getElementById('mobile-mood-emoji-rain');
+    if (!container) return;
+
+    container.classList.add('active');
+
+    // Create initial batch of emojis
+    for (let i = 0; i < 15; i++) {
+        setTimeout(() => createMoodEmoji(container), i * 200);
+    }
+
+    // Continue creating emojis
+    mobileMoodEmojiInterval = setInterval(() => {
+        createMoodEmoji(container);
+    }, 400);
+}
+
+function createMoodEmoji(container) {
+    const emoji = document.createElement('div');
+    emoji.className = 'mood-emoji';
+    emoji.textContent = moodEmojis[Math.floor(Math.random() * moodEmojis.length)];
+
+    // Random position and size
+    const left = Math.random() * 100;
+    const size = 16 + Math.random() * 32; // 16px to 48px
+    const duration = 4 + Math.random() * 4; // 4-8 seconds
+    const delay = Math.random() * 0.5;
+
+    emoji.style.left = `${left}%`;
+    emoji.style.fontSize = `${size}px`;
+    emoji.style.animationDuration = `${duration}s`;
+    emoji.style.animationDelay = `${delay}s`;
+    emoji.style.opacity = 0.4 + Math.random() * 0.4; // 0.4-0.8
+
+    container.appendChild(emoji);
+
+    // Remove after animation completes
+    setTimeout(() => {
+        if (emoji.parentNode) {
+            emoji.parentNode.removeChild(emoji);
+        }
+    }, (duration + delay) * 1000 + 500);
+}
+
+function stopMoodEmojiRain() {
+    const container = document.getElementById('mobile-mood-emoji-rain');
+    if (container) {
+        container.classList.remove('active');
+        container.innerHTML = '';
+    }
+
+    if (mobileMoodEmojiInterval) {
+        clearInterval(mobileMoodEmojiInterval);
+        mobileMoodEmojiInterval = null;
+    }
+
+    if (mobileMoodAnimationId) {
+        cancelAnimationFrame(mobileMoodAnimationId);
+        mobileMoodAnimationId = null;
     }
 }
 
