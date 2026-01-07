@@ -3100,6 +3100,13 @@ function mobileSlideTransition(direction, callback) {
 // Mobile navigation button handlers
 if (mobilePrevBtn) {
     mobilePrevBtn.addEventListener('click', () => {
+        // On Step 2, cycle through poses backwards before going to previous step
+        if (currentStep === 2 && isMobile()) {
+            if (typeof mobilePrevPose === 'function' && mobilePrevPose()) {
+                return; // Pose changed, don't go back step yet
+            }
+        }
+
         if (currentStep > 0) {
             mobileSlideTransition('prev', () => {
                 currentStep--;
@@ -3133,9 +3140,15 @@ if (mobileNextBtn) {
     mobileNextBtn.addEventListener('click', () => {
         // On Step 1, cycle through videos before advancing to next step
         if (currentStep === 1 && isMobile()) {
-            // mobileStep1NextVideo is defined later, so we call it via window
             if (typeof mobileStep1NextVideo === 'function' && mobileStep1NextVideo()) {
                 return; // Video changed, don't advance step yet
+            }
+        }
+
+        // On Step 2, cycle through poses before advancing to next step
+        if (currentStep === 2 && isMobile()) {
+            if (typeof mobileNextPose === 'function' && mobileNextPose()) {
+                return; // Pose changed, don't advance step yet
             }
         }
 
@@ -3269,6 +3282,26 @@ function updateMobileStepContent() {
             }
         }
     }
+
+    // Step 2: Pose carousel init and auto-slide
+    if (currentStep === 2 && isMobile()) {
+        // Initialize carousel if not already done
+        if (typeof initMobilePoseCarousel === 'function') {
+            initMobilePoseCarousel();
+        }
+        // Reset to first pose
+        if (typeof resetMobilePoseCarousel === 'function') {
+            resetMobilePoseCarousel();
+        }
+        // Start auto-slide
+        if (typeof startPoseAutoSlide === 'function') {
+            startPoseAutoSlide();
+        }
+    } else {
+        if (typeof stopPoseAutoSlide === 'function') {
+            stopPoseAutoSlide();
+        }
+    }
 }
 
 // Change to next video on mobile Step 1 when next button is pressed
@@ -3362,39 +3395,175 @@ function mobileStep1NextVideo() {
 // Call on init
 updateMobileStepContent();
 
-// --- Mobile Pose Grid ---
-const poseGridMobile = document.getElementById('pose-grid-mobile');
-let currentPose = 0;
+// --- Mobile Pose Carousel ---
+let currentMobilePose = 0;
 
-function renderMobilePoseGrid() {
-    if (!poseGridMobile || !isMobile()) return;
+// Use the same pose images as canvas (from assets/poses folder)
+const mobilePoseImages = [
+    '/assets/poses/pose-1-Photoroom.png',
+    '/assets/poses/pose-2-Photoroom.png',
+    '/assets/poses/pose-3-Photoroom.png',
+    '/assets/poses/pose-4-Photoroom.png',
+    '/assets/poses/pose-5-Photoroom.png',
+    '/assets/poses/pose-6-Photoroom.png',
+    '/assets/poses/pose-7-Photoroom.png',
+    '/assets/poses/pose-8-Photoroom.png',
+    '/assets/poses/pose-9-Photoroom.png'
+];
 
-    // Use pose images from assets
-    const poseImages = [
-        '/assets/pose_stack/pose_1.png',
-        '/assets/pose_stack/pose_2.png',
-        '/assets/pose_stack/pose_3.png',
-        '/assets/pose_stack/pose_4.png',
-        '/assets/pose_stack/pose_5.png',
-        '/assets/pose_stack/pose_6.png',
-        '/assets/pose_stack/pose_7.png',
-        '/assets/pose_stack/pose_8.png',
-        '/assets/pose_stack/pose_9.png'
-    ];
+function initMobilePoseCarousel() {
+    // Re-query elements to ensure they exist
+    const track = document.getElementById('pose-carousel-track');
+    const indicators = document.getElementById('pose-indicators');
 
-    poseGridMobile.innerHTML = poseData.map((pose, i) => `
-        <div class="pose-grid-item ${i === currentPose ? 'selected' : ''}" data-pose="${i}">
-            <img src="${poseImages[i]}" alt="${pose.big}" loading="lazy">
+    if (!track || !isMobile()) return;
+
+    // Create slides
+    track.innerHTML = poseData.map((pose, i) => `
+        <div class="pose-carousel-slide" data-pose="${i}">
+            <img src="${mobilePoseImages[i]}" alt="${pose.big}" loading="lazy">
         </div>
     `).join('');
 
-    // Click handlers
-    poseGridMobile.querySelectorAll('.pose-grid-item').forEach(item => {
-        item.addEventListener('click', () => {
-            currentPose = parseInt(item.dataset.pose);
-            renderMobilePoseGrid();
+    // Create indicators
+    if (indicators) {
+        indicators.innerHTML = poseData.map((_, i) => `
+            <div class="pose-indicator ${i === 0 ? 'active' : ''}" data-pose="${i}"></div>
+        `).join('');
+
+        // Indicator click handlers
+        indicators.querySelectorAll('.pose-indicator').forEach(indicator => {
+            indicator.addEventListener('click', () => {
+                const poseIndex = parseInt(indicator.dataset.pose);
+                goToMobilePose(poseIndex);
+            });
         });
+    }
+
+    // Update initial pose info
+    updateMobilePoseInfo();
+}
+
+function goToMobilePose(index) {
+    if (index < 0 || index >= poseData.length) return;
+
+    currentMobilePose = index;
+
+    // Re-query track element
+    const track = document.getElementById('pose-carousel-track');
+    // Animate carousel track
+    if (track) {
+        track.style.transform = `translateX(-${index * 100}vw)`;
+    }
+
+    // Update indicators
+    updateMobilePoseIndicators();
+
+    // Update pose info with animation
+    updateMobilePoseInfo();
+}
+
+function updateMobilePoseIndicators() {
+    const indicatorsContainer = document.getElementById('pose-indicators');
+    if (!indicatorsContainer) return;
+
+    const indicators = indicatorsContainer.querySelectorAll('.pose-indicator');
+    indicators.forEach((indicator, i) => {
+        indicator.classList.toggle('active', i === currentMobilePose);
     });
+}
+
+function updateMobilePoseInfo() {
+    const infoSmall = document.getElementById('pose-info-small');
+    const infoBig = document.getElementById('pose-info-big');
+
+    if (!infoSmall || !infoBig) return;
+
+    // Fade out
+    infoSmall.style.opacity = '0';
+    infoBig.style.opacity = '0';
+
+    setTimeout(() => {
+        infoSmall.textContent = poseData[currentMobilePose].small;
+        infoBig.textContent = poseData[currentMobilePose].big;
+
+        // Fade in
+        infoSmall.style.opacity = '1';
+        infoBig.style.opacity = '1';
+    }, 150);
+}
+
+// Next pose function for navigation button
+function mobileNextPose() {
+    if (!isMobile() || currentStep !== 2) return false;
+
+    if (currentMobilePose < poseData.length - 1) {
+        goToMobilePose(currentMobilePose + 1);
+        return true; // Pose changed, don't advance step
+    }
+
+    return false; // All poses shown, allow step advance
+}
+
+// Previous pose function for navigation button
+function mobilePrevPose() {
+    if (!isMobile() || currentStep !== 2) return false;
+
+    if (currentMobilePose > 0) {
+        goToMobilePose(currentMobilePose - 1);
+        return true; // Pose changed, don't go back step
+    }
+
+    return false; // At first pose, allow step back
+}
+
+// Reset pose carousel when entering Step 2
+function resetMobilePoseCarousel() {
+    currentMobilePose = 0;
+    const track = document.getElementById('pose-carousel-track');
+    if (track) {
+        track.style.transform = 'translateX(0)';
+    }
+    updateMobilePoseIndicators();
+    updateMobilePoseInfo();
+}
+
+// Auto-slide pose carousel
+let poseAutoSlideInterval = null;
+
+function startPoseAutoSlide() {
+    if (poseAutoSlideInterval) return;
+
+    poseAutoSlideInterval = setInterval(() => {
+        if (!isMobile() || currentStep !== 2) {
+            stopPoseAutoSlide();
+            return;
+        }
+
+        // Go to next pose, loop back to first
+        const nextPose = (currentMobilePose + 1) % poseData.length;
+        goToMobilePose(nextPose);
+    }, 2000); // Change every 2 seconds
+}
+
+function stopPoseAutoSlide() {
+    if (poseAutoSlideInterval) {
+        clearInterval(poseAutoSlideInterval);
+        poseAutoSlideInterval = null;
+    }
+}
+
+// Initialize carousel
+initMobilePoseCarousel();
+
+// Legacy function name for compatibility
+function renderMobilePoseGrid() {
+    initMobilePoseCarousel();
+    resetMobilePoseCarousel();
+    // Start auto-slide when entering Step 2
+    if (currentStep === 2 && isMobile()) {
+        startPoseAutoSlide();
+    }
 }
 
 // --- Mobile Customize Tabs ---

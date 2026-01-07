@@ -4656,7 +4656,7 @@ footer {
 .mobile-step-content,
 .mobile-bottom-nav,
 .mobile-menu,
-.hamburger-menu {
+.mobile-header-right {
     display: none;
 }
 
@@ -4704,8 +4704,8 @@ footer {
     }
 
     .logo-icon {
-        width: 40px;
-        height: 40px;
+        width: 46px;
+        height: 46px;
         border-radius: 0 !important;
     }
 
@@ -4744,13 +4744,44 @@ footer {
         color: #ff6b35 !important;
     }
 
+    /* Mobile Header Right - Contains Store Buttons + Hamburger */
+    .mobile-header-right {
+        display: flex !important;
+        align-items: center;
+        gap: 6px;
+    }
+
     .hamburger-menu {
         display: flex;
         width: 40px;
         height: 40px;
-        background: rgba(255, 255, 255, 0.2);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        border-radius: 12px;
+    }
+
+    .mobile-store-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        border-radius: 12px;
+        color: #fff;
+        font-size: 1.1rem;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .mobile-store-btn .fa-apple {
+        font-size: 1.25rem;
+    }
+
+    .mobile-store-btn:hover,
+    .mobile-store-btn:active {
+        background: rgba(255, 255, 255, 0.25);
     }
 
     .hamburger-line {
@@ -5113,10 +5144,10 @@ footer {
         z-index: 1;
     }
 
-    /* Animated Text at Bottom - above bottom nav gradient */
+    /* Animated Text at Bottom */
     .mobile-animated-text {
         position: absolute;
-        bottom: calc(120px + env(safe-area-inset-bottom, 20px));
+        bottom: calc(180px + env(safe-area-inset-bottom, 20px));
         left: 0;
         right: 0;
         z-index: 20;
@@ -5131,6 +5162,54 @@ footer {
         color: #ffffff;
         text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
         transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    /* CTA Button - Blur background, dark */
+    .mobile-cta-btn {
+        position: absolute;
+        bottom: calc(110px + env(safe-area-inset-bottom, 20px));
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 20;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 16px 32px;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        color: #ffffff;
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        border-radius: 50px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        transition: all 0.3s ease;
+    }
+
+    .mobile-cta-btn:hover,
+    .mobile-cta-btn:active {
+        background: rgba(0, 0, 0, 0.6);
+        transform: translateX(-50%) scale(1.02);
+    }
+
+    .mobile-cta-btn i {
+        font-size: 0.9rem;
+        animation: arrowBounce 1s ease-in-out infinite;
+    }
+
+    @keyframes arrowBounce {
+        0%, 100% {
+            transform: translateX(0);
+        }
+        50% {
+            transform: translateX(5px);
+        }
+    }
+
+    .mobile-cta-btn:hover i {
+        animation: none;
+        transform: translateX(3px);
     }
 
     /* === 6. STEP 1: SELECT SCENE === */
@@ -5157,36 +5236,156 @@ footer {
         display: none !important;
     }
 
-    /* Mobile pose grid */
-    .pose-grid-mobile {
-        display: grid !important;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-        width: 100%;
-        height: calc(100vh - 160px);
-        overflow-y: auto;
-        padding-bottom: 20px;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .pose-grid-item {
-        aspect-ratio: 3/4;
-        border-radius: 10px;
+    /* Mobile Pose Carousel */
+    .mobile-pose-carousel {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
         overflow: hidden;
-        background: #f5f5f5;
-        cursor: pointer;
-        transition: transform 0.2s ease;
+        z-index: 10;
+        background: #fff;
     }
 
-    .pose-grid-item img {
-        width: 100%;
+    .main-container.step-2 .mobile-pose-carousel {
+        display: block !important;
+    }
+
+    .pose-carousel-track {
+        display: flex;
         height: 100%;
-        object-fit: cover;
+        transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        will-change: transform;
     }
 
-    .pose-grid-item.selected {
-        outline: 2px solid #1a1a1a;
-        outline-offset: -2px;
+    .pose-carousel-slide {
+        flex-shrink: 0;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 70px 30px 160px;
+        box-sizing: border-box;
+        background: #fff;
+    }
+
+    .pose-carousel-slide img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+    /* Pose Info Overlay - Bottom Left */
+    .pose-info-overlay {
+        position: absolute;
+        bottom: 90px;
+        left: 20px;
+        right: 20px;
+        z-index: 30;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .pose-info-small {
+        color: #666;
+        font-size: 0.75rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: opacity 0.3s ease;
+    }
+
+    .pose-info-big {
+        color: #1a1a1a;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    /* Pose Indicators - Dots */
+    .pose-indicators {
+        position: absolute;
+        bottom: 70px;
+        left: 20px;
+        display: flex;
+        gap: 6px;
+        z-index: 30;
+    }
+
+    .pose-indicator {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .pose-indicator.active {
+        width: 20px;
+        border-radius: 3px;
+        background: #1a1a1a;
+    }
+
+    /* === STEP 2 SPECIFIC: Clean header/bottom for Pose screen === */
+    .main-container.step-2 header {
+        height: 56px !important;
+        padding-top: 0 !important;
+        align-items: center !important;
+        background: #fff !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .main-container.step-2 .hamburger-line {
+        background: #1a1a1a !important;
+    }
+
+    .main-container.step-2 .hamburger-menu {
+        background: rgba(0, 0, 0, 0.05) !important;
+        border-color: rgba(0, 0, 0, 0.2) !important;
+    }
+
+    .main-container.step-2 .mobile-store-btn {
+        background: rgba(0, 0, 0, 0.05) !important;
+        border-color: rgba(0, 0, 0, 0.2) !important;
+        color: #1a1a1a !important;
+    }
+
+    .main-container.step-2 .logo-text {
+        color: #1a1a1a !important;
+    }
+
+    .main-container.step-2 .mobile-bottom-nav {
+        background: #fff !important;
+        border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .main-container.step-2 .mobile-step-label {
+        color: #1a1a1a !important;
+    }
+
+    .main-container.step-2 .mobile-step-dot {
+        background: rgba(0, 0, 0, 0.2) !important;
+    }
+
+    .main-container.step-2 .mobile-step-dot.active {
+        background: #1a1a1a !important;
+    }
+
+    /* Step 2: Dark navigation buttons */
+    .main-container.step-2 .mobile-nav-btn {
+        background: #1a1a1a !important;
+        color: #fff !important;
+    }
+
+    .main-container.step-2 .mobile-nav-btn:disabled {
+        background: #e0e0e0 !important;
+        color: #999 !important;
     }
 
     /* === 8. STEP 3: CUSTOMIZE MODEL === */
@@ -5481,7 +5680,7 @@ footer {
 
 /* Hide mobile-only elements on desktop */
 @media (min-width: 769px) {
-    .pose-grid-mobile,
+    .mobile-pose-carousel,
     .customize-tabs-mobile,
     .customize-content-mobile,
     .retouch-mobile,
@@ -5495,7 +5694,7 @@ footer {
 /* Mobile element visibility by step */
 @media (max-width: 768px) {
     /* Default: hide all mobile step elements */
-    .pose-grid-mobile,
+    .mobile-pose-carousel,
     .customize-tabs-mobile,
     .customize-content-mobile,
     .retouch-mobile,
@@ -5503,9 +5702,9 @@ footer {
         display: none !important;
     }
 
-    /* Step 2: Show pose grid */
-    .main-container.step-2 .pose-grid-mobile {
-        display: grid !important;
+    /* Step 2: Show pose carousel */
+    .main-container.step-2 .mobile-pose-carousel {
+        display: block !important;
     }
 
     /* Step 3: Show customize tabs and content */
