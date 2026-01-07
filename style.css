@@ -2247,6 +2247,139 @@ nav a:hover {
     transform: translateY(0);
 }
 
+/* --- Hamburger Menu (Mobile) --- */
+.hamburger-menu {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    cursor: pointer;
+    z-index: 150;
+    transition: all 0.3s ease;
+}
+
+.hamburger-line {
+    width: 20px;
+    height: 2px;
+    background: #333;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Mobile Dropdown Menu */
+.mobile-menu {
+    display: none;
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+    z-index: 140;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    min-width: 200px;
+}
+
+.mobile-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.mobile-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.mobile-nav a {
+    text-decoration: none;
+    color: #666;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 10px 15px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.mobile-nav a:hover,
+.mobile-nav a.active {
+    background: rgba(0, 0, 0, 0.05);
+    color: #333;
+}
+
+.mobile-get-started-btn {
+    display: block;
+    text-align: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 14px 20px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.mobile-get-started-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Mobile Header Responsive */
+@media (max-width: 768px) {
+    header {
+        padding: 0 20px;
+        height: 70px;
+    }
+
+    .header-right {
+        display: none;
+    }
+
+    .hamburger-menu {
+        display: flex;
+    }
+
+    .mobile-menu {
+        display: block;
+    }
+
+    .logo-icon {
+        width: 38px;
+        height: 38px;
+    }
+
+    .logo {
+        font-size: 1.3rem;
+    }
+}
+
 @media (max-width: 1200px) {
     header {
         padding: 0 40px;
@@ -4411,5 +4544,849 @@ footer {
 
     .save-badge {
         margin-top: 5px;
+    }
+}
+
+/* ==========================================
+   MOBILE NAVIGATION & BOTTOM GRADIENT
+   ========================================== */
+
+/* Mobile Bottom Gradient Navigation */
+.mobile-bottom-nav {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 120px;
+    background: linear-gradient(to top,
+        rgba(0, 0, 0, 0.7) 0%,
+        rgba(0, 0, 0, 0.4) 50%,
+        transparent 100%);
+    z-index: 100;
+    padding: 20px;
+    padding-bottom: 30px;
+}
+
+.mobile-nav-content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 100%;
+    gap: 15px;
+}
+
+.mobile-nav-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.mobile-nav-btn:hover {
+    transform: scale(1.1);
+    background: #fff;
+}
+
+.mobile-nav-btn.prev {
+    opacity: 0.8;
+}
+
+.mobile-nav-btn.next {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    width: 60px;
+    height: 60px;
+    font-size: 1.4rem;
+}
+
+.mobile-nav-btn.next:hover {
+    box-shadow: 0 6px 25px rgba(102, 126, 234, 0.5);
+}
+
+.mobile-nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Mobile Step Indicator */
+.mobile-step-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 20px;
+}
+
+.mobile-step-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    transition: all 0.3s ease;
+}
+
+.mobile-step-dot.active {
+    width: 24px;
+    border-radius: 4px;
+    background: #fff;
+}
+
+/* Mobile Current Step Label */
+.mobile-step-label {
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    margin-bottom: 10px;
+}
+
+/* ==========================================
+   COMPREHENSIVE MOBILE RESPONSIVE STYLES
+   Modern, minimal design - no gradients
+   ========================================== */
+
+@media (max-width: 768px) {
+    /* === 1. MAIN CONTAINER === */
+    .main-container {
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        border-radius: 0;
+        border: none;
+    }
+
+    .main-container::before,
+    .main-container::after {
+        display: none !important;
+    }
+
+    /* === 2. HEADER - Black Gradient (smooth like bottom nav) === */
+    header {
+        padding: 0 16px;
+        padding-top: 8px;
+        height: 110px;
+        background: linear-gradient(to bottom,
+            rgba(0, 0, 0, 0.85) 0%,
+            rgba(0, 0, 0, 0.6) 50%,
+            rgba(0, 0, 0, 0) 100%);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        align-items: flex-start;
+    }
+
+    .header-right {
+        display: none;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+        gap: 8px;
+    }
+
+    .logo-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 0 !important;
+    }
+
+    .logo-icon-wrapper {
+        border-radius: 0 !important;
+    }
+
+    .logo-icon-wrapper::after {
+        display: none !important;
+    }
+
+    /* Show logo text on mobile - white for dark header */
+    .logo-text {
+        display: inline !important;
+        font-size: 1.1rem;
+        color: #ffffff !important;
+    }
+
+    .logo-text .dot {
+        color: #ffffff !important;
+    }
+
+    .hamburger-menu {
+        display: flex;
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 8px;
+    }
+
+    .hamburger-line {
+        width: 18px;
+        height: 2px;
+        background: #ffffff;
+    }
+
+    .mobile-menu {
+        display: block;
+        top: 56px;
+        right: 16px;
+        left: 16px;
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        padding: 16px;
+    }
+
+    .mobile-nav a {
+        padding: 12px 16px;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        color: #333;
+    }
+
+    .mobile-nav a.active {
+        background: #f5f5f5;
+        color: #1a1a1a;
+        font-weight: 600;
+    }
+
+    .mobile-get-started-btn {
+        background: #1a1a1a;
+        color: #fff;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        padding: 14px 16px;
+        text-transform: none;
+        letter-spacing: 0;
+    }
+
+    /* === 3. BOTTOM NAVIGATION - Modern === */
+    .mobile-bottom-nav {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+        height: 110px;
+        background: linear-gradient(to top,
+            rgba(0, 0, 0, 0.85) 0%,
+            rgba(0, 0, 0, 0.6) 50%,
+            rgba(0, 0, 0, 0) 100%);
+        padding: 16px 20px 32px;
+    }
+
+    /* Left side - Step info */
+    .mobile-step-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .mobile-step-label {
+        color: #ffffff;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        margin-bottom: 0;
+        padding-left: 2px;
+    }
+
+    .mobile-step-indicator {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 8px;
+        align-items: center;
+        transform: none !important;
+    }
+
+    .mobile-nav-content {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .mobile-nav-btn {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: none;
+        font-size: 0.9rem;
+        backdrop-filter: blur(10px);
+    }
+
+    .mobile-nav-btn.prev {
+        opacity: 1;
+    }
+
+    .mobile-nav-btn.next {
+        width: 44px;
+        height: 44px;
+        background: #ffffff;
+        color: #1a1a1a;
+        border: none;
+        font-size: 0.9rem;
+    }
+
+    .mobile-nav-btn:disabled {
+        opacity: 0.3;
+    }
+
+    .mobile-step-dot {
+        width: 8px;
+        height: 8px;
+        min-width: 8px;
+        min-height: 8px;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 4px;
+        display: inline-block;
+        flex-shrink: 0;
+    }
+
+    .mobile-step-dot.active {
+        width: 24px;
+        min-width: 24px;
+        background: #ffffff;
+        border-radius: 4px;
+    }
+
+    /* === 4. HIDE DESKTOP ELEMENTS === */
+    .scroll-indicator,
+    .vertical-slider-container,
+    .customize-submenu,
+    footer,
+    .right-gradient-overlay {
+        display: none !important;
+    }
+
+    /* === 5. STEP 0: VIRTUAL MODEL === */
+    .comparison-container,
+    .image-grid-container {
+        display: none !important;
+    }
+
+    /* Fix video/canvas - Full viewport coverage */
+    .art-wrapper {
+        width: 100vw !important;
+        height: 100vh !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: hidden !important;
+        z-index: 1;
+    }
+
+    .art-wrapper canvas {
+        width: 100vw !important;
+        height: 100vh !important;
+        display: block !important;
+    }
+
+    .col-center {
+        transform: none !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        overflow: hidden !important;
+    }
+
+    #home-section {
+        overflow: hidden !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        padding: 0 !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+    }
+
+    /* Ensure page section fills the screen */
+    .page-section {
+        width: 100vw !important;
+        height: 100vh !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        overflow: hidden !important;
+    }
+
+    /* === 6. STEP 1: SELECT SCENE === */
+    .scene-text-container {
+        position: fixed !important;
+        bottom: 110px;
+        top: auto !important;
+        left: 16px !important;
+        right: 16px !important;
+        transform: none !important;
+        width: auto !important;
+        text-align: center;
+        z-index: 90;
+    }
+
+    .scene-text-content {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    .scene-text-content h2 {
+        font-size: 1.3rem !important;
+        margin-bottom: 4px;
+    }
+
+    .scene-text-content p {
+        font-size: 0.8rem !important;
+        line-height: 1.4;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .scene-text-content .small-tag {
+        font-size: 0.65rem !important;
+        margin-bottom: 4px;
+    }
+
+    .scene-selector {
+        position: fixed !important;
+        bottom: 180px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 8px;
+        padding: 8px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 12px;
+        z-index: 90;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .scene-thumb {
+        width: 52px !important;
+        height: 52px !important;
+        border-radius: 8px;
+    }
+
+    .scene-thumb img {
+        border-radius: 6px;
+    }
+
+    .scene-thumb.more-scenes {
+        font-size: 0.6rem;
+    }
+
+    /* === 7. STEP 2: CHANGE POSE === */
+    .change-pose-section {
+        padding: 60px 12px 100px !important;
+    }
+
+    .pose-canvas-container {
+        display: none !important;
+    }
+
+    .pose-labels-container {
+        display: none !important;
+    }
+
+    /* Mobile pose grid */
+    .pose-grid-mobile {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        width: 100%;
+        height: calc(100vh - 160px);
+        overflow-y: auto;
+        padding-bottom: 20px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .pose-grid-item {
+        aspect-ratio: 3/4;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #f5f5f5;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+
+    .pose-grid-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .pose-grid-item.selected {
+        outline: 2px solid #1a1a1a;
+        outline-offset: -2px;
+    }
+
+    /* === 8. STEP 3: CUSTOMIZE MODEL === */
+    .customize-content-right,
+    .customize-grid-container {
+        display: none !important;
+    }
+
+    /* Mobile tabs */
+    .customize-tabs-mobile {
+        display: flex !important;
+        position: fixed;
+        top: 56px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        padding: 10px 16px;
+        gap: 8px;
+        overflow-x: auto;
+        z-index: 95;
+        border-bottom: 1px solid #f0f0f0;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .customize-tabs-mobile::-webkit-scrollbar {
+        display: none;
+    }
+
+    .customize-tab {
+        flex-shrink: 0;
+        padding: 8px 14px;
+        border-radius: 20px;
+        background: #f5f5f5;
+        font-size: 0.75rem;
+        color: #666;
+        white-space: nowrap;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .customize-tab.active {
+        background: #1a1a1a;
+        color: #fff;
+    }
+
+    .customize-content-mobile {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 120px 24px 120px;
+        text-align: center;
+        min-height: 100vh;
+    }
+
+    .customize-content-mobile h3 {
+        font-size: 1.3rem;
+        color: #1a1a1a;
+        margin-bottom: 8px;
+        font-weight: 600;
+    }
+
+    .customize-content-mobile p {
+        font-size: 0.85rem;
+        color: #666;
+        line-height: 1.6;
+        max-width: 280px;
+    }
+
+    /* === 9. STEP 4: RETOUCH === */
+    .retouch-divider {
+        display: none !important;
+    }
+
+    .retouch-mobile {
+        display: flex !important;
+        flex-direction: column;
+        gap: 12px;
+        padding: 70px 16px 110px;
+        height: 100vh;
+        box-sizing: border-box;
+    }
+
+    .retouch-card {
+        flex: 1;
+        border-radius: 12px;
+        overflow: hidden;
+        position: relative;
+        background: #f5f5f5;
+    }
+
+    .retouch-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .retouch-label {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: rgba(0, 0, 0, 0.6);
+        color: #fff;
+        padding: 4px 10px;
+        border-radius: 16px;
+        font-size: 0.65rem;
+        font-weight: 500;
+    }
+
+    /* === 10. STEP 5: CHANGE COLOR === */
+    .change-color-section {
+        padding: 70px 16px 110px !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .change-color-boxes,
+    .change-color-bottom-right {
+        display: none !important;
+    }
+
+    .change-color-bg {
+        opacity: 0.3;
+    }
+
+    .change-color-center {
+        position: relative !important;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        left: auto !important;
+        transform: none !important;
+    }
+
+    .change-color-center > img {
+        max-height: 55vh;
+        width: auto;
+        max-width: 90%;
+        border-radius: 12px;
+        object-fit: contain;
+    }
+
+    /* Color picker mobile */
+    .color-picker-mobile {
+        display: flex !important;
+        position: fixed;
+        bottom: 110px;
+        left: 50%;
+        transform: translateX(-50%);
+        gap: 10px;
+        padding: 10px 16px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 24px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        z-index: 90;
+    }
+
+    .color-swatch {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 2px solid transparent;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .color-swatch.active {
+        border-color: #1a1a1a;
+        transform: scale(1.1);
+    }
+
+    /* === 11. STEP 6: ECOMMERCE KITS === */
+    .ecommerce-section {
+        padding: 70px 0 110px !important;
+    }
+
+    .ecommerce-loading {
+        padding: 0 16px !important;
+    }
+
+    .loading-content {
+        max-width: 100%;
+    }
+
+    .prompt-box {
+        padding: 12px 16px !important;
+    }
+
+    .prompt-text {
+        font-size: 1.1rem !important;
+    }
+
+    .generate-btn {
+        padding: 12px 24px !important;
+        font-size: 0.85rem !important;
+        border-radius: 8px;
+    }
+
+    .loading-spinner span {
+        font-size: 0.8rem;
+    }
+
+    /* Results grid */
+    .results-slider-container {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        height: calc(100vh - 180px);
+        padding: 0 16px;
+    }
+
+    .results-slider {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        animation: none !important;
+        width: 100% !important;
+        transform: none !important;
+    }
+
+    .result-slide {
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 3/4;
+        border-radius: 10px;
+        flex-shrink: 0;
+    }
+
+    .result-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+    .slide-label {
+        font-size: 0.6rem !important;
+        padding: 3px 8px;
+        top: 6px;
+        left: 6px;
+        border-radius: 4px;
+    }
+
+    /* === 12. STEP 7: IMAGE TO VIDEO === */
+    .image-to-video-section {
+        flex-direction: column !important;
+        padding: 70px 16px 110px !important;
+        gap: 16px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .video-comparison-container {
+        display: none !important;
+    }
+
+    .image-to-video-player {
+        width: 100% !important;
+        max-width: none !important;
+        max-height: 60vh;
+        border-radius: 12px;
+        object-fit: contain;
+    }
+
+    /* === 13. GLOBAL TEXT SIZES === */
+    h1 {
+        font-size: 1.4rem !important;
+    }
+
+    h2 {
+        font-size: 1.2rem !important;
+    }
+
+    h3 {
+        font-size: 1rem !important;
+    }
+
+    p {
+        font-size: 0.85rem !important;
+        line-height: 1.5;
+    }
+
+    .small-tag,
+    .feature-tag {
+        font-size: 0.6rem !important;
+    }
+}
+
+/* Hide mobile-only elements on desktop */
+@media (min-width: 769px) {
+    .pose-grid-mobile,
+    .customize-tabs-mobile,
+    .customize-content-mobile,
+    .retouch-mobile,
+    .color-picker-mobile {
+        display: none !important;
+    }
+}
+
+/* Mobile element visibility by step */
+@media (max-width: 768px) {
+    /* Default: hide all mobile step elements */
+    .pose-grid-mobile,
+    .customize-tabs-mobile,
+    .customize-content-mobile,
+    .retouch-mobile,
+    .color-picker-mobile {
+        display: none !important;
+    }
+
+    /* Step 2: Show pose grid */
+    .main-container.step-2 .pose-grid-mobile {
+        display: grid !important;
+    }
+
+    /* Step 3: Show customize tabs and content */
+    .main-container.step-3 .customize-tabs-mobile {
+        display: flex !important;
+    }
+
+    .main-container.step-3 .customize-content-mobile {
+        display: flex !important;
+    }
+
+    /* Step 4: Show retouch mobile */
+    .main-container.step-4 .retouch-mobile {
+        display: flex !important;
+    }
+
+    /* Step 5: Show color picker */
+    .main-container.step-5 .color-picker-mobile {
+        display: flex !important;
+    }
+
+    /* Hide scene selector except in step 1 */
+    .scene-selector {
+        display: none !important;
+    }
+
+    .main-container.step-1 .scene-selector {
+        display: flex !important;
+    }
+
+    /* Hide scene text container except in step 1 */
+    .scene-text-container {
+        display: none !important;
+    }
+
+    .main-container.step-1 .scene-text-container {
+        display: block !important;
     }
 }

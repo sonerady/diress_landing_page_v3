@@ -649,16 +649,44 @@ scene.add(textPlane);
 
 function getScale(image, sceneIndex = null) {
     if (!image || !image.width) return new THREE.Vector2(1, 1);
-    const screenAspect = artWrapper.clientWidth / artWrapper.clientHeight;
+
+    // Use window dimensions for mobile, artWrapper for desktop
+    const isMobileView = window.innerWidth <= 768;
+    const screenWidth = isMobileView ? window.innerWidth : artWrapper.clientWidth;
+    const screenHeight = isMobileView ? window.innerHeight : artWrapper.clientHeight;
+
+    const screenAspect = screenWidth / screenHeight;
     const imageAspect = image.width / image.height;
 
     // Zoom in slightly (0.98) to leave room for parallax movement
     const zoom = 0.98;
 
-    if (screenAspect > imageAspect) {
-        return new THREE.Vector2(1 * zoom, (imageAspect / screenAspect) * zoom);
+    if (isMobileView) {
+        // Mobile: COVER behavior - fill screen, crop excess
+        // We want video to fill the entire screen without black bars
+        // This means we scale up until the smaller dimension fills
+
+        // For a 16:9 video on 9:16 screen:
+        // imageAspect = 1.78, screenAspect = 0.56
+        // ratio = 0.56 / 1.78 = 0.31
+        // We need to show only 31% of the video width to fill the screen height
+
+        const ratio = screenAspect / imageAspect;
+
+        if (ratio < 1) {
+            // Screen is narrower than video - crop horizontally (show middle of video)
+            return new THREE.Vector2(ratio * zoom, 1 * zoom);
+        } else {
+            // Screen is wider than video - crop vertically
+            return new THREE.Vector2(1 * zoom, (1 / ratio) * zoom);
+        }
     } else {
-        return new THREE.Vector2((screenAspect / imageAspect) * zoom, 1 * zoom);
+        // Desktop: CONTAIN behavior - fit entire image, may have letterboxing
+        if (screenAspect > imageAspect) {
+            return new THREE.Vector2(1 * zoom, (imageAspect / screenAspect) * zoom);
+        } else {
+            return new THREE.Vector2((screenAspect / imageAspect) * zoom, 1 * zoom);
+        }
     }
 }
 
@@ -709,14 +737,35 @@ function updateForegroundUVScale() {
 
 // Layout Handling
 const resizeObserver = new ResizeObserver(() => {
-    const width = artWrapper.clientWidth;
-    const height = artWrapper.clientHeight;
-    renderer.setSize(width, height);
+    const isMobileView = window.innerWidth <= 768;
+
+    if (isMobileView) {
+        // Mobile: Use full viewport for "cover" effect
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        renderer.setSize(width, height);
+    } else {
+        // Desktop: Use artWrapper dimensions
+        const width = artWrapper.clientWidth;
+        const height = artWrapper.clientHeight;
+        renderer.setSize(width, height);
+    }
+
     updateAllUVScales();
     updateForegroundUVScale();
     updateTextScale();
 });
 resizeObserver.observe(artWrapper);
+
+// Also listen to window resize for mobile
+window.addEventListener('resize', () => {
+    if (window.innerWidth <= 768) {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        updateAllUVScales();
+        updateForegroundUVScale();
+        updateTextScale();
+    }
+});
 
 // Handle Resize for Text Plane to prevent distortion
 function updateTextScale() {
@@ -729,10 +778,21 @@ function updateTextScale() {
     // Calculate aspect based on artWrapper dimensions
     const aspect = width / height;
 
+    // Mobile: scale down the text
+    const isMobileView = window.innerWidth <= 768;
+    const mobileScale = isMobileView ? 0.5 : 1.0;
+
     // Maintain 2:1 visual aspect ratio regardless of screen shape
     // ScaleY is base (1.0), ScaleX must be adjusted by aspect to cancel camera stretch
-    textPlane.scale.y = 1.0;
-    textPlane.scale.x = textPlane.scale.y / aspect;
+    textPlane.scale.y = 1.0 * mobileScale;
+    textPlane.scale.x = (textPlane.scale.y / aspect) * mobileScale;
+
+    // Move text up on mobile to not overlap with bottom nav
+    if (isMobileView) {
+        textPlane.position.y = 0.75;
+    } else {
+        textPlane.position.y = 0.65;
+    }
 }
 
 // Initial call
@@ -2074,6 +2134,11 @@ function resetMoodAnimations() {
 updateUI = function () {
     originalUpdateUI();
 
+    // Update mobile navigation
+    if (typeof updateMobileNav === 'function') {
+        updateMobileNav();
+    }
+
     // Ecommerce animation for Step 6
     if (currentStep === 6) {
         playEcommerceLoadingAnimation();
@@ -2943,4 +3008,244 @@ function handlePoseScroll(deltaY) {
 
 // Initialize Three.js Pose Scene
 initPoseThreeJS();
+
+// --- Mobile Hamburger Menu ---
+const hamburgerMenu = document.getElementById('hamburger-menu');
+const mobileMenu = document.getElementById('mobile-menu');
+
+if (hamburgerMenu && mobileMenu) {
+    hamburgerMenu.addEventListener('click', (e) => {
+        e.stopPropagation();
+        hamburgerMenu.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!mobileMenu.contains(e.target) && !hamburgerMenu.contains(e.target)) {
+            hamburgerMenu.classList.remove('active');
+            mobileMenu.classList.remove('active');
+        }
+    });
+
+    // Close menu when clicking a link
+    const mobileNavLinks = mobileMenu.querySelectorAll('a');
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            hamburgerMenu.classList.remove('active');
+            mobileMenu.classList.remove('active');
+        });
+    });
+}
+
+// --- Mobile Bottom Navigation ---
+const mobileBottomNav = document.getElementById('mobile-bottom-nav');
+const mobilePrevBtn = document.getElementById('mobile-prev-btn');
+const mobileNextBtn = document.getElementById('mobile-next-btn');
+const mobileStepIndicator = document.getElementById('mobile-step-indicator');
+const mobileStepLabel = document.getElementById('mobile-step-label');
+
+// Check if mobile
+function isMobile() {
+    return window.innerWidth <= 768;
+}
+
+// Render mobile step dots
+function renderMobileStepDots() {
+    if (!mobileStepIndicator) return;
+
+    mobileStepIndicator.innerHTML = steps.map((step, index) => `
+        <div class="mobile-step-dot ${index === currentStep ? 'active' : ''}" data-step="${index}"></div>
+    `).join('');
+}
+
+// Update mobile navigation state
+function updateMobileNav() {
+    if (!mobileBottomNav) return;
+
+    // Update step label
+    if (mobileStepLabel) {
+        mobileStepLabel.textContent = steps[currentStep].label;
+    }
+
+    // Update dots
+    const dots = mobileStepIndicator.querySelectorAll('.mobile-step-dot');
+    dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentStep);
+    });
+
+    // Update button states
+    if (mobilePrevBtn) {
+        mobilePrevBtn.disabled = currentStep === 0;
+    }
+    if (mobileNextBtn) {
+        mobileNextBtn.disabled = currentStep === steps.length - 1;
+    }
+}
+
+// Mobile navigation button handlers
+if (mobilePrevBtn) {
+    mobilePrevBtn.addEventListener('click', () => {
+        if (currentStep > 0) {
+            currentStep--;
+
+            // Handle scene transitions for specific steps
+            if (currentStep === 0) {
+                transitionToScene(0);
+            } else if (currentStep === 1) {
+                transitionToScene(1);
+            } else if (currentStep === 2) {
+                transitionToScene(0);
+            } else if (currentStep === 3) {
+                transitionToScene(4);
+            } else if (currentStep === 4) {
+                transitionToScene(0);
+            } else if (currentStep === 5) {
+                transitionToScene(4);
+            } else if (currentStep === 6) {
+                transitionToScene(0);
+            }
+
+            updateUI();
+            updateMobileNav();
+        }
+    });
+}
+
+if (mobileNextBtn) {
+    mobileNextBtn.addEventListener('click', () => {
+        if (currentStep < steps.length - 1) {
+            currentStep++;
+
+            // Handle scene transitions for specific steps
+            if (currentStep === 1) {
+                // Going to Select Scene - show scene 1
+                transitionToScene(1);
+            } else if (currentStep === 2) {
+                // Going to Change Pose
+                transitionToScene(0);
+            } else if (currentStep === 3) {
+                // Going to Customize Model
+                transitionToScene(4);
+            } else if (currentStep === 4) {
+                // Going to Retouch
+                transitionToScene(0);
+            } else if (currentStep === 5) {
+                // Going to Change Color
+                transitionToScene(4);
+            } else if (currentStep === 6) {
+                // Going to Ecommerce
+                transitionToScene(0);
+            } else if (currentStep === 7) {
+                // Going to Image to Video
+                transitionToScene(0);
+            }
+
+            updateUI();
+            updateMobileNav();
+        }
+    });
+}
+
+// Initialize mobile navigation
+renderMobileStepDots();
+updateMobileNav();
+
+// Add mobile nav update to the existing updateUI override chain
+// The originalUpdateUI is already defined earlier in the code
+// We just need to call updateMobileNav after UI updates
+
+// Watch for resize to toggle mobile behavior
+window.addEventListener('resize', () => {
+    updateMobileNav();
+    renderMobilePoseGrid();
+    updateMobileCustomizeTabs();
+    updateTextScale(); // Update text size on resize
+});
+
+// --- Mobile Pose Grid ---
+const poseGridMobile = document.getElementById('pose-grid-mobile');
+let currentPose = 0;
+
+function renderMobilePoseGrid() {
+    if (!poseGridMobile || !isMobile()) return;
+
+    // Use pose images from assets
+    const poseImages = [
+        '/assets/pose_stack/pose_1.png',
+        '/assets/pose_stack/pose_2.png',
+        '/assets/pose_stack/pose_3.png',
+        '/assets/pose_stack/pose_4.png',
+        '/assets/pose_stack/pose_5.png',
+        '/assets/pose_stack/pose_6.png',
+        '/assets/pose_stack/pose_7.png',
+        '/assets/pose_stack/pose_8.png',
+        '/assets/pose_stack/pose_9.png'
+    ];
+
+    poseGridMobile.innerHTML = poseData.map((pose, i) => `
+        <div class="pose-grid-item ${i === currentPose ? 'selected' : ''}" data-pose="${i}">
+            <img src="${poseImages[i]}" alt="${pose.big}" loading="lazy">
+        </div>
+    `).join('');
+
+    // Click handlers
+    poseGridMobile.querySelectorAll('.pose-grid-item').forEach(item => {
+        item.addEventListener('click', () => {
+            currentPose = parseInt(item.dataset.pose);
+            renderMobilePoseGrid();
+        });
+    });
+}
+
+// --- Mobile Customize Tabs ---
+const customizeTabsMobile = document.getElementById('customize-tabs-mobile');
+const customizeContentMobile = document.getElementById('customize-content-mobile');
+
+function updateMobileCustomizeTabs() {
+    if (!customizeTabsMobile || !isMobile()) return;
+
+    // Update active tab
+    const tabs = customizeTabsMobile.querySelectorAll('.customize-tab');
+    tabs.forEach((tab, index) => {
+        tab.classList.toggle('active', index === currentSubStep);
+    });
+
+    // Update content
+    if (customizeContentMobile && subSteps[currentSubStep]) {
+        const step = subSteps[currentSubStep];
+        customizeContentMobile.innerHTML = `
+            <h3>${step.label}</h3>
+            <p>${step.description}</p>
+        `;
+    }
+}
+
+// Tab click handlers
+if (customizeTabsMobile) {
+    customizeTabsMobile.querySelectorAll('.customize-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            currentSubStep = parseInt(tab.dataset.substep);
+            updateMobileCustomizeTabs();
+            updateUI();
+        });
+    });
+}
+
+// --- Mobile Color Picker ---
+const colorPickerMobile = document.getElementById('color-picker-mobile');
+if (colorPickerMobile) {
+    colorPickerMobile.querySelectorAll('.color-swatch').forEach(swatch => {
+        swatch.addEventListener('click', () => {
+            colorPickerMobile.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+            swatch.classList.add('active');
+        });
+    });
+}
+
+// Initialize mobile elements
+if (isMobile()) {
+    renderMobilePoseGrid();
+    updateMobileCustomizeTabs();
+}
 
