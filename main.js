@@ -3302,6 +3302,25 @@ function updateMobileStepContent() {
             stopPoseAutoSlide();
         }
     }
+
+    // Step 3: Customize Model - Update info based on currentSubStep
+    if (currentStep === 3 && isMobile()) {
+        updateMobileCustomizeInfo();
+    }
+}
+
+// Mobile Customize Info Update
+function updateMobileCustomizeInfo() {
+    const smallText = document.getElementById('mobile-customize-small');
+    const titleText = document.getElementById('mobile-customize-title');
+
+    if (!smallText || !titleText) return;
+
+    const step = subSteps[currentSubStep];
+    if (step) {
+        smallText.textContent = step.label;
+        titleText.textContent = step.description;
+    }
 }
 
 // Change to next video on mobile Step 1 when next button is pressed
@@ -3392,11 +3411,9 @@ function mobileStep1NextVideo() {
     return false; // All videos shown, allow step advance
 }
 
-// Call on init
-updateMobileStepContent();
-
 // --- Mobile Pose Carousel ---
 let currentMobilePose = 0;
+let poseAutoSlideInterval = null;
 
 // Use the same pose images as canvas (from assets/poses folder)
 const mobilePoseImages = [
@@ -3416,14 +3433,22 @@ function initMobilePoseCarousel() {
     const track = document.getElementById('pose-carousel-track');
     const indicators = document.getElementById('pose-indicators');
 
-    if (!track || !isMobile()) return;
+    // Always create slides (CSS controls visibility)
+    if (!track) {
+        console.log('Pose carousel track not found');
+        return;
+    }
 
-    // Create slides
-    track.innerHTML = poseData.map((pose, i) => `
-        <div class="pose-carousel-slide" data-pose="${i}">
-            <img src="${mobilePoseImages[i]}" alt="${pose.big}" loading="lazy">
-        </div>
-    `).join('');
+    // Only create slides if not already created
+    if (track.children.length === 0) {
+        // Create slides
+        track.innerHTML = poseData.map((pose, i) => `
+            <div class="pose-carousel-slide" data-pose="${i}">
+                <img src="${mobilePoseImages[i]}" alt="${pose.big}">
+            </div>
+        `).join('');
+        console.log('Pose carousel slides created:', track.children.length);
+    }
 
     // Create indicators
     if (indicators) {
@@ -3529,8 +3554,6 @@ function resetMobilePoseCarousel() {
 }
 
 // Auto-slide pose carousel
-let poseAutoSlideInterval = null;
-
 function startPoseAutoSlide() {
     if (poseAutoSlideInterval) return;
 
@@ -3553,8 +3576,12 @@ function stopPoseAutoSlide() {
     }
 }
 
-// Initialize carousel
-initMobilePoseCarousel();
+// Initialize carousel after DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMobilePoseCarousel);
+} else {
+    initMobilePoseCarousel();
+}
 
 // Legacy function name for compatibility
 function renderMobilePoseGrid() {
@@ -3616,4 +3643,7 @@ if (isMobile()) {
     renderMobilePoseGrid();
     updateMobileCustomizeTabs();
 }
+
+// Call updateMobileStepContent on init (after all variables are defined)
+updateMobileStepContent();
 

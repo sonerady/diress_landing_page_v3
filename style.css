@@ -5281,7 +5281,7 @@ footer {
     /* Pose Info Overlay - Bottom Left */
     .pose-info-overlay {
         position: absolute;
-        bottom: 90px;
+        bottom: calc(110px + env(safe-area-inset-bottom, 20px));
         left: 20px;
         right: 20px;
         z-index: 30;
@@ -5307,28 +5307,56 @@ footer {
         transition: opacity 0.3s ease;
     }
 
-    /* Pose Indicators - Dots */
-    .pose-indicators {
+    /* Pose Feature Tags - Top Right, no background */
+    .pose-feature-tags {
         position: absolute;
-        bottom: 70px;
-        left: 20px;
+        top: 70px;
+        right: 16px;
         display: flex;
+        flex-direction: column;
+        align-items: flex-end;
         gap: 6px;
         z-index: 30;
     }
 
+    .pose-feature-tag {
+        background: transparent;
+        color: #1a1a1a;
+        padding: 0;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-align: right;
+    }
+
+    /* Pose Indicators - Vertical Left Side */
+    .pose-indicators {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        z-index: 30;
+    }
+
     .pose-indicator {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: rgba(0, 0, 0, 0.2);
+        width: 4px;
+        height: 20px;
+        border-radius: 2px;
+        background: rgba(0, 0, 0, 0.15);
         transition: all 0.3s ease;
         cursor: pointer;
     }
 
+    .pose-indicator:hover {
+        background: rgba(0, 0, 0, 0.3);
+    }
+
     .pose-indicator.active {
-        width: 20px;
-        border-radius: 3px;
+        width: 4px;
+        height: 32px;
+        border-radius: 2px;
         background: #1a1a1a;
     }
 
@@ -5377,8 +5405,14 @@ footer {
         background: #1a1a1a !important;
     }
 
-    /* Step 2: Dark navigation buttons */
-    .main-container.step-2 .mobile-nav-btn {
+    /* Step 2: Navigation buttons - Back white, Next dark */
+    .main-container.step-2 .mobile-nav-btn.prev {
+        background: #fff !important;
+        color: #1a1a1a !important;
+        border: 1px solid #1a1a1a !important;
+    }
+
+    .main-container.step-2 .mobile-nav-btn.next {
         background: #1a1a1a !important;
         color: #fff !important;
     }
@@ -5386,6 +5420,70 @@ footer {
     .main-container.step-2 .mobile-nav-btn:disabled {
         background: #e0e0e0 !important;
         color: #999 !important;
+        border: none !important;
+    }
+
+    /* === STEP 3 SPECIFIC: Clean header/bottom for Customize screen === */
+    .main-container.step-3 header {
+        height: 56px !important;
+        padding-top: 0 !important;
+        align-items: center !important;
+        background: #fff !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .main-container.step-3 .hamburger-line {
+        background: #1a1a1a !important;
+    }
+
+    .main-container.step-3 .hamburger-menu {
+        background: rgba(0, 0, 0, 0.05) !important;
+        border-color: rgba(0, 0, 0, 0.2) !important;
+    }
+
+    .main-container.step-3 .mobile-store-btn {
+        background: rgba(0, 0, 0, 0.05) !important;
+        border-color: rgba(0, 0, 0, 0.2) !important;
+        color: #1a1a1a !important;
+    }
+
+    .main-container.step-3 .logo-text {
+        color: #1a1a1a !important;
+    }
+
+    .main-container.step-3 .mobile-bottom-nav {
+        background: #fff !important;
+        border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .main-container.step-3 .mobile-step-label {
+        color: #1a1a1a !important;
+    }
+
+    .main-container.step-3 .mobile-step-dot {
+        background: rgba(0, 0, 0, 0.2) !important;
+    }
+
+    .main-container.step-3 .mobile-step-dot.active {
+        background: #1a1a1a !important;
+    }
+
+    /* Step 3: Navigation buttons - Back white, Next dark */
+    .main-container.step-3 .mobile-nav-btn.prev {
+        background: #fff !important;
+        color: #1a1a1a !important;
+        border: 1px solid #1a1a1a !important;
+    }
+
+    .main-container.step-3 .mobile-nav-btn.next {
+        background: #1a1a1a !important;
+        color: #fff !important;
+    }
+
+    .main-container.step-3 .mobile-nav-btn:disabled {
+        background: #e0e0e0 !important;
+        color: #999 !important;
+        border: none !important;
     }
 
     /* === 8. STEP 3: CUSTOMIZE MODEL === */
@@ -5698,7 +5796,8 @@ footer {
     .customize-tabs-mobile,
     .customize-content-mobile,
     .retouch-mobile,
-    .color-picker-mobile {
+    .color-picker-mobile,
+    .mobile-step-3 {
         display: none !important;
     }
 
@@ -5707,13 +5806,15 @@ footer {
         display: block !important;
     }
 
-    /* Step 3: Show customize tabs and content */
-    .main-container.step-3 .customize-tabs-mobile {
-        display: flex !important;
+    /* Step 3: Show mobile customize screen */
+    .main-container.step-3 .mobile-step-3 {
+        display: block !important;
     }
 
+    /* Hide old customize elements on mobile step 3 */
+    .main-container.step-3 .customize-tabs-mobile,
     .main-container.step-3 .customize-content-mobile {
-        display: flex !important;
+        display: none !important;
     }
 
     /* Step 4: Show retouch mobile */
@@ -5724,6 +5825,98 @@ footer {
     /* Step 5: Show color picker */
     .main-container.step-5 .color-picker-mobile {
         display: flex !important;
+    }
+
+    /* === MOBILE STEP 3: CUSTOMIZE MODEL === */
+    .mobile-step-3 {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: #fff;
+        z-index: 10;
+        overflow: hidden;
+    }
+
+    /* Background Color Boxes - Grid Layout */
+    .mobile-customize-colors {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        z-index: 1;
+    }
+
+    .mobile-color-box {
+        width: 100%;
+        height: 100%;
+        opacity: 0.3;
+    }
+
+    /* Center Model Image */
+    .mobile-customize-model {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-height: 75vh;
+        max-width: 85vw;
+        object-fit: contain;
+        z-index: 10;
+    }
+
+    /* Feature Tags - Top Right */
+    .mobile-customize-tags {
+        position: absolute;
+        top: 70px;
+        right: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 6px;
+        z-index: 30;
+    }
+
+    .mobile-customize-tag {
+        background: transparent;
+        color: #1a1a1a;
+        padding: 0;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-align: right;
+    }
+
+    /* Info Overlay - Bottom Left */
+    .mobile-customize-info {
+        position: absolute;
+        bottom: calc(110px + env(safe-area-inset-bottom, 20px));
+        left: 20px;
+        right: 20px;
+        z-index: 30;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .mobile-customize-small {
+        color: #666;
+        font-size: 0.75rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .mobile-customize-title {
+        color: #1a1a1a;
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin: 0;
+        line-height: 1.3;
     }
 
     /* Scene visibility rules handled earlier in mobile section */
