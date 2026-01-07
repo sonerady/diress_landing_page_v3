@@ -356,13 +356,59 @@
             </div>
           </div>
 
-          <!-- Mobile Color Picker -->
-          <div class="color-picker-mobile" id="color-picker-mobile">
-            <div class="color-swatch active" style="background: #B6B870;" data-color="olive"></div>
-            <div class="color-swatch" style="background: #2C3E50;" data-color="navy"></div>
-            <div class="color-swatch" style="background: #722F37;" data-color="burgundy"></div>
-            <div class="color-swatch" style="background: #C19A6B;" data-color="camel"></div>
-            <div class="color-swatch" style="background: #1a1a1a;" data-color="black"></div>
+          <!-- Mobile Color Layout - Like Desktop -->
+          <div class="color-mobile-layout" id="color-mobile-layout">
+            <!-- Background Color -->
+            <div class="color-mobile-bg"></div>
+
+            <!-- Top Gradient -->
+            <div class="color-mobile-gradient-top"></div>
+
+            <!-- Background Boxes (behind main image) -->
+            <div class="color-mobile-boxes">
+              <div class="color-box-item left">
+                <img src="/assets/change_color_left.png" alt="Color variant left">
+              </div>
+              <div class="color-box-item center">
+                <img src="/assets/change_color_back.png" alt="Color variant back">
+              </div>
+              <div class="color-box-item right">
+                <img src="/assets/change_color_zoom.png" alt="Color variant zoom">
+              </div>
+            </div>
+
+            <!-- Main Front Image (in front) -->
+            <div class="color-mobile-front">
+              <img src="/assets/change_color_front.png" alt="AI model with color variant">
+            </div>
+
+            <!-- Bottom Gradient -->
+            <div class="color-mobile-gradient-bottom"></div>
+
+            <!-- Info Section -->
+            <div class="color-mobile-info">
+              <span class="color-mobile-tag">AI Colors</span>
+              <h3 class="color-mobile-title">Unlimited Color Variants</h3>
+            </div>
+
+            <!-- Color Swatches -->
+            <div class="color-swatches-mobile">
+              <div class="color-swatch-item active" data-color="olive">
+                <span class="swatch-circle" style="background: #B6B870;"></span>
+              </div>
+              <div class="color-swatch-item" data-color="navy">
+                <span class="swatch-circle" style="background: #2C3E50;"></span>
+              </div>
+              <div class="color-swatch-item" data-color="burgundy">
+                <span class="swatch-circle" style="background: #722F37;"></span>
+              </div>
+              <div class="color-swatch-item" data-color="camel">
+                <span class="swatch-circle" style="background: #C19A6B;"></span>
+              </div>
+              <div class="color-swatch-item" data-color="black">
+                <span class="swatch-circle" style="background: #1a1a1a;"></span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -458,25 +504,22 @@
             <!-- Labels -->
             <span class="retouch-label-before">Before</span>
             <span class="retouch-label-after">After</span>
-          </div>
-        </div>
 
-        <!-- Thumbnail Selector -->
-        <div class="retouch-thumbnails" id="retouch-thumbnails">
-          <div class="retouch-thumb active" data-index="0">
-            <img src="/assets/results-products-2/amateur-after-0.JPG" alt="Product 1">
-          </div>
-          <div class="retouch-thumb" data-index="1">
-            <img src="/assets/results-products-2/amateur-after-1.JPG" alt="Product 2">
-          </div>
-          <div class="retouch-thumb" data-index="2">
-            <img src="/assets/results-products-2/amateur-after-2.JPG" alt="Product 3">
-          </div>
-          <div class="retouch-thumb" data-index="3">
-            <img src="/assets/results-products-2/amateur-after-3.JPG" alt="Product 4">
-          </div>
-          <div class="retouch-thumb" data-index="4">
-            <img src="/assets/results-products-2/amateur-after-5.JPG" alt="Product 5">
+            <!-- Thumbnail Selector - Inside card with gradient -->
+            <div class="retouch-thumbnails-inner" id="retouch-thumbnails">
+              <div class="retouch-thumb active" data-index="0">
+                <img src="/assets/results-products-2/amateur-after-0.JPG" alt="Product 1">
+              </div>
+              <div class="retouch-thumb" data-index="1">
+                <img src="/assets/results-products-2/amateur-after-1.JPG" alt="Product 2">
+              </div>
+              <div class="retouch-thumb" data-index="2">
+                <img src="/assets/results-products-2/amateur-after-2.JPG" alt="Product 3">
+              </div>
+              <div class="retouch-thumb" data-index="3">
+                <img src="/assets/results-products-2/amateur-after-3.JPG" alt="Product 4">
+              </div>
+            </div>
           </div>
         </div>
 

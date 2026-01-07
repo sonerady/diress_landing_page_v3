@@ -3910,8 +3910,9 @@ function initMobileRetouchSlider() {
         // Update handle position
         handle.style.left = percent + '%';
 
-        // Update before clip width
-        beforeClip.style.width = percent + '%';
+        // Update before clip using clip-path (prevents image scaling)
+        const rightClip = 100 - percent;
+        beforeClip.style.clipPath = `inset(0 ${rightClip}% 0 0)`;
     }
 
     // Mouse events
@@ -3962,8 +3963,7 @@ const retouchProductData = [
     { before: '/assets/amateur-products-2/amateur-before-0.png', after: '/assets/results-products-2/amateur-after-0.JPG' },
     { before: '/assets/amateur-products-2/amateur-before-1.png', after: '/assets/results-products-2/amateur-after-1.JPG' },
     { before: '/assets/amateur-products-2/amateur-before-2.png', after: '/assets/results-products-2/amateur-after-2.JPG' },
-    { before: '/assets/amateur-products-2/amateur-before-3.png', after: '/assets/results-products-2/amateur-after-3.JPG' },
-    { before: '/assets/amateur-products-2/amateur-before-5.png', after: '/assets/results-products-2/amateur-after-5.JPG' }
+    { before: '/assets/amateur-products-2/amateur-before-3.png', after: '/assets/results-products-2/amateur-after-3.JPG' }
 ];
 
 function initRetouchThumbnails() {
@@ -3993,7 +3993,7 @@ function initRetouchThumbnails() {
                 afterImg.src = retouchProductData[index].after;
 
                 // Reset slider position to 50%
-                if (beforeClip) beforeClip.style.width = '50%';
+                if (beforeClip) beforeClip.style.clipPath = 'inset(0 50% 0 0)';
                 if (handle) handle.style.left = '50%';
 
                 beforeImg.style.opacity = '1';
