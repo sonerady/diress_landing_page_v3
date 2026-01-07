@@ -2422,6 +2422,69 @@ function initChangeColorBadges() {
                 badge.classList.add('active');
             }
         });
+
+        // === MOBILE: Update mobile color layout ===
+        const mobileLayout = document.getElementById('color-mobile-layout');
+        if (mobileLayout) {
+            // Update mobile background
+            const mobileBg = mobileLayout.querySelector('.color-mobile-bg');
+            if (mobileBg) mobileBg.style.background = scheme.bg;
+
+            // Update mobile front image
+            const mobileFront = mobileLayout.querySelector('.color-mobile-front img');
+            if (mobileFront) mobileFront.src = scheme.images.front;
+
+            // Update mobile box images
+            const mobileLeftImg = mobileLayout.querySelector('.color-box-item.left img');
+            const mobileCenterImg = mobileLayout.querySelector('.color-box-item.center img');
+            const mobileRightImg = mobileLayout.querySelector('.color-box-item.right img');
+
+            if (mobileLeftImg) mobileLeftImg.src = scheme.images.left;
+            if (mobileCenterImg) mobileCenterImg.src = scheme.images.back;
+            if (mobileRightImg) mobileRightImg.src = scheme.images.zoom;
+
+            // Update mobile box gradients
+            const mobileBoxes = mobileLayout.querySelectorAll('.color-box-item');
+            mobileBoxes.forEach(box => {
+                box.style.setProperty('--gradient-dark', scheme.gradientColors.dark);
+                box.style.setProperty('--gradient-medium', scheme.gradientColors.medium);
+                box.style.setProperty('--gradient-light', scheme.gradientColors.light);
+                box.style.setProperty('--gradient-transparent', scheme.gradientColors.transparent);
+            });
+
+            // Update mobile top/bottom gradients
+            const mobileGradientTop = mobileLayout.querySelector('.color-mobile-gradient-top');
+            const mobileGradientBottom = mobileLayout.querySelector('.color-mobile-gradient-bottom');
+
+            if (mobileGradientTop) {
+                mobileGradientTop.style.background = `linear-gradient(to bottom,
+                    ${scheme.gradientColors.dark} 0%,
+                    ${scheme.gradientColors.medium} 40%,
+                    ${scheme.gradientColors.transparent} 100%)`;
+            }
+            if (mobileGradientBottom) {
+                mobileGradientBottom.style.background = `linear-gradient(to top,
+                    ${scheme.gradientColors.dark} 0%,
+                    ${scheme.gradientColors.medium} 30%,
+                    ${scheme.gradientColors.light} 60%,
+                    ${scheme.gradientColors.transparent} 100%)`;
+            }
+
+            // Update mobile swatches active state
+            const mobileSwatches = mobileLayout.querySelectorAll('.color-swatch-item');
+            mobileSwatches.forEach(swatch => {
+                swatch.classList.remove('active');
+                if (swatch.dataset.color === schemeName) {
+                    swatch.classList.add('active');
+                }
+            });
+
+            // Update mobile color code display
+            const mobileHexCode = mobileLayout.querySelector('.mobile-hex-code');
+            const mobileColorName = mobileLayout.querySelector('.mobile-color-name');
+            if (mobileHexCode) mobileHexCode.textContent = scheme.hex;
+            if (mobileColorName) mobileColorName.textContent = scheme.name;
+        }
     }
 
     // Add click handlers to badges
@@ -2486,6 +2549,24 @@ function initChangeColorBadges() {
             if (badge.classList.contains('olive')) colorIndex = 0;
             else if (badge.classList.contains('navy')) colorIndex = 1;
             else if (badge.classList.contains('burgundy')) colorIndex = 2;
+            // Resume auto-rotation after 6 seconds
+            setTimeout(() => {
+                if (currentStep === 5) startAutoRotate();
+            }, 6000);
+        });
+    });
+
+    // === MOBILE: Add click handlers to mobile swatches ===
+    const mobileSwatches = document.querySelectorAll('.color-swatches-inline .color-swatch-item');
+    mobileSwatches.forEach(swatch => {
+        swatch.addEventListener('click', () => {
+            stopAutoRotate();
+            const color = swatch.dataset.color;
+            if (color === 'olive') colorIndex = 0;
+            else if (color === 'navy') colorIndex = 1;
+            else if (color === 'burgundy') colorIndex = 2;
+            currentColorScheme = ''; // Reset to allow transition
+            applyColorScheme(color);
             // Resume auto-rotation after 6 seconds
             setTimeout(() => {
                 if (currentStep === 5) startAutoRotate();
