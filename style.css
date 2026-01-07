@@ -4708,9 +4708,31 @@ footer {
         display: none !important;
     }
 
-    /* Hide logo text on mobile */
-    .logo-text {
-        display: none !important;
+    /* Show logo text on mobile - force white color */
+    .logo-text,
+    .main-container .logo-text,
+    .main-container.step-0 .logo-text,
+    .main-container.step-0.scene-0 .logo-text,
+    .main-container.step-1 .logo-text,
+    .main-container.step-2 .logo-text,
+    .main-container.step-3 .logo-text,
+    .main-container.step-4 .logo-text,
+    .main-container.step-5 .logo-text,
+    .main-container.step-6 .logo-text,
+    .main-container.step-7 .logo-text,
+    .main-container.scene-0 .logo-text,
+    .main-container.scene-1 .logo-text,
+    .main-container.scene-2 .logo-text,
+    .main-container.scene-3 .logo-text {
+        display: inline !important;
+        visibility: visible !important;
+        font-size: 1.1rem;
+        color: #ffffff !important;
+    }
+
+    /* Keep dot colored (not white) */
+    .logo-text .dot {
+        color: #ff6b35 !important;
     }
 
     .hamburger-menu {
@@ -4762,18 +4784,23 @@ footer {
         letter-spacing: 0;
     }
 
-    /* === 3. BOTTOM NAVIGATION - Modern === */
+    /* === 3. BOTTOM NAVIGATION - Fixed above browser bottom === */
     .mobile-bottom-nav {
+        position: fixed !important;
+        bottom: 0;
+        left: 0;
+        right: 0;
         display: flex;
         flex-direction: row;
         align-items: flex-end;
         justify-content: space-between;
-        height: 110px;
+        height: auto;
         background: linear-gradient(to top,
-            rgba(0, 0, 0, 0.85) 0%,
-            rgba(0, 0, 0, 0.6) 50%,
+            rgba(0, 0, 0, 0.95) 0%,
+            rgba(0, 0, 0, 0.7) 60%,
             rgba(0, 0, 0, 0) 100%);
-        padding: 16px 20px 32px;
+        padding: 20px 20px calc(20px + env(safe-area-inset-bottom, 20px));
+        z-index: 1000;
     }
 
     /* Left side - Step info */
@@ -4802,24 +4829,25 @@ footer {
         padding-left: 0 !important;
     }
 
+    /* Right side - Buttons side by side */
     .mobile-nav-content {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
-        gap: 6px;
+        gap: 10px;
     }
 
     .mobile-nav-btn {
-        width: 36px;
-        height: 36px;
-        min-width: 36px;
-        min-height: 36px;
-        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        min-height: 44px;
+        border-radius: 8px;
         background: rgba(255, 255, 255, 0.2);
         color: #ffffff;
         border: 1px solid rgba(255, 255, 255, 0.3);
         box-shadow: none;
-        font-size: 0.75rem;
+        font-size: 0.85rem;
         backdrop-filter: blur(10px);
         display: flex;
         align-items: center;
@@ -4833,14 +4861,15 @@ footer {
     }
 
     .mobile-nav-btn.next {
-        width: 36px;
-        height: 36px;
-        min-width: 36px;
-        min-height: 36px;
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        min-height: 44px;
         background: #ffffff;
         color: #1a1a1a;
         border: none;
-        font-size: 0.75rem;
+        font-size: 0.85rem;
+        border-radius: 8px;
     }
 
     .mobile-nav-btn:disabled {
@@ -4923,48 +4952,9 @@ footer {
     }
 
     /* === MOBILE STEP TRANSITION ANIMATION === */
-    /* Only animate content area, header and bottom nav stay fixed */
+    /* No transition animation - instant step changes */
     .col-center {
-        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .col-center.slide-up {
-        animation: slideUpContent 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-
-    .col-center.slide-down {
-        animation: slideDownContent 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-
-    @keyframes slideUpContent {
-        0% {
-            transform: translateY(100%);
-            opacity: 0;
-        }
-        100% {
-            transform: translateY(0);
-            opacity: 1;
-        }
-    }
-
-    @keyframes slideDownContent {
-        0% {
-            transform: translateY(-100%);
-            opacity: 0;
-        }
-        100% {
-            transform: translateY(0);
-            opacity: 1;
-        }
-    }
-
-    /* Also animate mobile step content */
-    .mobile-step-0.slide-up {
-        animation: slideUpContent 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-
-    .mobile-step-0.slide-down {
-        animation: slideDownContent 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        transition: none;
     }
 
     /* === MOBILE STEP 0: AI MODEL SCREEN === */

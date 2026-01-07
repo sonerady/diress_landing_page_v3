@@ -3091,39 +3091,10 @@ function updateMobileNav() {
     }
 }
 
-// Mobile smooth transition animation - only animates content, header/bottom stay fixed
+// Mobile step transition - instant, no animation
 function mobileSlideTransition(direction, callback) {
-    if (!isMobile()) {
-        callback();
-        return;
-    }
-
-    // Get content elements to animate
-    const colCenter = document.querySelector('.col-center');
-    const mobileStep0 = document.getElementById('mobile-step-0');
-
-    if (!colCenter) {
-        callback();
-        return;
-    }
-
-    // Add animation class based on direction
-    const animClass = direction === 'next' ? 'slide-up' : 'slide-down';
-
-    // Animate both col-center and mobile-step-0 if visible
-    colCenter.classList.add(animClass);
-    if (mobileStep0) {
-        mobileStep0.classList.add(animClass);
-    }
-
-    // Execute callback and remove animation class after animation completes
-    setTimeout(() => {
-        callback();
-        colCenter.classList.remove(animClass);
-        if (mobileStep0) {
-            mobileStep0.classList.remove(animClass);
-        }
-    }, 500);
+    // Just execute the callback immediately - no animation
+    callback();
 }
 
 // Mobile navigation button handlers
@@ -3263,17 +3234,33 @@ function updateMobileStepContent() {
     }
 
     // Force video texture update when entering Step 1 (AI Background)
-    if (currentStep === 1 && currentScene >= 1 && currentScene <= 3) {
-        // Ensure video is playing and texture updates
+    if (currentStep === 1 && isMobile()) {
+        // Ensure scene is set to 1 and video plays immediately
+        if (currentScene < 1 || currentScene > 3) {
+            currentScene = 1;
+        }
+
+        // Force instant transition - no animation
+        const activeTexture = textures[currentScene];
+        if (activeTexture) {
+            uniforms.texture1.value = activeTexture;
+            uniforms.texture2.value = activeTexture;
+            uniforms.progress.value = 0;
+            targetProgress = 0;
+        }
+
+        // Ensure video is playing
         const videos = [videoElement1, videoElement2, videoElement3];
-        const textures_arr = [textures[1], textures[2], textures[3]];
         const videoIndex = currentScene - 1;
         if (videos[videoIndex]) {
+            videos[videoIndex].currentTime = 0;
             videos[videoIndex].play().catch(e => console.log('Video play blocked:', e));
-            if (textures_arr[videoIndex]) {
-                textures_arr[videoIndex].needsUpdate = true;
-            }
         }
+
+        // Pause other videos
+        videos.forEach((v, i) => {
+            if (i !== videoIndex && v) v.pause();
+        });
     }
 
     // Auto-change scenes every 3 seconds on mobile Step 1 (AI Background)
