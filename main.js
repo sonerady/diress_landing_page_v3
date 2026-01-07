@@ -3957,6 +3957,59 @@ if (document.readyState === 'loading') {
     initMobileRetouchSlider();
 }
 
+// --- Mobile Retouch Thumbnail Selector ---
+const retouchProductData = [
+    { before: '/assets/amateur-products-2/amateur-before-0.png', after: '/assets/results-products-2/amateur-after-0.JPG' },
+    { before: '/assets/amateur-products-2/amateur-before-1.png', after: '/assets/results-products-2/amateur-after-1.JPG' },
+    { before: '/assets/amateur-products-2/amateur-before-2.png', after: '/assets/results-products-2/amateur-after-2.JPG' },
+    { before: '/assets/amateur-products-2/amateur-before-3.png', after: '/assets/results-products-2/amateur-after-3.JPG' },
+    { before: '/assets/amateur-products-2/amateur-before-5.png', after: '/assets/results-products-2/amateur-after-5.JPG' }
+];
+
+function initRetouchThumbnails() {
+    const thumbnails = document.querySelectorAll('.retouch-thumb');
+    const beforeImg = document.getElementById('retouch-before-mobile');
+    const afterImg = document.getElementById('retouch-after-mobile');
+    const beforeClip = document.getElementById('retouch-before-clip');
+    const handle = document.getElementById('retouch-slider-handle');
+
+    if (!thumbnails.length || !beforeImg || !afterImg) return;
+
+    thumbnails.forEach((thumb) => {
+        thumb.addEventListener('click', () => {
+            const index = parseInt(thumb.dataset.index);
+            if (isNaN(index) || index < 0 || index >= retouchProductData.length) return;
+
+            // Update active state
+            thumbnails.forEach(t => t.classList.remove('active'));
+            thumb.classList.add('active');
+
+            // Update images with fade effect
+            beforeImg.style.opacity = '0';
+            afterImg.style.opacity = '0';
+
+            setTimeout(() => {
+                beforeImg.src = retouchProductData[index].before;
+                afterImg.src = retouchProductData[index].after;
+
+                // Reset slider position to 50%
+                if (beforeClip) beforeClip.style.width = '50%';
+                if (handle) handle.style.left = '50%';
+
+                beforeImg.style.opacity = '1';
+                afterImg.style.opacity = '1';
+            }, 200);
+        });
+    });
+}
+
+// Initialize thumbnail selector
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initRetouchThumbnails);
+} else {
+    initRetouchThumbnails();
+}
+
 function mobileStep1NextVideo() {
     if (!isMobile() || currentStep !== 1) return false;
 

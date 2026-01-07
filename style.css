@@ -5590,55 +5590,28 @@ footer {
         left: 0;
         width: 100vw;
         height: 100vh;
-        background: #f8f8f8;
+        background: #fff;
         z-index: 10;
         overflow: hidden;
     }
 
     .main-container.step-4 .retouch-mobile {
-        display: block !important;
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 70px 30px 200px;
+        box-sizing: border-box;
     }
 
-    /* Top White Gradient */
-    .retouch-mobile-top-gradient {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 120px;
-        background: linear-gradient(to bottom,
-            rgba(255, 255, 255, 1) 0%,
-            rgba(255, 255, 255, 0.95) 40%,
-            rgba(255, 255, 255, 0) 100%);
-        z-index: 20;
-        pointer-events: none;
-    }
-
-    /* Bottom White Gradient */
-    .retouch-mobile-bottom-gradient {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 150px;
-        background: linear-gradient(to top,
-            rgba(255, 255, 255, 1) 0%,
-            rgba(255, 255, 255, 0.95) 50%,
-            rgba(255, 255, 255, 0) 100%);
-        z-index: 20;
-        pointer-events: none;
-    }
-
-    /* Comparison Container */
+    /* Comparison Container - positioned higher */
     .retouch-comparison-container {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 85%;
-        max-width: 350px;
+        position: relative;
+        width: 100%;
+        max-width: 280px;
         aspect-ratio: 3/4;
-        z-index: 10;
+        flex-shrink: 0;
+        margin-top: 10px;
     }
 
     .retouch-comparison-wrapper {
@@ -5647,7 +5620,8 @@ footer {
         height: 100%;
         border-radius: 16px;
         overflow: hidden;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
     }
 
     /* After Image - Full Background */
@@ -5685,7 +5659,7 @@ footer {
         top: 0;
         left: 50%;
         transform: translateX(-50%);
-        width: 4px;
+        width: 44px;
         height: 100%;
         cursor: ew-resize;
         z-index: 15;
@@ -5699,7 +5673,7 @@ footer {
         width: 3px;
         height: 100%;
         background: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
     }
 
     .retouch-slider-circle {
@@ -5726,7 +5700,7 @@ footer {
     .retouch-label-before,
     .retouch-label-after {
         position: absolute;
-        top: 16px;
+        top: 12px;
         background: rgba(0, 0, 0, 0.6);
         color: #fff;
         padding: 6px 14px;
@@ -5744,32 +5718,161 @@ footer {
         right: 12px;
     }
 
-    /* Info Card */
-    .retouch-mobile-info {
-        position: absolute;
-        bottom: 100px;
-        left: 20px;
-        right: 20px;
+    /* Thumbnail Selector - Fixed above bottom nav with gap */
+    .retouch-thumbnails {
+        position: fixed;
+        bottom: calc(95px + env(safe-area-inset-bottom, 0px));
+        left: 16px;
+        right: 16px;
+        display: flex;
+        justify-content: center;
+        gap: 12px;
         z-index: 25;
+        padding: 14px 20px;
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 16px;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .retouch-thumb {
+        width: 54px;
+        height: 54px;
+        border-radius: 12px;
+        overflow: hidden;
+        cursor: pointer;
+        opacity: 0.5;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    .retouch-thumb.active {
+        opacity: 1;
+        border-color: #1a1a1a;
+    }
+
+    .retouch-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Info Card - Fixed just above thumbnails */
+    .retouch-mobile-info {
+        position: fixed;
+        bottom: calc(190px + env(safe-area-inset-bottom, 0px));
+        left: 20px;
+        z-index: 30;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
     }
 
     .retouch-mobile-tag {
         display: inline-block;
-        background: rgba(26, 26, 26, 0.08);
-        color: #1a1a1a;
-        padding: 6px 12px;
-        border-radius: 20px;
-        font-size: 0.7rem;
+        background: transparent;
+        color: #666;
+        padding: 0;
+        font-size: 0.75rem;
         font-weight: 500;
-        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
     .retouch-mobile-title {
-        font-size: 1.1rem;
+        font-size: 1.4rem;
         font-weight: 600;
         color: #1a1a1a;
-        line-height: 1.4;
+        line-height: 1.2;
         margin: 0;
+        max-width: 200px;
+    }
+
+    /* Retouch Feature Badges - Below title */
+    .retouch-feature-tags {
+        display: none;
+    }
+
+    .retouch-feature-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 8px;
+    }
+
+    .retouch-feature-badge {
+        background: rgba(26, 26, 26, 0.08);
+        color: #1a1a1a;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.65rem;
+        font-weight: 500;
+    }
+
+    /* === STEP 4 SPECIFIC: Clean header/bottom like Pose screen === */
+    .main-container.step-4 header {
+        height: 56px !important;
+        padding-top: 0 !important;
+        align-items: center !important;
+        background: #fff !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .main-container.step-4 .hamburger-line {
+        background: #1a1a1a !important;
+    }
+
+    .main-container.step-4 .hamburger-menu {
+        background: rgba(0, 0, 0, 0.05) !important;
+        border-color: rgba(0, 0, 0, 0.2) !important;
+    }
+
+    .main-container.step-4 .mobile-store-btn {
+        background: rgba(0, 0, 0, 0.05) !important;
+        border-color: rgba(0, 0, 0, 0.2) !important;
+        color: #1a1a1a !important;
+    }
+
+    .main-container.step-4 .logo-text {
+        color: #1a1a1a !important;
+    }
+
+    .main-container.step-4 .mobile-bottom-nav {
+        background: #fff !important;
+        border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .main-container.step-4 .mobile-step-label {
+        color: #1a1a1a !important;
+    }
+
+    .main-container.step-4 .mobile-step-dot {
+        background: rgba(0, 0, 0, 0.2) !important;
+    }
+
+    .main-container.step-4 .mobile-step-dot.active {
+        background: #1a1a1a !important;
+    }
+
+    /* Step 4: Navigation buttons - Back white, Next dark */
+    .main-container.step-4 .mobile-nav-btn.prev {
+        background: #fff !important;
+        color: #1a1a1a !important;
+        border: 1px solid #1a1a1a !important;
+    }
+
+    .main-container.step-4 .mobile-nav-btn.next {
+        background: #1a1a1a !important;
+        color: #fff !important;
+        width: 44px !important;
+        height: 44px !important;
+        box-shadow: none !important;
+        transform: none !important;
+    }
+
+    .main-container.step-4 .mobile-nav-btn:disabled {
+        background: #e0e0e0 !important;
+        color: #999 !important;
+        border: none !important;
     }
 
     /* === 10. STEP 5: CHANGE COLOR === */
