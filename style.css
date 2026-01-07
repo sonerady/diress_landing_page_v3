@@ -5584,38 +5584,192 @@ footer {
     }
 
     .retouch-mobile {
-        display: flex !important;
-        flex-direction: column;
-        gap: 12px;
-        padding: 70px 16px 110px;
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
         height: 100vh;
-        box-sizing: border-box;
-    }
-
-    .retouch-card {
-        flex: 1;
-        border-radius: 12px;
+        background: #f8f8f8;
+        z-index: 10;
         overflow: hidden;
-        position: relative;
-        background: #f5f5f5;
     }
 
-    .retouch-card img {
+    .main-container.step-4 .retouch-mobile {
+        display: block !important;
+    }
+
+    /* Top White Gradient */
+    .retouch-mobile-top-gradient {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 120px;
+        background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 1) 0%,
+            rgba(255, 255, 255, 0.95) 40%,
+            rgba(255, 255, 255, 0) 100%);
+        z-index: 20;
+        pointer-events: none;
+    }
+
+    /* Bottom White Gradient */
+    .retouch-mobile-bottom-gradient {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 150px;
+        background: linear-gradient(to top,
+            rgba(255, 255, 255, 1) 0%,
+            rgba(255, 255, 255, 0.95) 50%,
+            rgba(255, 255, 255, 0) 100%);
+        z-index: 20;
+        pointer-events: none;
+    }
+
+    /* Comparison Container */
+    .retouch-comparison-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 85%;
+        max-width: 350px;
+        aspect-ratio: 3/4;
+        z-index: 10;
+    }
+
+    .retouch-comparison-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    /* After Image - Full Background */
+    .retouch-after-img {
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
 
-    .retouch-label {
+    /* Before Image - Clipped */
+    .retouch-before-clip {
         position: absolute;
-        top: 10px;
-        left: 10px;
+        top: 0;
+        left: 0;
+        width: 50%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .retouch-before-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 200%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Slider Handle */
+    .retouch-slider-handle {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 4px;
+        height: 100%;
+        cursor: ew-resize;
+        z-index: 15;
+    }
+
+    .retouch-slider-line {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 3px;
+        height: 100%;
+        background: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .retouch-slider-circle {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 44px;
+        height: 44px;
+        background: #fff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .retouch-slider-circle i {
+        font-size: 14px;
+        color: #1a1a1a;
+    }
+
+    /* Before/After Labels */
+    .retouch-label-before,
+    .retouch-label-after {
+        position: absolute;
+        top: 16px;
         background: rgba(0, 0, 0, 0.6);
         color: #fff;
-        padding: 4px 10px;
-        border-radius: 16px;
-        font-size: 0.65rem;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.7rem;
         font-weight: 500;
+        z-index: 12;
+    }
+
+    .retouch-label-before {
+        left: 12px;
+    }
+
+    .retouch-label-after {
+        right: 12px;
+    }
+
+    /* Info Card */
+    .retouch-mobile-info {
+        position: absolute;
+        bottom: 100px;
+        left: 20px;
+        right: 20px;
+        z-index: 25;
+    }
+
+    .retouch-mobile-tag {
+        display: inline-block;
+        background: rgba(26, 26, 26, 0.08);
+        color: #1a1a1a;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 500;
+        margin-bottom: 8px;
+    }
+
+    .retouch-mobile-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #1a1a1a;
+        line-height: 1.4;
+        margin: 0;
     }
 
     /* === 10. STEP 5: CHANGE COLOR === */
@@ -5842,11 +5996,6 @@ footer {
     .main-container.step-3 .customize-tabs-mobile,
     .main-container.step-3 .customize-content-mobile {
         display: none !important;
-    }
-
-    /* Step 4: Show retouch mobile */
-    .main-container.step-4 .retouch-mobile {
-        display: flex !important;
     }
 
     /* Step 5: Show color picker */

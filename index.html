@@ -429,14 +429,42 @@
 
       <!-- Mobile Retouch Layout -->
       <div class="retouch-mobile" id="retouch-mobile">
-        <div class="retouch-card">
-          <span class="retouch-label">Before</span>
-          <img id="retouch-before-mobile" src="/assets/amateur-products-2/amateur-before-0.png" alt="Before retouch">
+        <!-- Top White Gradient -->
+        <div class="retouch-mobile-top-gradient"></div>
+
+        <!-- Before/After Comparison Slider -->
+        <div class="retouch-comparison-container">
+          <div class="retouch-comparison-wrapper">
+            <!-- After Image (Background) -->
+            <img class="retouch-after-img" id="retouch-after-mobile" src="/assets/results-products-2/amateur-after-0.JPG" alt="After retouch">
+
+            <!-- Before Image (Clipped) -->
+            <div class="retouch-before-clip" id="retouch-before-clip">
+              <img class="retouch-before-img" id="retouch-before-mobile" src="/assets/amateur-products-2/amateur-before-0.png" alt="Before retouch">
+            </div>
+
+            <!-- Slider Handle -->
+            <div class="retouch-slider-handle" id="retouch-slider-handle">
+              <div class="retouch-slider-line"></div>
+              <div class="retouch-slider-circle">
+                <i class="fas fa-arrows-left-right"></i>
+              </div>
+            </div>
+
+            <!-- Labels -->
+            <span class="retouch-label-before">Before</span>
+            <span class="retouch-label-after">After</span>
+          </div>
         </div>
-        <div class="retouch-card">
-          <span class="retouch-label">After</span>
-          <img id="retouch-after-mobile" src="/assets/results-products-2/amateur-after-0.JPG" alt="After retouch">
+
+        <!-- Info Card - Bottom -->
+        <div class="retouch-mobile-info">
+          <span class="retouch-mobile-tag">AI Retouch</span>
+          <h3 class="retouch-mobile-title">Professional photo editing powered by AI</h3>
         </div>
+
+        <!-- Bottom White Gradient -->
+        <div class="retouch-mobile-bottom-gradient"></div>
       </div>
 
       <!-- Vertical Step Slider -->

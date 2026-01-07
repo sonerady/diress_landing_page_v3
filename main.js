@@ -3889,6 +3889,74 @@ function initMobileSceneThumbs() {
 // Initialize mobile scene thumbs
 initMobileSceneThumbs();
 
+// --- Mobile Retouch Slider ---
+function initMobileRetouchSlider() {
+    const handle = document.getElementById('retouch-slider-handle');
+    const beforeClip = document.getElementById('retouch-before-clip');
+    const container = document.querySelector('.retouch-comparison-wrapper');
+
+    if (!handle || !beforeClip || !container) return;
+
+    let isDragging = false;
+
+    function updateSliderPosition(clientX) {
+        const rect = container.getBoundingClientRect();
+        let x = clientX - rect.left;
+        let percent = (x / rect.width) * 100;
+
+        // Clamp between 5% and 95%
+        percent = Math.max(5, Math.min(95, percent));
+
+        // Update handle position
+        handle.style.left = percent + '%';
+
+        // Update before clip width
+        beforeClip.style.width = percent + '%';
+    }
+
+    // Mouse events
+    handle.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        updateSliderPosition(e.clientX);
+    });
+
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+    });
+
+    // Touch events
+    handle.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        e.preventDefault();
+    });
+
+    document.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        updateSliderPosition(e.touches[0].clientX);
+    });
+
+    document.addEventListener('touchend', () => {
+        isDragging = false;
+    });
+
+    // Click on container to move slider
+    container.addEventListener('click', (e) => {
+        updateSliderPosition(e.clientX);
+    });
+}
+
+// Initialize retouch slider when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMobileRetouchSlider);
+} else {
+    initMobileRetouchSlider();
+}
+
 function mobileStep1NextVideo() {
     if (!isMobile() || currentStep !== 1) return false;
 
