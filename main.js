@@ -2856,8 +2856,20 @@ function handlePoseScroll(deltaY) {
     // If scroll is locked (just entered step 6), ignore scroll events
     if (poseScrollLocked) return 'handled';
 
+    // At first pose, prevent backward scroll (negative deltaY)
+    if (currentPoseIndex === 0 && deltaY < 0 && accumulatedPoseScroll <= 0) {
+        accumulatedPoseScroll = 0;
+        poseScrollProgress = 0;
+        return 'handled';
+    }
+
     // Accumulate scroll
     accumulatedPoseScroll += deltaY * 0.5;
+
+    // At first pose, don't allow negative accumulation
+    if (currentPoseIndex === 0 && accumulatedPoseScroll < 0) {
+        accumulatedPoseScroll = 0;
+    }
 
     // Calculate progress
     poseScrollProgress = accumulatedPoseScroll / POSE_SCROLL_THRESHOLD;
