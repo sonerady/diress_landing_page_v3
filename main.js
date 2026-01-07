@@ -1035,10 +1035,13 @@ function transitionToScene(index) {
     // Update foreground texture and show/hide for Scene 1 and 2
     updateForegroundTexture();
     const hasForeground = foregroundImages[currentScene] !== null;
+    // On mobile Step 1 (AI Background), hide foreground to show only video
     if (hasForeground && currentStep === 0) {
         foregroundMaterial.opacity = 1;
+    } else if (hasForeground && currentStep === 1 && !isMobile()) {
+        foregroundMaterial.opacity = 1; // Show on desktop Step 1
     } else {
-        foregroundMaterial.opacity = 0;
+        foregroundMaterial.opacity = 0; // Hide on mobile Step 1 and other cases
     }
 
     // Video playback control for Scene 0, 1, 2, and 3
@@ -1083,10 +1086,15 @@ function updateUI() {
 
     // Control foreground layer visibility for scenes with foreground
     const hasForeground = foregroundImages[currentScene] !== null;
-    if (hasForeground && (currentStep === 0 || currentStep === 1)) {
+    // On mobile Step 1 (AI Background), hide foreground to show only video
+    if (hasForeground && currentStep === 0 && !isMobile()) {
         foregroundMaterial.opacity = 1;
+    } else if (hasForeground && currentStep === 0 && isMobile()) {
+        foregroundMaterial.opacity = 1; // Show on mobile Step 0
+    } else if (hasForeground && currentStep === 1 && !isMobile()) {
+        foregroundMaterial.opacity = 1; // Show on desktop Step 1
     } else {
-        foregroundMaterial.opacity = 0;
+        foregroundMaterial.opacity = 0; // Hide on mobile Step 1 and other cases
     }
 
     // Toggle Text Plane and Gradient Plane
@@ -3083,31 +3091,69 @@ function updateMobileNav() {
     }
 }
 
+// Mobile smooth transition animation - only animates content, header/bottom stay fixed
+function mobileSlideTransition(direction, callback) {
+    if (!isMobile()) {
+        callback();
+        return;
+    }
+
+    // Get content elements to animate
+    const colCenter = document.querySelector('.col-center');
+    const mobileStep0 = document.getElementById('mobile-step-0');
+
+    if (!colCenter) {
+        callback();
+        return;
+    }
+
+    // Add animation class based on direction
+    const animClass = direction === 'next' ? 'slide-up' : 'slide-down';
+
+    // Animate both col-center and mobile-step-0 if visible
+    colCenter.classList.add(animClass);
+    if (mobileStep0) {
+        mobileStep0.classList.add(animClass);
+    }
+
+    // Execute callback and remove animation class after animation completes
+    setTimeout(() => {
+        callback();
+        colCenter.classList.remove(animClass);
+        if (mobileStep0) {
+            mobileStep0.classList.remove(animClass);
+        }
+    }, 500);
+}
+
 // Mobile navigation button handlers
 if (mobilePrevBtn) {
     mobilePrevBtn.addEventListener('click', () => {
         if (currentStep > 0) {
-            currentStep--;
+            mobileSlideTransition('prev', () => {
+                currentStep--;
 
-            // Handle scene transitions for specific steps
-            if (currentStep === 0) {
-                transitionToScene(0);
-            } else if (currentStep === 1) {
-                transitionToScene(1);
-            } else if (currentStep === 2) {
-                transitionToScene(0);
-            } else if (currentStep === 3) {
-                transitionToScene(4);
-            } else if (currentStep === 4) {
-                transitionToScene(0);
-            } else if (currentStep === 5) {
-                transitionToScene(4);
-            } else if (currentStep === 6) {
-                transitionToScene(0);
-            }
+                // Handle scene transitions for specific steps
+                if (currentStep === 0) {
+                    transitionToScene(0);
+                } else if (currentStep === 1) {
+                    transitionToScene(1);
+                } else if (currentStep === 2) {
+                    transitionToScene(0);
+                } else if (currentStep === 3) {
+                    transitionToScene(4);
+                } else if (currentStep === 4) {
+                    transitionToScene(0);
+                } else if (currentStep === 5) {
+                    transitionToScene(4);
+                } else if (currentStep === 6) {
+                    transitionToScene(0);
+                }
 
-            updateUI();
-            updateMobileNav();
+                updateUI();
+                updateMobileNav();
+                updateMobileStepContent();
+            });
         }
     });
 }
@@ -3115,34 +3161,37 @@ if (mobilePrevBtn) {
 if (mobileNextBtn) {
     mobileNextBtn.addEventListener('click', () => {
         if (currentStep < steps.length - 1) {
-            currentStep++;
+            mobileSlideTransition('next', () => {
+                currentStep++;
 
-            // Handle scene transitions for specific steps
-            if (currentStep === 1) {
-                // Going to Select Scene - show scene 1
-                transitionToScene(1);
-            } else if (currentStep === 2) {
-                // Going to Change Pose
-                transitionToScene(0);
-            } else if (currentStep === 3) {
-                // Going to Customize Model
-                transitionToScene(4);
-            } else if (currentStep === 4) {
-                // Going to Retouch
-                transitionToScene(0);
-            } else if (currentStep === 5) {
-                // Going to Change Color
-                transitionToScene(4);
-            } else if (currentStep === 6) {
-                // Going to Ecommerce
-                transitionToScene(0);
-            } else if (currentStep === 7) {
-                // Going to Image to Video
-                transitionToScene(0);
-            }
+                // Handle scene transitions for specific steps
+                if (currentStep === 1) {
+                    // Going to Select Scene - show scene 1
+                    transitionToScene(1);
+                } else if (currentStep === 2) {
+                    // Going to Change Pose
+                    transitionToScene(0);
+                } else if (currentStep === 3) {
+                    // Going to Customize Model
+                    transitionToScene(4);
+                } else if (currentStep === 4) {
+                    // Going to Retouch
+                    transitionToScene(0);
+                } else if (currentStep === 5) {
+                    // Going to Change Color
+                    transitionToScene(4);
+                } else if (currentStep === 6) {
+                    // Going to Ecommerce
+                    transitionToScene(0);
+                } else if (currentStep === 7) {
+                    // Going to Image to Video
+                    transitionToScene(0);
+                }
 
-            updateUI();
-            updateMobileNav();
+                updateUI();
+                updateMobileNav();
+                updateMobileStepContent();
+            });
         }
     });
 }
@@ -3161,7 +3210,101 @@ window.addEventListener('resize', () => {
     renderMobilePoseGrid();
     updateMobileCustomizeTabs();
     updateTextScale(); // Update text size on resize
+    updateMobileStepContent(); // Update mobile step visibility
 });
+
+// --- Mobile Step 0: AI Model Animated Text ---
+const mobileAnimatedText = document.getElementById('mobile-animated-text');
+const mobileStep0 = document.getElementById('mobile-step-0');
+
+// Text rotation for mobile Step 0 - SEO optimized value propositions
+const mobileTexts = [
+    'No Photographer Needed',
+    'Skip the Studio Costs',
+    'No Model Expenses',
+    'Dress AI Models Instantly',
+    'Professional Photos in Seconds'
+];
+let mobileTextIndex = 0;
+
+function rotateMobileText() {
+    if (!mobileAnimatedText || !isMobile()) return;
+
+    const textLine = mobileAnimatedText.querySelector('.mobile-text-line');
+    if (textLine) {
+        textLine.style.opacity = '0';
+        textLine.style.transform = 'translateY(10px)';
+
+        setTimeout(() => {
+            mobileTextIndex = (mobileTextIndex + 1) % mobileTexts.length;
+            textLine.textContent = mobileTexts[mobileTextIndex];
+            textLine.style.opacity = '1';
+            textLine.style.transform = 'translateY(0)';
+        }, 300);
+    }
+}
+
+// Rotate text every 3 seconds
+setInterval(rotateMobileText, 3000);
+
+// Update mobile step content visibility based on current step
+let mobileSceneAutoChangeInterval = null;
+
+function updateMobileStepContent() {
+    if (!isMobile()) return;
+
+    // Hide/show mobile step 0 content based on current step
+    if (mobileStep0) {
+        if (currentStep === 0) {
+            mobileStep0.style.display = 'flex';
+        } else {
+            mobileStep0.style.display = 'none';
+        }
+    }
+
+    // Force video texture update when entering Step 1 (AI Background)
+    if (currentStep === 1 && currentScene >= 1 && currentScene <= 3) {
+        // Ensure video is playing and texture updates
+        const videos = [videoElement1, videoElement2, videoElement3];
+        const textures_arr = [textures[1], textures[2], textures[3]];
+        const videoIndex = currentScene - 1;
+        if (videos[videoIndex]) {
+            videos[videoIndex].play().catch(e => console.log('Video play blocked:', e));
+            if (textures_arr[videoIndex]) {
+                textures_arr[videoIndex].needsUpdate = true;
+            }
+        }
+    }
+
+    // Auto-change scenes every 3 seconds on mobile Step 1 (AI Background)
+    if (currentStep === 1 && isMobile()) {
+        if (!mobileSceneAutoChangeInterval) {
+            // Wait 3 seconds before starting the auto-change cycle
+            setTimeout(() => {
+                if (currentStep === 1 && isMobile() && !mobileSceneAutoChangeInterval) {
+                    mobileSceneAutoChangeInterval = setInterval(() => {
+                        if (currentStep === 1 && isMobile()) {
+                            // Cycle through scenes 1, 2, 3
+                            let nextScene = currentScene + 1;
+                            if (nextScene > 3) nextScene = 1;
+                            transitionToScene(nextScene);
+                            updateUI();
+                        }
+                    }, 3000);
+                }
+            }, 3000);
+        }
+    } else {
+        // Clear interval when not on Step 1
+        if (mobileSceneAutoChangeInterval) {
+            clearInterval(mobileSceneAutoChangeInterval);
+            mobileSceneAutoChangeInterval = null;
+        }
+    }
+}
+
+// Call on init
+updateMobileStepContent();
 
 // --- Mobile Pose Grid ---
 const poseGridMobile = document.getElementById('pose-grid-mobile');
