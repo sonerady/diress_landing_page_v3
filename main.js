@@ -21,7 +21,14 @@ const foregroundImages = [
     null                                                     // Scene 4
 ];
 const steps = [
-    'Virtual Model', 'Select Scene', 'Change Pose', 'Customize Model', 'Retouch', 'Change Color', 'Ecommerce Kits', 'Image to Video'
+    { label: 'AI Model', subtitle: 'Generate virtual fashion models' },
+    { label: 'AI Background', subtitle: '5000+ professional scenes' },
+    { label: 'AI Pose', subtitle: '1000+ dynamic poses' },
+    { label: 'AI Customize', subtitle: 'Hair, skin, ethnicity & more' },
+    { label: 'AI Retouch', subtitle: 'Pro-level photo editing' },
+    { label: 'AI Colors', subtitle: 'Unlimited color variants' },
+    { label: 'AI Export', subtitle: 'E-commerce ready visuals' },
+    { label: 'AI Video', subtitle: 'Bring photos to life' }
 ];
 
 // Customize Model Sub-steps
@@ -1100,7 +1107,7 @@ sceneThumbs.forEach(thumb => {
 
 function renderSteps() {
     verticalSlider.innerHTML = '';
-    steps.forEach((label, index) => {
+    steps.forEach((step, index) => {
         // Determine visual active state (separate from actual currentStep)
         // Scene 0 = highlight Virtual Model (index 0)
         // Scene 1-4 = highlight Select Scene (index 1)
@@ -1117,7 +1124,13 @@ function renderSteps() {
 
         const item = document.createElement('div');
         item.className = `step-item ${isVisuallyActive ? 'active' : ''} ${index < currentStep ? 'completed' : ''}`;
-        item.innerHTML = `<span class="step-dot"></span><span class="step-label">${label}</span>`;
+        item.innerHTML = `
+            <span class="step-dot"></span>
+            <div class="step-text">
+                <span class="step-label">${step.label}</span>
+                <span class="step-subtitle">${step.subtitle}</span>
+            </div>
+        `;
         item.onclick = () => {
             currentStep = index;
             if (currentStep === 0) transitionToScene(0);

@@ -3528,6 +3528,35 @@ footer {
     font-weight: 600;
 }
 
+/* Step Text Container */
+.step-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+/* Step Subtitle */
+.step-subtitle {
+    font-size: 0.55rem;
+    color: rgba(0, 0, 0, 0.25);
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.step-item:hover .step-subtitle {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.step-item.completed .step-subtitle {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.step-item.active .step-subtitle {
+    color: rgba(0, 0, 0, 0.6);
+}
+
 /* Connecting Lines */
 .step-line {
     width: 2px;
@@ -3581,6 +3610,18 @@ footer {
 .main-container.scene-3 .vertical-slider-container .step-item.active .step-label {
     color: #fff;
     text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+.main-container.scene-1 .vertical-slider-container .step-item .step-subtitle,
+.main-container.scene-2 .vertical-slider-container .step-item .step-subtitle,
+.main-container.scene-3 .vertical-slider-container .step-item .step-subtitle {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.main-container.scene-1 .vertical-slider-container .step-item.active .step-subtitle,
+.main-container.scene-2 .vertical-slider-container .step-item.active .step-subtitle,
+.main-container.scene-3 .vertical-slider-container .step-item.active .step-subtitle {
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .main-container.scene-1 .vertical-slider-container .step-line,
