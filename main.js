@@ -3313,6 +3313,8 @@ function updateMobileStepContent() {
 function updateMobileCustomizeInfo() {
     const smallText = document.getElementById('mobile-customize-small');
     const titleText = document.getElementById('mobile-customize-title');
+    const substepTitle = document.getElementById('mobile-customize-substep-title');
+    const indicators = document.querySelectorAll('.customize-indicator');
 
     if (!smallText || !titleText) return;
 
@@ -3320,7 +3322,35 @@ function updateMobileCustomizeInfo() {
     if (step) {
         smallText.textContent = step.label;
         titleText.textContent = step.description;
+
+        // Update top right title
+        if (substepTitle) {
+            substepTitle.textContent = step.label;
+        }
+
+        // Update indicators
+        indicators.forEach((indicator, index) => {
+            if (index === currentSubStep) {
+                indicator.classList.add('active');
+            } else {
+                indicator.classList.remove('active');
+            }
+        });
     }
+}
+
+// Initialize Customize Indicators click handlers
+function initCustomizeIndicators() {
+    const indicators = document.querySelectorAll('.customize-indicator');
+    indicators.forEach((indicator) => {
+        indicator.addEventListener('click', () => {
+            const substep = parseInt(indicator.dataset.substep);
+            if (!isNaN(substep) && substep >= 0 && substep < subSteps.length) {
+                currentSubStep = substep;
+                updateMobileCustomizeInfo();
+            }
+        });
+    });
 }
 
 // Change to next video on mobile Step 1 when next button is pressed
@@ -3578,9 +3608,13 @@ function stopPoseAutoSlide() {
 
 // Initialize carousel after DOM is ready
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initMobilePoseCarousel);
+    document.addEventListener('DOMContentLoaded', () => {
+        initMobilePoseCarousel();
+        initCustomizeIndicators();
+    });
 } else {
     initMobilePoseCarousel();
+    initCustomizeIndicators();
 }
 
 // Legacy function name for compatibility

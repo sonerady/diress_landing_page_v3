@@ -4593,7 +4593,7 @@ footer {
 }
 
 .mobile-nav-btn:hover {
-    transform: scale(1.1);
+    transform: none;
     background: #fff;
 }
 
@@ -4604,13 +4604,15 @@ footer {
 .mobile-nav-btn.next {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    width: 60px;
-    height: 60px;
-    font-size: 1.4rem;
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+    box-shadow: none !important;
 }
 
 .mobile-nav-btn.next:hover {
-    box-shadow: 0 6px 25px rgba(102, 126, 234, 0.5);
+    box-shadow: none !important;
+    transform: none;
 }
 
 .mobile-nav-btn:disabled {
@@ -5281,7 +5283,7 @@ footer {
     /* Pose Info Overlay - Bottom Left */
     .pose-info-overlay {
         position: absolute;
-        bottom: calc(110px + env(safe-area-inset-bottom, 20px));
+        bottom: calc(140px + env(safe-area-inset-bottom, 20px));
         left: 20px;
         right: 20px;
         z-index: 30;
@@ -5415,6 +5417,10 @@ footer {
     .main-container.step-2 .mobile-nav-btn.next {
         background: #1a1a1a !important;
         color: #fff !important;
+        width: 50px !important;
+        height: 50px !important;
+        box-shadow: none !important;
+        transform: none !important;
     }
 
     .main-container.step-2 .mobile-nav-btn:disabled {
@@ -5423,13 +5429,17 @@ footer {
         border: none !important;
     }
 
-    /* === STEP 3 SPECIFIC: Clean header/bottom for Customize screen === */
+    /* === STEP 3 SPECIFIC: Gradient header/bottom for Customize screen === */
     .main-container.step-3 header {
-        height: 56px !important;
-        padding-top: 0 !important;
-        align-items: center !important;
-        background: #fff !important;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+        height: 80px !important;
+        padding-top: 10px !important;
+        align-items: flex-start !important;
+        background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 1) 0%,
+            rgba(255, 255, 255, 0.95) 30%,
+            rgba(255, 255, 255, 0.7) 60%,
+            rgba(255, 255, 255, 0) 100%) !important;
+        border-bottom: none !important;
     }
 
     .main-container.step-3 .hamburger-line {
@@ -5452,8 +5462,14 @@ footer {
     }
 
     .main-container.step-3 .mobile-bottom-nav {
-        background: #fff !important;
-        border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
+        background: linear-gradient(to top,
+            rgba(255, 255, 255, 1) 0%,
+            rgba(255, 255, 255, 0.95) 30%,
+            rgba(255, 255, 255, 0.7) 60%,
+            rgba(255, 255, 255, 0) 100%) !important;
+        border-top: none !important;
+        height: 100px !important;
+        padding-bottom: 25px !important;
     }
 
     .main-container.step-3 .mobile-step-label {
@@ -5470,18 +5486,24 @@ footer {
 
     /* Step 3: Navigation buttons - Back white, Next dark */
     .main-container.step-3 .mobile-nav-btn.prev {
-        background: #fff !important;
+        background: rgba(255, 255, 255, 0.9) !important;
         color: #1a1a1a !important;
-        border: 1px solid #1a1a1a !important;
+        border: 1px solid rgba(0, 0, 0, 0.2) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
     }
 
     .main-container.step-3 .mobile-nav-btn.next {
         background: #1a1a1a !important;
         color: #fff !important;
+        width: 50px !important;
+        height: 50px !important;
+        box-shadow: none !important;
+        transform: none !important;
     }
 
     .main-container.step-3 .mobile-nav-btn:disabled {
-        background: #e0e0e0 !important;
+        background: rgba(200, 200, 200, 0.5) !important;
         color: #999 !important;
         border: none !important;
     }
@@ -5891,32 +5913,71 @@ footer {
         text-align: right;
     }
 
-    /* Info Overlay - Bottom Left */
+    /* Info Overlay - Bottom Left with Blur Background */
     .mobile-customize-info {
         position: absolute;
-        bottom: calc(110px + env(safe-area-inset-bottom, 20px));
-        left: 20px;
-        right: 20px;
+        bottom: calc(120px + env(safe-area-inset-bottom, 20px));
+        left: 16px;
+        right: 16px;
         z-index: 30;
         display: flex;
         flex-direction: column;
-        gap: 4px;
+        gap: 6px;
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        padding: 16px 20px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     }
 
     .mobile-customize-small {
         color: #666;
-        font-size: 0.75rem;
-        font-weight: 500;
+        font-size: 0.7rem;
+        font-weight: 600;
         text-transform: uppercase;
-        letter-spacing: 1px;
+        letter-spacing: 1.5px;
     }
 
     .mobile-customize-title {
         color: #1a1a1a;
-        font-size: 1.3rem;
+        font-size: 1.2rem;
         font-weight: 600;
         margin: 0;
-        line-height: 1.3;
+        line-height: 1.4;
+    }
+
+    /* Customize Indicators - Vertical Left Side */
+    .customize-indicators {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        z-index: 30;
+    }
+
+    .customize-indicator {
+        width: 4px;
+        height: 20px;
+        border-radius: 2px;
+        background: rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .customize-indicator:hover {
+        background: rgba(0, 0, 0, 0.3);
+    }
+
+    .customize-indicator.active {
+        width: 4px;
+        height: 32px;
+        border-radius: 2px;
+        background: #1a1a1a;
     }
 
     /* Scene visibility rules handled earlier in mobile section */
