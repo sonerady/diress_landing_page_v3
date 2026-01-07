@@ -1570,18 +1570,18 @@ function generateColorPalette() {
         cells.push(cell);
     }
 
-    // Animate colors continuously
+    // Animate colors continuously - matched with mobile animation style
     let time = 0;
     function animateColors() {
-        time += 0.005;
+        time += 0.008;
         cells.forEach((cell, index) => {
             const row = Math.floor(index / 20);
             const col = index % 20;
 
-            // Create wave effect with time
-            const hue = (index * 1.2 + time * 50 + Math.sin(row * 0.3 + time * 2) * 30 + Math.cos(col * 0.3 + time * 1.5) * 30) % 360;
-            const saturation = 50 + Math.sin(time * 1.5 + index * 0.02) * 15;
-            const lightness = 75 + Math.cos(time * 2 + index * 0.03) * 10;
+            // Create wave effect with time - same as mobile
+            const hue = (index * 2.4 + time * 60 + Math.sin(row * 0.4 + time * 2.5) * 40 + Math.cos(col * 0.4 + time * 2) * 40) % 360;
+            const saturation = 55 + Math.sin(time * 1.8 + index * 0.03) * 15;
+            const lightness = 70 + Math.cos(time * 2.2 + index * 0.04) * 12;
 
             cell.style.backgroundColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
         });
@@ -3100,12 +3100,8 @@ function mobileSlideTransition(direction, callback) {
 // Mobile navigation button handlers
 if (mobilePrevBtn) {
     mobilePrevBtn.addEventListener('click', () => {
-        // On Step 2, cycle through poses backwards before going to previous step
-        if (currentStep === 2 && isMobile()) {
-            if (typeof mobilePrevPose === 'function' && mobilePrevPose()) {
-                return; // Pose changed, don't go back step yet
-            }
-        }
+        // On Step 2, DON'T cycle through poses - go directly to previous step
+        // Poses auto-rotate, so prev button should go back to Select Scene step
 
         // On Step 3 (Customize Model), cycle through substeps backwards before going to previous step
         if (currentStep === 3 && isMobile()) {
@@ -3157,12 +3153,9 @@ if (mobileNextBtn) {
             }
         }
 
-        // On Step 2, cycle through poses before advancing to next step
-        if (currentStep === 2 && isMobile()) {
-            if (typeof mobileNextPose === 'function' && mobileNextPose()) {
-                return; // Pose changed, don't advance step yet
-            }
-        }
+        // On Step 2, DON'T cycle through poses - go directly to next step
+        // Poses auto-rotate, so next button should advance to Customize Model step
+        // (Removed pose cycling logic)
 
         // On Step 3 (Customize Model), cycle through substeps before advancing to next step
         if (currentStep === 3 && isMobile()) {
@@ -3363,25 +3356,67 @@ function updateMobileCustomizeInfo() {
             }
         });
 
-        // Toggle animated color palette for Hair Color substep (index 0)
+        // Toggle backgrounds and images for different substeps on mobile
         if (isMobile()) {
+            const mobileSkinToneGrid = document.getElementById('mobile-skin-tone-grid');
+            const mobileEthnicityGrid = document.getElementById('mobile-ethnicity-grid');
+            const mobileCustomizeModel = document.getElementById('mobile-customize-model');
+            const mobileSkinToneImage = document.getElementById('mobile-skin-tone-image');
+            const mobileEthnicityImage = document.getElementById('mobile-ethnicity-image');
+
             if (currentSubStep === 0) {
                 // Hair Color - show animated color palette
                 if (mobileColorPaletteGrid) {
                     mobileColorPaletteGrid.classList.add('active');
                     generateMobileColorPalette();
                 }
-                if (mobileCustomizeColors) {
-                    mobileCustomizeColors.classList.add('hidden');
+                if (mobileSkinToneGrid) mobileSkinToneGrid.classList.remove('active');
+                if (mobileEthnicityGrid) mobileEthnicityGrid.classList.remove('active');
+                if (mobileCustomizeColors) mobileCustomizeColors.classList.add('hidden');
+                if (mobileCustomizeModel) mobileCustomizeModel.style.display = 'block';
+                if (mobileSkinToneImage) mobileSkinToneImage.classList.remove('active');
+                if (mobileEthnicityImage) mobileEthnicityImage.classList.remove('active');
+                stopMobileSkinToneRotation();
+                stopMobileEthnicityRotation();
+            } else if (currentSubStep === 2) {
+                // Skin Tone - show skin tone palette and rotating images
+                if (mobileColorPaletteGrid) mobileColorPaletteGrid.classList.remove('active');
+                if (mobileSkinToneGrid) {
+                    mobileSkinToneGrid.classList.add('active');
+                    generateMobileSkinTonePalette();
                 }
+                if (mobileEthnicityGrid) mobileEthnicityGrid.classList.remove('active');
+                if (mobileCustomizeColors) mobileCustomizeColors.classList.add('hidden');
+                if (mobileCustomizeModel) mobileCustomizeModel.style.display = 'none';
+                if (mobileSkinToneImage) mobileSkinToneImage.classList.add('active');
+                if (mobileEthnicityImage) mobileEthnicityImage.classList.remove('active');
+                startMobileSkinToneRotation();
+                stopMobileEthnicityRotation();
+            } else if (currentSubStep === 3) {
+                // Ethnicity - show ethnicity palette and rotating images
+                if (mobileColorPaletteGrid) mobileColorPaletteGrid.classList.remove('active');
+                if (mobileSkinToneGrid) mobileSkinToneGrid.classList.remove('active');
+                if (mobileEthnicityGrid) {
+                    mobileEthnicityGrid.classList.add('active');
+                    generateMobileEthnicityPalette();
+                }
+                if (mobileCustomizeColors) mobileCustomizeColors.classList.add('hidden');
+                if (mobileCustomizeModel) mobileCustomizeModel.style.display = 'none';
+                if (mobileSkinToneImage) mobileSkinToneImage.classList.remove('active');
+                if (mobileEthnicityImage) mobileEthnicityImage.classList.add('active');
+                stopMobileSkinToneRotation();
+                startMobileEthnicityRotation();
             } else {
-                // Other substeps - show static color boxes
-                if (mobileColorPaletteGrid) {
-                    mobileColorPaletteGrid.classList.remove('active');
-                }
-                if (mobileCustomizeColors) {
-                    mobileCustomizeColors.classList.remove('hidden');
-                }
+                // Other substeps - show static color boxes and default model
+                if (mobileColorPaletteGrid) mobileColorPaletteGrid.classList.remove('active');
+                if (mobileSkinToneGrid) mobileSkinToneGrid.classList.remove('active');
+                if (mobileEthnicityGrid) mobileEthnicityGrid.classList.remove('active');
+                if (mobileCustomizeColors) mobileCustomizeColors.classList.remove('hidden');
+                if (mobileCustomizeModel) mobileCustomizeModel.style.display = 'block';
+                if (mobileSkinToneImage) mobileSkinToneImage.classList.remove('active');
+                if (mobileEthnicityImage) mobileEthnicityImage.classList.remove('active');
+                stopMobileSkinToneRotation();
+                stopMobileEthnicityRotation();
             }
         }
     }
@@ -3421,6 +3456,196 @@ function generateMobileColorPalette() {
         mobileColorAnimationId = requestAnimationFrame(animateMobileColors);
     }
     animateMobileColors();
+}
+
+// Generate Mobile Skin Tone Palette with animation
+let mobileSkinToneAnimationId = null;
+function generateMobileSkinTonePalette() {
+    const grid = document.getElementById('mobile-skin-tone-grid');
+    if (!grid || grid.children.length > 0) return;
+
+    const cells = [];
+    // 10 columns x 15 rows = 150 cells
+    for (let i = 0; i < 150; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'mobile-skin-cell';
+        cell.dataset.index = i;
+        grid.appendChild(cell);
+        cells.push(cell);
+    }
+
+    // Animate skin tones continuously - same dynamic wave style as Hair Color
+    let time = 0;
+    function animateMobileSkinTones() {
+        time += 0.008;
+        cells.forEach((cell, index) => {
+            const row = Math.floor(index / 10);
+            const col = index % 10;
+
+            // Create wave effect with time - same style as Hair Color but with skin tone hues (5-40)
+            // Skin tone hues range from ~5 (reddish brown) to ~40 (yellowish beige)
+            const baseHue = 22; // Center of skin tone range
+            const hue = baseHue + (Math.sin(row * 0.4 + time * 2.5) * 15 + Math.cos(col * 0.4 + time * 2) * 10);
+
+            // Saturation varies based on row (darker = more saturated)
+            const baseSat = 35 + (row / 15) * 35; // 35-70%
+            const saturation = baseSat + Math.sin(time * 1.8 + index * 0.03) * 15;
+
+            // Lightness creates the gradient from light to dark skin tones
+            const baseLight = 85 - (row / 15) * 60; // 85% (light) to 25% (dark)
+            const lightness = baseLight + Math.cos(time * 2.2 + index * 0.04) * 8;
+
+            cell.style.backgroundColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+        });
+        mobileSkinToneAnimationId = requestAnimationFrame(animateMobileSkinTones);
+    }
+    animateMobileSkinTones();
+}
+
+// Mobile Skin Tone Image Rotation
+const mobileSkinToneImagePaths = [
+    '/assets/skin_tone_1_mobile.png',
+    '/assets/skin_tone_2_mobile.png',
+    '/assets/skin_tone_3_mobile.png',
+    '/assets/skin_tone_4_mobile.png',
+    '/assets/skin_tone_5_mobile.png'
+];
+let mobileSkinToneIndex = 0;
+let mobileSkinToneInterval = null;
+
+function startMobileSkinToneRotation() {
+    if (mobileSkinToneInterval) return;
+
+    const skinToneImage = document.getElementById('mobile-skin-tone-image');
+    if (!skinToneImage) return;
+
+    mobileSkinToneIndex = 0;
+    skinToneImage.src = mobileSkinToneImagePaths[0];
+
+    // Change image every 2.5 seconds with fade
+    mobileSkinToneInterval = setInterval(() => {
+        mobileSkinToneIndex = (mobileSkinToneIndex + 1) % mobileSkinToneImagePaths.length;
+
+        // Fade out
+        skinToneImage.style.opacity = '0';
+
+        setTimeout(() => {
+            skinToneImage.src = mobileSkinToneImagePaths[mobileSkinToneIndex];
+            // Fade in
+            skinToneImage.style.opacity = '1';
+        }, 300);
+    }, 2500);
+}
+
+function stopMobileSkinToneRotation() {
+    if (mobileSkinToneInterval) {
+        clearInterval(mobileSkinToneInterval);
+        mobileSkinToneInterval = null;
+    }
+}
+
+// Generate Mobile Ethnicity Palette with animation
+let mobileEthnicityAnimationId = null;
+function generateMobileEthnicityPalette() {
+    const grid = document.getElementById('mobile-ethnicity-grid');
+    if (!grid || grid.children.length > 0) return;
+
+    const cells = [];
+    // 10 columns x 15 rows = 150 cells
+    for (let i = 0; i < 150; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'mobile-ethnicity-cell';
+        cell.dataset.index = i;
+        grid.appendChild(cell);
+        cells.push(cell);
+    }
+
+    // Ethnicity color palette - white and cream tones (off-white, ivory, beige)
+    // Neutral background to highlight the model images
+    let time = 0;
+    function animateMobileEthnicity() {
+        time += 0.008;
+        cells.forEach((cell, index) => {
+            const row = Math.floor(index / 10);
+            const col = index % 10;
+
+            // White and cream tones - very low saturation, high lightness
+            // Hue range: 30-50 (warm whites/creams) to 0-20 (cool whites)
+            const baseHue = 40 + (Math.sin(row * 0.4 + time * 2.5) * 15 + Math.cos(col * 0.4 + time * 2) * 10);
+
+            // Very low saturation for white tones (2-12%)
+            const baseSat = 5;
+            const saturation = baseSat + Math.sin(time * 1.8 + index * 0.03) * 5;
+
+            // High lightness for white/cream effect (88-98%)
+            const baseLight = 93 + (Math.sin(row * 0.3 + time) * 3);
+            const lightness = baseLight + Math.cos(time * 2.2 + index * 0.04) * 3;
+
+            cell.style.backgroundColor = `hsl(${baseHue}, ${saturation}%, ${lightness}%)`;
+        });
+        mobileEthnicityAnimationId = requestAnimationFrame(animateMobileEthnicity);
+    }
+    animateMobileEthnicity();
+}
+
+// Mobile Ethnicity Image Rotation
+const mobileEthnicityImagePaths = [
+    '/assets/center_image_2_asian_mobile.png',
+    '/assets/center_image_2_african_mobile.png',
+    '/assets/center_image_2_latine_mobile.png',
+    '/assets/center_image_2_arabian_mobile.png',
+    '/assets/center_image_2_indian_mobile.png'
+];
+
+const mobileEthnicityNames = ['Asian', 'African', 'Latin', 'Arabian', 'Indian'];
+
+let mobileEthnicityIndex = 0;
+let mobileEthnicityInterval = null;
+
+function startMobileEthnicityRotation() {
+    if (mobileEthnicityInterval) return;
+
+    const ethnicityImage = document.getElementById('mobile-ethnicity-image');
+    const ethnicityTitle = document.getElementById('mobile-ethnicity-title');
+    if (!ethnicityImage) return;
+
+    mobileEthnicityIndex = 0;
+    ethnicityImage.src = mobileEthnicityImagePaths[0];
+    if (ethnicityTitle) {
+        ethnicityTitle.textContent = mobileEthnicityNames[0];
+        ethnicityTitle.classList.add('active');
+    }
+
+    mobileEthnicityInterval = setInterval(() => {
+        ethnicityImage.style.opacity = '0';
+        if (ethnicityTitle) ethnicityTitle.style.opacity = '0';
+
+        setTimeout(() => {
+            mobileEthnicityIndex = (mobileEthnicityIndex + 1) % mobileEthnicityImagePaths.length;
+            ethnicityImage.src = mobileEthnicityImagePaths[mobileEthnicityIndex];
+            ethnicityImage.style.opacity = '1';
+            if (ethnicityTitle) {
+                ethnicityTitle.textContent = mobileEthnicityNames[mobileEthnicityIndex];
+                ethnicityTitle.style.opacity = '1';
+            }
+        }, 300);
+    }, 2500);
+}
+
+function stopMobileEthnicityRotation() {
+    if (mobileEthnicityInterval) {
+        clearInterval(mobileEthnicityInterval);
+        mobileEthnicityInterval = null;
+    }
+    if (mobileEthnicityAnimationId) {
+        cancelAnimationFrame(mobileEthnicityAnimationId);
+        mobileEthnicityAnimationId = null;
+    }
+    // Hide ethnicity title when stopping
+    const ethnicityTitle = document.getElementById('mobile-ethnicity-title');
+    if (ethnicityTitle) {
+        ethnicityTitle.classList.remove('active');
+    }
 }
 
 // Initialize Customize Indicators click handlers
@@ -3642,18 +3867,6 @@ function mobileNextPose() {
     }
 
     return false; // All poses shown, allow step advance
-}
-
-// Previous pose function for navigation button
-function mobilePrevPose() {
-    if (!isMobile() || currentStep !== 2) return false;
-
-    if (currentMobilePose > 0) {
-        goToMobilePose(currentMobilePose - 1);
-        return true; // Pose changed, don't go back step
-    }
-
-    return false; // At first pose, allow step back
 }
 
 // Reset pose carousel when entering Step 2

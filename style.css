@@ -5895,6 +5895,128 @@ footer {
         transition: transform 0.2s ease;
     }
 
+    /* Animated Skin Tone Palette Grid (Skin Tone substep) */
+    .mobile-skin-tone-grid {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        grid-template-rows: repeat(15, 1fr);
+        gap: 3px;
+        padding: 0;
+        background: #ffffff;
+        z-index: 1;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    .mobile-skin-tone-grid.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .mobile-skin-tone-grid .mobile-skin-cell {
+        border-radius: 4px;
+        transition: transform 0.2s ease;
+    }
+
+    /* Skin Tone Model Image - for rotation */
+    .mobile-skin-tone-image {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        max-height: 85vh;
+        max-width: 90vw;
+        object-fit: contain;
+        z-index: 10;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.5s ease;
+    }
+
+    .mobile-skin-tone-image.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Animated Ethnicity Palette Grid (Ethnicity substep) */
+    .mobile-ethnicity-grid {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        grid-template-rows: repeat(15, 1fr);
+        gap: 3px;
+        padding: 0;
+        background: #ffffff;
+        z-index: 1;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    .mobile-ethnicity-grid.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .mobile-ethnicity-grid .mobile-ethnicity-cell {
+        border-radius: 4px;
+        transition: transform 0.2s ease;
+    }
+
+    /* Ethnicity Model Image - for rotation */
+    .mobile-ethnicity-image {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        max-height: 85vh;
+        max-width: 90vw;
+        object-fit: contain;
+        z-index: 10;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.5s ease;
+    }
+
+    .mobile-ethnicity-image.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Ethnicity Title - Big text behind model */
+    .mobile-ethnicity-title {
+        position: absolute;
+        top: 25%;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 4rem;
+        font-weight: 800;
+        color: rgba(0, 0, 0, 0.15);
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        z-index: 5;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s ease, visibility 0.4s ease;
+        white-space: nowrap;
+        pointer-events: none;
+    }
+
+    .mobile-ethnicity-title.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
     /* Background Color Boxes - Grid Layout (other substeps) */
     .mobile-customize-colors {
         position: absolute;
