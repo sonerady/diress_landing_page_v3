@@ -5,7 +5,16 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/assets/icon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Diress</title>
+  <title>Diress - AI Fashion Model Generator | Professional Product Photos for E-commerce</title>
+  <meta name="description" content="Transform amateur product photos into professional e-commerce images with AI-powered virtual models. No studio, no photographer needed. Perfect for clothing, jewelry, shoes & accessories.">
+  <meta name="keywords" content="AI fashion model, virtual model photography, e-commerce product photos, AI clothing model, product photography AI, virtual try-on, AI model generator, fashion photography">
+  <meta property="og:title" content="Diress - AI Fashion Model Generator">
+  <meta property="og:description" content="Transform amateur product photos into professional e-commerce images with AI-powered virtual models. No studio needed.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://diress.ai">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Diress - AI Fashion Model Generator">
+  <meta name="twitter:description" content="Transform amateur product photos into professional e-commerce images with AI-powered virtual models.">
   <link
     href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap"
     rel="stylesheet">
@@ -21,7 +30,7 @@
       <header>
         <div class="logo" onclick="location.reload()" style="cursor: pointer;">
           <div class="logo-icon-wrapper">
-            <img src="/assets/icon.png" alt="Logo" class="logo-icon" />
+            <img src="/assets/icon.png" alt="Diress AI Fashion Model Generator Logo" class="logo-icon" />
           </div>
           <span class="logo-text">diress<span class="dot">.</span></span>
         </div>
@@ -54,11 +63,11 @@
         <!-- Before/After Comparison Cards (Scene 0 only) -->
         <div class="comparison-container">
           <!-- Arrow pointing from Before to After -->
-          <img src="/assets/arrow.png" alt="Arrow" class="comparison-arrow">
+          <img src="/assets/arrow.png" alt="AI transformation arrow" class="comparison-arrow">
 
           <!-- Before Card (Amateur Photo) -->
           <div class="comparison-card before-card">
-            <img src="/assets/amateur.png" alt="Before">
+            <img src="/assets/amateur.png" alt="Amateur product photo before AI transformation">
             <div class="card-overlay before-overlay">
               <i class="fas fa-times-circle"></i>
               <span>Before</span>
@@ -70,22 +79,22 @@
         <div class="image-grid-container">
           <div class="image-grid">
             <div class="grid-card">
-              <img src="/assets/model-3.png" alt="Model 3">
+              <img src="/assets/model-3.png" alt="AI generated fashion model wearing product">
             </div>
             <div class="grid-card">
-              <img src="/assets/model-5.png" alt="Model 5">
+              <img src="/assets/model-5.png" alt="Virtual model product photography example">
             </div>
             <div class="grid-card">
-              <img src="/assets/model-1.png" alt="Model 1">
+              <img src="/assets/model-1.png" alt="Professional AI model for e-commerce">
             </div>
             <div class="grid-card">
-              <img src="/assets/model-6.png" alt="Model 6">
+              <img src="/assets/model-6.png" alt="AI fashion photography result">
             </div>
             <div class="grid-card">
-              <img src="/assets/model-2.png" alt="Model 2">
+              <img src="/assets/model-2.png" alt="Virtual model wearing clothing product">
             </div>
             <div class="grid-card">
-              <img src="/assets/model-4.png" alt="Model 4">
+              <img src="/assets/model-4.png" alt="E-commerce product on AI model">
             </div>
           </div>
         </div>
@@ -101,70 +110,24 @@
           <!-- Skin Tone Palette Grid -->
           <div class="skin-tone-palette-grid" id="skin-tone-palette-grid"></div>
           <!-- Ethnicity Background Image -->
-          <img class="ethnicity-bg" id="ethnicity-bg" src="/assets/ethnicity.png" alt="Ethnicity">
+          <img class="ethnicity-bg" id="ethnicity-bg" src="/assets/ethnicity.png" alt="AI model ethnicity customization options">
           <!-- Mood Background Image -->
-          <img class="mood-bg" id="mood-bg" src="/assets/ethnicity.png" alt="Mood">
+          <img class="mood-bg" id="mood-bg" src="/assets/ethnicity.png" alt="AI model mood and expression settings">
           <!-- Mood Content Overlay -->
           <div class="mood-content" id="mood-content">
-            <!-- Left side - Mood stats -->
-            <div class="mood-stats">
-              <div class="stat-item" data-count="3.2M">
-                <span class="stat-number">0</span>
-                <span class="stat-label">Confident Poses</span>
-              </div>
-              <div class="stat-item" data-count="2.8M">
-                <span class="stat-number">0</span>
-                <span class="stat-label">Playful Shots</span>
-              </div>
-              <div class="stat-item" data-count="2.1M">
-                <span class="stat-number">0</span>
-                <span class="stat-label">Serious Looks</span>
-              </div>
-              <div class="stat-item" data-count="1.9M">
-                <span class="stat-number">0</span>
-                <span class="stat-label">Friendly Vibes</span>
-              </div>
-              <div class="stat-item" data-count="1.5M">
-                <span class="stat-number">0</span>
-                <span class="stat-label">Mysterious Aura</span>
-              </div>
-            </div>
-            <!-- Right side - Mood Title -->
+            <!-- Mood Title -->
             <div class="mood-title">
               <span class="title-prefix">Set The</span>
-              <span class="title-mood" id="mood-text">Confident</span>
+              <span class="title-mood" id="mood-text">Perfect</span>
               <span class="title-suffix">Mood</span>
             </div>
           </div>
           <!-- Ethnicity Content Overlay -->
           <div class="ethnicity-content" id="ethnicity-content">
-            <!-- Left side - Ethnic model stats -->
-            <div class="ethnicity-stats">
-              <div class="stat-item" data-count="2.1M">
-                <span class="stat-number">0</span>
-                <span class="stat-label">Asian Models</span>
-              </div>
-              <div class="stat-item" data-count="1.8M">
-                <span class="stat-number">0</span>
-                <span class="stat-label">African Models</span>
-              </div>
-              <div class="stat-item" data-count="1.5M">
-                <span class="stat-number">0</span>
-                <span class="stat-label">Latin Models</span>
-              </div>
-              <div class="stat-item" data-count="1.2M">
-                <span class="stat-number">0</span>
-                <span class="stat-label">Middle Eastern</span>
-              </div>
-              <div class="stat-item" data-count="900K">
-                <span class="stat-number">0</span>
-                <span class="stat-label">South Asian</span>
-              </div>
-            </div>
-            <!-- Right side - Ethnicity Title -->
+            <!-- Ethnicity Title -->
             <div class="ethnicity-title">
-              <span class="title-prefix">Select Your</span>
-              <span class="title-ethnicity" id="ethnicity-text">Asian</span>
+              <span class="title-prefix">Create Your</span>
+              <span class="title-ethnicity" id="ethnicity-text">Ideal</span>
               <span class="title-suffix">Model</span>
             </div>
           </div>
@@ -181,6 +144,7 @@
           <div class="pose-labels-container" id="pose-labels-container">
             <!-- Labels will be dynamically created by JavaScript -->
           </div>
+
         </div>
 
         <!-- Change Color Section (Step 5) -->
@@ -197,21 +161,21 @@
                   <span class="hex-code">#B6B870</span>
                   <span class="color-name">Olive Green</span>
                 </div>
-                <img src="/assets/change_color_left.png" alt="Left Model">
+                <img src="/assets/change_color_left.png" alt="Product in olive green color variant">
               </div>
               <div class="box box-center">
-                <img src="/assets/change_color_back.png" alt="Back Model">
+                <img src="/assets/change_color_back.png" alt="AI color change back view">
               </div>
               <div class="box box-right">
-                <img src="/assets/change_color_zoom.png" alt="Zoom Model">
+                <img src="/assets/change_color_zoom.png" alt="Product color detail zoom view">
               </div>
             </div>
-            <img src="/assets/change_color_front.png" alt="Model">
+            <img src="/assets/change_color_front.png" alt="AI model with color variant product">
           </div>
 
           <!-- Bottom Right Content -->
           <div class="change-color-bottom-right">
-            <p class="change-color-tagline">See your product in different colors within seconds</p>
+            <p class="change-color-tagline">Generate unlimited color variants instantly with AI</p>
             <div class="change-color-badges">
               <span class="color-badge olive">#B6B870</span>
               <span class="color-badge navy">#2C3E50</span>
@@ -234,7 +198,7 @@
                 </button>
                 <div class="loading-spinner" id="loading-spinner">
                   <div class="spinner"></div>
-                  <span>Creating your e-commerce visuals...</span>
+                  <span>Generating professional e-commerce photos...</span>
                 </div>
               </div>
             </div>
@@ -250,6 +214,22 @@
             </div>
 
 
+          </div>
+        </div>
+
+        <!-- Image to Video Section (Step 7) -->
+        <div class="image-to-video-section">
+          <!-- Center Video -->
+          <video class="image-to-video-player" autoplay loop muted playsinline>
+            <source src="/assets/image_to_video.mp4" type="video/mp4">
+          </video>
+
+          <!-- Right Side - Arrow and Image (like Virtual Model) -->
+          <div class="video-comparison-container">
+            <img src="/assets/arrow.png" alt="Transform to video" class="video-arrow">
+            <div class="video-source-card">
+              <img src="/assets/center_image.png" alt="Source image for video generation">
+            </div>
           </div>
         </div>
       </section>
@@ -308,13 +288,13 @@
         <!-- Scene Selector Thumbnails -->
         <div class="scene-selector" id="scene-selector">
           <div class="scene-thumb" data-scene="1">
-            <img src="/assets/center_image_scene_1.png" alt="Rustik Baraka">
+            <img src="/assets/center_image_scene_1.png" alt="Rustic outdoor background for product photos">
           </div>
           <div class="scene-thumb" data-scene="2">
-            <img src="/assets/center_image_scene_2.png" alt="Dağ Evi">
+            <img src="/assets/center_image_scene_2.png" alt="Premium interior scene for e-commerce">
           </div>
           <div class="scene-thumb" data-scene="3">
-            <img src="/assets/center_image_scene_3.png" alt="Bali Pirinç Tarlası">
+            <img src="/assets/center_image_scene_3.png" alt="Exotic tropical background for fashion photos">
           </div>
           <div class="scene-thumb more-scenes" data-scene="4">
             <span>5000+</span>
@@ -323,26 +303,23 @@
 
         <!-- Scene 1 Text Overlay -->
         <div class="scene-1-text scene-text-content">
-          <span class="small-tag">Select Location</span>
+          <span class="small-tag">5000+ Backgrounds</span>
           <h2>Rustic Wooden Barn</h2>
-          <p>Add a natural touch to your collection.<br>Place your AI-generated virtual models in authentic,<br>rural
-            atmospheres to give your brand character.</p>
+          <p>Showcase your clothing in front of an authentic rustic barn.<br>Perfect for casual wear, denim collections and vintage styles.<br>Create that countryside aesthetic with AI-powered virtual models.</p>
         </div>
 
         <!-- Scene 2 Text Overlay -->
         <div class="scene-2-text scene-text-content">
-          <span class="small-tag">Select Location</span>
-          <h2>Mountain Lodge</h2>
-          <p>Perfect for winter collections. Enhance the premium feel<br>of your products with a warm interior
-            atmosphere.<br>From studio to mountain cabin, in one click.</p>
+          <span class="small-tag">5000+ Backgrounds</span>
+          <h2>Cozy Mountain Lodge</h2>
+          <p>Display your products in a warm fireplace mountain cabin.<br>Ideal for winter collections, knitwear and premium apparel.<br>Bring luxury atmosphere to your e-commerce catalog instantly.</p>
         </div>
 
         <!-- Scene 3 Text Overlay -->
         <div class="scene-3-text scene-text-content">
-          <span class="small-tag">Select Location</span>
+          <span class="small-tag">5000+ Backgrounds</span>
           <h2>Bali Rice Terraces</h2>
-          <p>Reflect nature's serenity in your collection.<br>Showcase your products among a thousand shades of
-            green.<br>Exotic atmospheres, now just a scroll away.</p>
+          <p>Present your fashion line against stunning Bali rice fields.<br>Perfect for summer collections, resort wear and bohemian styles.<br>Transport your products to exotic tropical destinations with AI.</p>
         </div>
       </div>
 

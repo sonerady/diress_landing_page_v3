@@ -26,12 +26,12 @@ const steps = [
 
 // Customize Model Sub-steps
 const subSteps = [
-    { label: 'Hair Color', subtitle: 'Chrome & Pigment', description: 'Doğal tonlardan deneysel pigmentlere kadar uzanan geniş renk yelpazesi ile modelinizin saç rengini kusursuz bir hassasiyetle belirleyin.' },
-    { label: 'Hair Style', subtitle: 'Sculpt & Define', description: 'Binlerce premium saç stili arasından markanızın estetiğine en uygun olanı seçin veya yapay zeka ile hayalinizdeki formu oluşturun.' },
-    { label: 'Skin Tone', subtitle: 'Natural Radiance', description: 'Küresel kitlelere hitap etmek için modelinizin cilt tonunu en gerçekçi ve kapsayıcı şekilde kişiselleştirin.' },
-    { label: 'Ethnicity', subtitle: 'Global Diversity', description: 'Hedef pazarınıza tam uyum sağlamak için modelinizin yüz hatlarını ve etnik kökenini yapay zeka yardımıyla detaylandırın.' },
-    { label: 'Mood', subtitle: 'Expressions & Vibes', description: 'Kampanya ruhunuzu yansıtacak en doğru ifadeyi; enerjik, sofistike veya dingin modlar arasından belirleyin.' },
-    { label: 'Body Shape', subtitle: 'Silhouette & Form', description: 'Kıyafetlerin formunu en iyi şekilde sergilemek için modelinizin vücut hatlarını ve duruşunu ideal oranlara getirin.' }
+    { label: 'Hair Color', subtitle: 'Chrome & Pigment', description: 'Choose from natural tones to experimental pigments. Perfect color match for your brand aesthetic and target audience.' },
+    { label: 'Hair Style', subtitle: 'Sculpt & Define', description: 'Select from thousands of premium hairstyles or let AI create the perfect look that complements your products.' },
+    { label: 'Skin Tone', subtitle: 'Natural Radiance', description: 'Customize skin tones to represent diverse global audiences and maximize your market appeal worldwide.' },
+    { label: 'Ethnicity', subtitle: 'Global Diversity', description: 'Tailor facial features and ethnic backgrounds with AI to match your target market demographics perfectly.' },
+    { label: 'Mood', subtitle: 'Expressions & Vibes', description: 'Set the perfect expression - confident, friendly, serious, or playful - to match your campaign mood.' },
+    { label: 'Body Shape', subtitle: 'Silhouette & Form', description: 'Adjust body proportions to best showcase your products and appeal to your specific target audience.' }
 ];
 let currentSubStep = 0;
 
@@ -406,7 +406,7 @@ function createTextTexture() {
 }
 
 // Virtual Model rotating text options
-const virtualModelTexts = ['Choose Age', 'Choose Gender', 'Choose Body Shape'];
+const virtualModelTexts = ['Select Model Age', 'Select Model Gender', 'Select Body Type'];
 let currentVirtualModelTextIndex = 0;
 let virtualModelTextInterval = null;
 let typewriterInterval = null;
@@ -1066,6 +1066,7 @@ function updateUI() {
     } else {
         scrollIndicator.classList.remove('hidden');
     }
+
     renderSteps();
     updateSceneSelector();
 
@@ -1420,7 +1421,7 @@ function playEcommerceLoadingAnimation() {
     const spinner = document.getElementById('loading-spinner');
     const content = document.getElementById('ecommerce-content');
 
-    const text = "Generate all essential visuals for your e-commerce";
+    const text = "Create professional e-commerce product photos with AI";
     let index = 0;
 
     // Reset state for every playback
@@ -2414,7 +2415,7 @@ initChangeColorBadges();
 // Change Pose Section (Step 6) - THREE.JS VERSION
 // ========================================
 let currentPoseIndex = 0;
-const totalPoses = 9;
+const totalPoses = 9; // 9 poses only
 let poseScrollProgress = 0;
 const POSE_SCROLL_THRESHOLD = 300;
 let accumulatedPoseScroll = 0;
@@ -2441,15 +2442,15 @@ const poseImages = [
 
 // Pose data for labels (small title and big title)
 const poseData = [
-    { small: 'Classic Elegance', big: 'Sophisticated Full Body Pose' },
-    { small: 'Side Profile', big: 'Sleek Silhouette Look' },
-    { small: 'Minimalist Focus', big: 'Subtle Neck & Shoulder Detail' },
-    { small: 'Dynamic Motion', big: 'Free-Spirited Active Pose' },
-    { small: 'Artistic Mystery', big: 'Modern Moody Expression' },
-    { small: 'Symmetrical Balance', big: 'Hand-to-Face Aesthetic Style' },
-    { small: 'Urban Movement', big: 'Confident Walking Stance' },
-    { small: 'Casual Charm', big: 'Relaxed Daily Lifestyle Pose' },
-    { small: 'Wind-Swept Detail', big: 'Flowing Motion & Natural Look' }
+    { small: 'Confident Stance', big: 'Hand on Hip Power Pose' },
+    { small: 'Thoughtful Look', big: 'Playful Thinking Pose' },
+    { small: 'Elegant Touch', big: 'Graceful Neck Pose' },
+    { small: 'Dynamic Dance', big: 'Arms Up Active Pose' },
+    { small: 'Mystery Look', big: 'Hand Covering Face Pose' },
+    { small: 'Relaxed Vibe', big: 'Hands Behind Head Pose' },
+    { small: 'Casual Cross', big: 'Crossed Leg Fashion Pose' },
+    { small: 'Friendly Smile', big: 'Approachable Happy Pose' },
+    { small: 'Hair Flip', big: 'Dynamic Motion Pose' }
 ];
 
 // DOM elements for pose labels
@@ -2513,6 +2514,14 @@ const poseFragmentShader = `
     }
 `;
 
+// Check if all pose planes are loaded
+function checkAllPosePlanesLoaded() {
+    const loadedCount = posePlanes.filter(p => p !== undefined).length;
+    if (loadedCount === totalPoses) {
+        updatePoseStackThreeJS(0);
+    }
+}
+
 function initPoseThreeJS() {
     const container = document.getElementById('pose-canvas-container');
     if (!container) return;
@@ -2536,6 +2545,7 @@ function initPoseThreeJS() {
     // Load textures and create planes
     const textureLoader = new THREE.TextureLoader();
 
+    // Load pose images (first 9 poses)
     poseImages.forEach((imgSrc, index) => {
         textureLoader.load(imgSrc, (texture) => {
             texture.minFilter = THREE.LinearFilter;
@@ -2571,27 +2581,25 @@ function initPoseThreeJS() {
             posePlanes[index] = plane;
             poseScene.add(plane);
 
-            // Initial positioning
-            if (posePlanes.length === totalPoses) {
-                updatePoseStackThreeJS(0);
-            }
+            // Check if all planes are loaded
+            checkAllPosePlanesLoaded();
         });
     });
 
-    // Create pose labels
+    // Create pose labels for all 9 poses
     const labelsContainer = document.getElementById('pose-labels-container');
     if (labelsContainer) {
         labelsContainer.innerHTML = '';
         poseLabels = [];
 
-        for (let i = 0; i < totalPoses; i++) {
+        for (let i = 0; i < 9; i++) { // Only 9 poses get labels
             const label = document.createElement('div');
             label.className = 'pose-label';
             label.style.opacity = '0'; // Start hidden
             label.innerHTML = `
                 <span class="pose-small-title">${poseData[i].small}</span>
                 <span class="pose-big-title">${poseData[i].big}</span>
-                <span class="pose-counter">${String(i + 1).padStart(2, '0')} / ${String(totalPoses).padStart(2, '0')}</span>
+                <span class="pose-counter">${String(i + 1).padStart(2, '0')} / 09</span>
             `;
             labelsContainer.appendChild(label);
             poseLabels.push(label);
@@ -2885,12 +2893,14 @@ function handlePoseScroll(deltaY) {
     // Check if transition is complete (forward)
     if (poseScrollProgress >= 1) {
         if (currentPoseIndex < totalPoses - 1) {
+            // Move to next pose
             currentPoseIndex++;
             accumulatedPoseScroll = 0;
             poseScrollProgress = 0;
             updatePoseStackThreeJS(0);
             return 'handled';
         } else {
+            // At last pose (9th) - go to next step
             accumulatedPoseScroll = 0;
             poseScrollProgress = 0;
             updatePoseStackThreeJS(0);
