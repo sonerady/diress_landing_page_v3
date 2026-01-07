@@ -5866,7 +5866,36 @@ footer {
         overflow: hidden;
     }
 
-    /* Background Color Boxes - Grid Layout */
+    /* Animated Color Palette Grid (Hair Color substep) */
+    .mobile-color-palette-grid {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        grid-template-rows: repeat(15, 1fr);
+        gap: 3px;
+        padding: 0;
+        background: #ffffff;
+        z-index: 1;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    .mobile-color-palette-grid.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .mobile-color-palette-grid .mobile-color-cell {
+        border-radius: 4px;
+        transition: transform 0.2s ease;
+    }
+
+    /* Background Color Boxes - Grid Layout (other substeps) */
     .mobile-customize-colors {
         position: absolute;
         top: 0;
@@ -5877,6 +5906,14 @@ footer {
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(2, 1fr);
         z-index: 1;
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    .mobile-customize-colors.hidden {
+        opacity: 0;
+        visibility: hidden;
     }
 
     .mobile-color-box {

@@ -3107,6 +3107,16 @@ if (mobilePrevBtn) {
             }
         }
 
+        // On Step 3 (Customize Model), cycle through substeps backwards before going to previous step
+        if (currentStep === 3 && isMobile()) {
+            if (currentSubStep > 0) {
+                currentSubStep--;
+                updateMobileCustomizeInfo();
+                updateUI();
+                return; // Substep changed, don't go back step yet
+            }
+        }
+
         if (currentStep > 0) {
             mobileSlideTransition('prev', () => {
                 currentStep--;
@@ -3120,6 +3130,8 @@ if (mobilePrevBtn) {
                     transitionToScene(0);
                 } else if (currentStep === 3) {
                     transitionToScene(4);
+                    // Reset substep to last when going back to Step 3
+                    currentSubStep = subSteps.length - 1;
                 } else if (currentStep === 4) {
                     transitionToScene(0);
                 } else if (currentStep === 5) {
@@ -3152,6 +3164,16 @@ if (mobileNextBtn) {
             }
         }
 
+        // On Step 3 (Customize Model), cycle through substeps before advancing to next step
+        if (currentStep === 3 && isMobile()) {
+            if (currentSubStep < subSteps.length - 1) {
+                currentSubStep++;
+                updateMobileCustomizeInfo();
+                updateUI();
+                return; // Substep changed, don't advance step yet
+            }
+        }
+
         if (currentStep < steps.length - 1) {
             mobileSlideTransition('next', () => {
                 currentStep++;
@@ -3166,6 +3188,8 @@ if (mobileNextBtn) {
                 } else if (currentStep === 3) {
                     // Going to Customize Model
                     transitionToScene(4);
+                    // Reset substep to 0 when entering Step 3
+                    currentSubStep = 0;
                 } else if (currentStep === 4) {
                     // Going to Retouch
                     transitionToScene(0);
@@ -3315,6 +3339,8 @@ function updateMobileCustomizeInfo() {
     const titleText = document.getElementById('mobile-customize-title');
     const substepTitle = document.getElementById('mobile-customize-substep-title');
     const indicators = document.querySelectorAll('.customize-indicator');
+    const mobileColorPaletteGrid = document.getElementById('mobile-color-palette-grid');
+    const mobileCustomizeColors = document.querySelector('.mobile-customize-colors');
 
     if (!smallText || !titleText) return;
 
@@ -3336,7 +3362,65 @@ function updateMobileCustomizeInfo() {
                 indicator.classList.remove('active');
             }
         });
+
+        // Toggle animated color palette for Hair Color substep (index 0)
+        if (isMobile()) {
+            if (currentSubStep === 0) {
+                // Hair Color - show animated color palette
+                if (mobileColorPaletteGrid) {
+                    mobileColorPaletteGrid.classList.add('active');
+                    generateMobileColorPalette();
+                }
+                if (mobileCustomizeColors) {
+                    mobileCustomizeColors.classList.add('hidden');
+                }
+            } else {
+                // Other substeps - show static color boxes
+                if (mobileColorPaletteGrid) {
+                    mobileColorPaletteGrid.classList.remove('active');
+                }
+                if (mobileCustomizeColors) {
+                    mobileCustomizeColors.classList.remove('hidden');
+                }
+            }
+        }
     }
+}
+
+// Generate Mobile Color Palette with animation
+let mobileColorAnimationId = null;
+function generateMobileColorPalette() {
+    const grid = document.getElementById('mobile-color-palette-grid');
+    if (!grid || grid.children.length > 0) return;
+
+    const cells = [];
+    // 10 columns x 15 rows = 150 cells
+    for (let i = 0; i < 150; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'mobile-color-cell';
+        cell.dataset.index = i;
+        grid.appendChild(cell);
+        cells.push(cell);
+    }
+
+    // Animate colors continuously
+    let time = 0;
+    function animateMobileColors() {
+        time += 0.008;
+        cells.forEach((cell, index) => {
+            const row = Math.floor(index / 10);
+            const col = index % 10;
+
+            // Create wave effect with time
+            const hue = (index * 2.4 + time * 60 + Math.sin(row * 0.4 + time * 2.5) * 40 + Math.cos(col * 0.4 + time * 2) * 40) % 360;
+            const saturation = 55 + Math.sin(time * 1.8 + index * 0.03) * 15;
+            const lightness = 70 + Math.cos(time * 2.2 + index * 0.04) * 12;
+
+            cell.style.backgroundColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+        });
+        mobileColorAnimationId = requestAnimationFrame(animateMobileColors);
+    }
+    animateMobileColors();
 }
 
 // Initialize Customize Indicators click handlers
