@@ -37,8 +37,7 @@ const subSteps = [
     { label: 'Hair Style', subtitle: 'Sculpt & Define', description: 'Select from thousands of premium hairstyles or let AI create the perfect look that complements your products.' },
     { label: 'Skin Tone', subtitle: 'Natural Radiance', description: 'Customize skin tones to represent diverse global audiences and maximize your market appeal worldwide.' },
     { label: 'Ethnicity', subtitle: 'Global Diversity', description: 'Tailor facial features and ethnic backgrounds with AI to match your target market demographics perfectly.' },
-    { label: 'Mood', subtitle: 'Expressions & Vibes', description: 'Set the perfect expression - confident, friendly, serious, or playful - to match your campaign mood.' },
-    { label: 'Body Shape', subtitle: 'Silhouette & Form', description: 'Adjust body proportions to best showcase your products and appeal to your specific target audience.' }
+    { label: 'Mood', subtitle: 'Expressions & Vibes', description: 'Set the perfect expression - confident, friendly, serious, or playful - to match your campaign mood.' }
 ];
 let currentSubStep = 0;
 
@@ -2279,7 +2278,7 @@ updateUI = function () {
     const mainContainer = document.querySelector('.main-container');
     if (mainContainer) {
         // Remove all substep classes
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 5; i++) {
             mainContainer.classList.remove(`substep-${i}`);
         }
         // Add current substep class when in Step 3
