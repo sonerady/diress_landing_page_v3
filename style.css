@@ -1506,8 +1506,12 @@ body {
     overflow-x: hidden;
 }
 
-/* Hide mobile info on desktop */
+/* Hide mobile elements on desktop */
 .ecommerce-mobile-info {
+    display: none;
+}
+
+.ecommerce-mobile-gallery {
     display: none;
 }
 
@@ -6304,12 +6308,13 @@ footer {
 
     /* Results Container */
     .ecommerce-container {
-        padding: 70px 16px calc(70px + env(safe-area-inset-bottom, 0px)) !important;
+        padding: 70px 16px calc(100px + env(safe-area-inset-bottom, 0px)) 16px !important;
         min-height: 100vh;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: flex-start;
+        overflow: hidden;
     }
 
     /* Results grid */
@@ -6395,6 +6400,175 @@ footer {
         color: rgba(26, 26, 26, 0.6);
         margin: 0;
         line-height: 1.4;
+    }
+
+    /* Hide desktop slider on mobile */
+    .results-slider-container {
+        display: none !important;
+    }
+
+    /* Mobile Gallery Layout - New Design */
+    .ecommerce-mobile-gallery {
+        display: flex;
+        width: 100%;
+        height: calc(100vh - 220px);
+        gap: 12px;
+        position: relative;
+        flex: 1;
+    }
+
+    /* Left Thumbnails Column */
+    .ecommerce-thumbs-column {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 60px;
+        flex-shrink: 0;
+        padding: 4px 0;
+        overflow-y: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .ecommerce-thumbs-column::-webkit-scrollbar {
+        display: none;
+    }
+
+    .ecommerce-thumb {
+        width: 60px;
+        height: 60px;
+        border-radius: 10px;
+        overflow: hidden;
+        cursor: pointer;
+        opacity: 0.5;
+        transform: scale(0.9);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 2px solid transparent;
+        flex-shrink: 0;
+    }
+
+    .ecommerce-thumb.active {
+        opacity: 1;
+        transform: scale(1);
+        border-color: #1a1a1a;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .ecommerce-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Main Full Screen Image */
+    .ecommerce-main-image {
+        flex: 1;
+        height: 100%;
+        border-radius: 16px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    }
+
+    .ecommerce-main-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .ecommerce-main-image img.fade-out {
+        opacity: 0;
+        transform: scale(1.02);
+    }
+
+    .ecommerce-main-label {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        color: #fff;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+    }
+
+    /* Animation for auto-switching */
+    @keyframes thumbPulse {
+        0%, 100% {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        50% {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+    }
+
+    .ecommerce-thumb.active {
+        animation: thumbPulse 2s ease-in-out infinite;
+    }
+
+    /* Progress indicator on active thumb */
+    .ecommerce-thumb.active::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #1a1a1a, #555);
+        animation: progressBar 3s linear forwards;
+        border-radius: 0 0 10px 10px;
+    }
+
+    @keyframes progressBar {
+        0% {
+            width: 0%;
+        }
+        100% {
+            width: 100%;
+        }
+    }
+
+    .ecommerce-thumb {
+        position: relative;
+    }
+
+    /* Step 6 (E-commerce) - Light theme for bottom nav */
+    .main-container.step-6 .mobile-bottom-nav {
+        background: linear-gradient(to top,
+            rgba(255, 255, 255, 0.98) 0%,
+            rgba(255, 255, 255, 0.85) 60%,
+            rgba(255, 255, 255, 0) 100%);
+    }
+
+    .main-container.step-6 .mobile-step-label {
+        color: #1a1a1a;
+        text-shadow: none;
+    }
+
+    .main-container.step-6 .mobile-step-dot {
+        background: rgba(26, 26, 26, 0.25);
+    }
+
+    .main-container.step-6 .mobile-step-dot.active {
+        background: #1a1a1a;
+    }
+
+    .main-container.step-6 .mobile-nav-btn {
+        background: rgba(26, 26, 26, 0.1);
+        color: #1a1a1a;
+        border: 1px solid rgba(26, 26, 26, 0.2);
+    }
+
+    .main-container.step-6 .mobile-nav-btn.next {
+        background: #1a1a1a;
+        color: #ffffff;
+        border: none;
     }
 
     /* === 12. STEP 7: IMAGE TO VIDEO === */

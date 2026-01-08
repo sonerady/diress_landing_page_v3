@@ -91,6 +91,9 @@ function renderEcommerceSlider() {
     `).join('');
 }
 
+// Render slider on page load for desktop
+renderEcommerceSlider();
+
 let isScrolling = false;
 
 // Parallax State
@@ -1142,6 +1145,11 @@ function updateUI() {
         scrollIndicator.classList.remove('hidden');
     }
 
+    // Stop mobile e-commerce gallery when leaving step 6
+    if (currentStep !== 6 && typeof window.stopMobileEcommerceAutoPlay === 'function') {
+        window.stopMobileEcommerceAutoPlay();
+    }
+
     renderSteps();
     updateSceneSelector();
 
@@ -1539,6 +1547,10 @@ function playEcommerceLoadingAnimation() {
                             loadingOverlay.classList.add('hidden');
                             content.classList.add('visible');
                             isEcommerceAnimating = false; // Allow next animation
+                            // Start mobile gallery auto-play
+                            if (typeof window.startMobileEcommerceAutoPlay === 'function') {
+                                window.startMobileEcommerceAutoPlay();
+                            }
                         }, 3000);
                     }, 300);
                 }, 500);
@@ -4337,4 +4349,140 @@ if (isMobile()) {
 
 // Call updateMobileStepContent on init (after all variables are defined)
 updateMobileStepContent();
+
+// ========================================
+// Mobile E-commerce Gallery Animation
+// ========================================
+let mobileEcommerceInterval = null;
+let currentEcommerceIndex = 0;
+
+const mobileEcommerceData = [
+    { src: '/assets/editorial_1.png', label: 'Editorial Style' },
+    { src: '/assets/editorial_2.png', label: 'Editorial Style' },
+    { src: '/assets/editorial_3.png', label: 'Editorial Style' },
+    { src: '/assets/white_studio_2.png', label: 'Studio Style' },
+    { src: '/assets/detail_product.png', label: 'Product Detail' },
+    { src: '/assets/ghost_mannequin.png', label: 'Ghost Mannequin' }
+];
+
+function initMobileEcommerceGallery() {
+    const gallery = document.getElementById('ecommerce-mobile-gallery');
+    const thumbsColumn = document.getElementById('ecommerce-thumbs-column');
+    const mainImage = document.getElementById('ecommerce-main-img');
+    const mainLabel = document.getElementById('ecommerce-main-label');
+
+    if (!gallery || !thumbsColumn || !mainImage || !mainLabel) return;
+
+    const thumbs = thumbsColumn.querySelectorAll('.ecommerce-thumb');
+
+    // Function to switch to specific index
+    function switchToIndex(index) {
+        currentEcommerceIndex = index;
+        const data = mobileEcommerceData[index];
+
+        // Update thumbnails
+        thumbs.forEach((thumb, i) => {
+            thumb.classList.toggle('active', i === index);
+        });
+
+        // Animate main image
+        mainImage.classList.add('fade-out');
+
+        setTimeout(() => {
+            mainImage.src = data.src;
+            mainLabel.textContent = data.label;
+            mainImage.classList.remove('fade-out');
+        }, 300);
+    }
+
+    // Add click handlers to thumbnails
+    thumbs.forEach((thumb, index) => {
+        thumb.addEventListener('click', () => {
+            stopMobileEcommerceAutoPlay();
+            switchToIndex(index);
+            // Resume auto-play after 5 seconds
+            setTimeout(() => {
+                if (currentStep === 6) startMobileEcommerceAutoPlay();
+            }, 5000);
+        });
+    });
+
+    // Touch/swipe support for main image
+    let touchStartX = 0;
+    const mainImageContainer = document.getElementById('ecommerce-main-image');
+    if (mainImageContainer) {
+        mainImageContainer.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+        }, { passive: true });
+
+        mainImageContainer.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].clientX;
+            const diff = touchStartX - touchEndX;
+
+            if (Math.abs(diff) > 50) {
+                stopMobileEcommerceAutoPlay();
+                if (diff > 0) {
+                    // Swipe left - next
+                    const nextIndex = (currentEcommerceIndex + 1) % mobileEcommerceData.length;
+                    switchToIndex(nextIndex);
+                } else {
+                    // Swipe right - previous
+                    const prevIndex = (currentEcommerceIndex - 1 + mobileEcommerceData.length) % mobileEcommerceData.length;
+                    switchToIndex(prevIndex);
+                }
+                // Resume auto-play after 5 seconds
+                setTimeout(() => {
+                    if (currentStep === 6) startMobileEcommerceAutoPlay();
+                }, 5000);
+            }
+        }, { passive: true });
+    }
+}
+
+function startMobileEcommerceAutoPlay() {
+    if (mobileEcommerceInterval) return;
+
+    const thumbsColumn = document.getElementById('ecommerce-thumbs-column');
+    const mainImage = document.getElementById('ecommerce-main-img');
+    const mainLabel = document.getElementById('ecommerce-main-label');
+
+    if (!thumbsColumn || !mainImage || !mainLabel) return;
+
+    const thumbs = thumbsColumn.querySelectorAll('.ecommerce-thumb');
+
+    mobileEcommerceInterval = setInterval(() => {
+        currentEcommerceIndex = (currentEcommerceIndex + 1) % mobileEcommerceData.length;
+        const data = mobileEcommerceData[currentEcommerceIndex];
+
+        // Update thumbnails
+        thumbs.forEach((thumb, i) => {
+            thumb.classList.toggle('active', i === currentEcommerceIndex);
+        });
+
+        // Animate main image
+        mainImage.classList.add('fade-out');
+
+        setTimeout(() => {
+            mainImage.src = data.src;
+            mainLabel.textContent = data.label;
+            mainImage.classList.remove('fade-out');
+        }, 300);
+    }, 3000); // Change every 3 seconds
+}
+
+function stopMobileEcommerceAutoPlay() {
+    if (mobileEcommerceInterval) {
+        clearInterval(mobileEcommerceInterval);
+        mobileEcommerceInterval = null;
+    }
+}
+
+// Expose to window for early access
+window.stopMobileEcommerceAutoPlay = stopMobileEcommerceAutoPlay;
+window.startMobileEcommerceAutoPlay = startMobileEcommerceAutoPlay;
+
+// Initialize on load
+if (isMobile()) {
+    initMobileEcommerceGallery();
+}
 
