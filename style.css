@@ -184,6 +184,39 @@ body {
     z-index: 80 !important;
 }
 
+/* Step 7 (Image to Video) - White gradient for header and footer */
+.main-container.step-7::before {
+    opacity: 1;
+    visibility: visible;
+    background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 1) 0%,
+            rgba(255, 255, 255, 0.97) 15%,
+            rgba(255, 255, 255, 0.9) 30%,
+            rgba(255, 255, 255, 0.75) 45%,
+            rgba(255, 255, 255, 0.55) 60%,
+            rgba(255, 255, 255, 0.35) 75%,
+            rgba(255, 255, 255, 0.15) 88%,
+            rgba(255, 255, 255, 0) 100%);
+    height: 160px;
+    z-index: 90 !important;
+}
+
+.main-container.step-7::after {
+    opacity: 1;
+    visibility: visible;
+    background: linear-gradient(to top,
+            rgba(255, 255, 255, 1) 0%,
+            rgba(255, 255, 255, 0.97) 15%,
+            rgba(255, 255, 255, 0.9) 30%,
+            rgba(255, 255, 255, 0.75) 45%,
+            rgba(255, 255, 255, 0.55) 60%,
+            rgba(255, 255, 255, 0.35) 75%,
+            rgba(255, 255, 255, 0.15) 88%,
+            rgba(255, 255, 255, 0) 100%);
+    height: 140px;
+    z-index: 90 !important;
+}
+
 /* Ensure Retouch carousel is below gradients */
 .main-container.step-4 .art-wrapper {
     z-index: 50 !important;
@@ -6663,8 +6696,8 @@ footer {
     /* === 12. STEP 7: IMAGE TO VIDEO === */
     .image-to-video-section {
         flex-direction: column !important;
-        padding: 70px 16px 110px !important;
-        gap: 16px;
+        padding: 0 !important;
+        gap: 0;
         align-items: center;
         justify-content: center;
     }
@@ -6675,10 +6708,85 @@ footer {
 
     .image-to-video-player {
         width: 100% !important;
+        height: 100% !important;
         max-width: none !important;
-        max-height: 60vh;
-        border-radius: 12px;
-        object-fit: contain;
+        max-height: none !important;
+        border-radius: 0 !important;
+        border: none !important;
+        object-fit: cover !important;
+        transform: none !important;
+        animation: none !important;
+    }
+
+    /* === STEP 7 SPECIFIC: White header/bottom nav === */
+    .main-container.step-7 header {
+        height: 56px !important;
+        padding-top: 0 !important;
+        align-items: center !important;
+        background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 1) 0%,
+            rgba(255, 255, 255, 0.95) 10%,
+            rgba(255, 255, 255, 0.85) 25%,
+            rgba(255, 255, 255, 0.7) 40%,
+            rgba(255, 255, 255, 0.5) 55%,
+            rgba(255, 255, 255, 0.3) 70%,
+            rgba(255, 255, 255, 0.15) 85%,
+            rgba(255, 255, 255, 0) 100%) !important;
+    }
+
+    .main-container.step-7 .hamburger-line {
+        background: #1a1a1a !important;
+    }
+
+    .main-container.step-7 .hamburger-menu {
+        background: rgba(0, 0, 0, 0.05) !important;
+        border-color: rgba(0, 0, 0, 0.2) !important;
+    }
+
+    .main-container.step-7 .mobile-store-btn {
+        background: rgba(0, 0, 0, 0.05) !important;
+        border-color: rgba(0, 0, 0, 0.2) !important;
+        color: #1a1a1a !important;
+    }
+
+    .main-container.step-7 .logo-text {
+        color: #1a1a1a !important;
+    }
+
+    .main-container.step-7 .mobile-bottom-nav {
+        background: linear-gradient(to top,
+            rgba(255, 255, 255, 1) 0%,
+            rgba(255, 255, 255, 0.95) 10%,
+            rgba(255, 255, 255, 0.85) 25%,
+            rgba(255, 255, 255, 0.7) 40%,
+            rgba(255, 255, 255, 0.5) 55%,
+            rgba(255, 255, 255, 0.3) 70%,
+            rgba(255, 255, 255, 0.15) 85%,
+            rgba(255, 255, 255, 0) 100%) !important;
+    }
+
+    .main-container.step-7 .mobile-step-label {
+        color: #1a1a1a !important;
+    }
+
+    .main-container.step-7 .mobile-step-dot {
+        background: rgba(0, 0, 0, 0.2) !important;
+    }
+
+    .main-container.step-7 .mobile-step-dot.active {
+        background: #1a1a1a !important;
+    }
+
+    .main-container.step-7 .mobile-nav-btn.prev {
+        background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%) !important;
+        color: #1a1a1a !important;
+        border: none !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .main-container.step-7 .mobile-nav-btn.next {
+        background: #1a1a1a !important;
+        color: #fff !important;
     }
 
     /* === 13. GLOBAL TEXT SIZES === */
