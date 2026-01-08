@@ -145,6 +145,15 @@
             <!-- Animated Color Palette Grid (Hair Color substep) -->
             <div class="mobile-color-palette-grid" id="mobile-color-palette-grid"></div>
 
+            <!-- Hair Color Slideshow (Mobile) -->
+            <div class="mobile-hair-color-slideshow" id="mobile-hair-color-slideshow">
+              <img src="/assets/color-1-Photoroom.png" alt="Hair Color 1" class="mobile-hair-color-slide active">
+              <img src="/assets/color-2-Photoroom.png" alt="Hair Color 2" class="mobile-hair-color-slide">
+              <img src="/assets/color-3-Photoroom.png" alt="Hair Color 3" class="mobile-hair-color-slide">
+              <img src="/assets/color-4-Photoroom.png" alt="Hair Color 4" class="mobile-hair-color-slide">
+              <img src="/assets/color-5-Photoroom.png" alt="Hair Color 5" class="mobile-hair-color-slide">
+            </div>
+
             <!-- Animated Skin Tone Palette Grid (Skin Tone substep) -->
             <div class="mobile-skin-tone-grid" id="mobile-skin-tone-grid"></div>
 
@@ -412,21 +421,30 @@
           </div>
         </div>
 
+        <!-- Hair Color Slideshow (Desktop) - Outside container for z-index -->
+        <div class="hair-color-slideshow" id="hair-color-slideshow">
+          <img src="/assets/color-1-Photoroom.png" alt="Hair Color 1" class="hair-color-slide active">
+          <img src="/assets/color-2-Photoroom.png" alt="Hair Color 2" class="hair-color-slide">
+          <img src="/assets/color-3-Photoroom.png" alt="Hair Color 3" class="hair-color-slide">
+          <img src="/assets/color-4-Photoroom.png" alt="Hair Color 4" class="hair-color-slide">
+          <img src="/assets/color-5-Photoroom.png" alt="Hair Color 5" class="hair-color-slide">
+        </div>
+
         <!-- Ecommerce Kits Section (Step 2) -->
         <div class="ecommerce-section">
           <!-- Loading Intro -->
           <div class="ecommerce-loading" id="ecommerce-loading">
             <div class="loading-layout">
               <div class="loading-content">
-                <div class="prompt-box">
-                  <span class="prompt-text" id="prompt-text"></span><span class="cursor-blink">|</span>
+                <!-- Word list container -->
+                <div class="prompt-words-container" id="prompt-words-container">
+                  <!-- Words will be added by JS -->
                 </div>
                 <button class="generate-btn" id="generate-btn">
                   Generate
                 </button>
                 <div class="loading-spinner" id="loading-spinner">
                   <div class="spinner"></div>
-                  <span>Generating professional e-commerce photos...</span>
                 </div>
               </div>
             </div>

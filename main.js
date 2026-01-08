@@ -1505,34 +1505,57 @@ function playEcommerceLoadingAnimation() {
     isEcommerceAnimating = true;
 
     const loadingOverlay = document.getElementById('ecommerce-loading');
-    const promptText = document.getElementById('prompt-text');
+    const wordsContainer = document.getElementById('prompt-words-container');
     const generateBtn = document.getElementById('generate-btn');
     const spinner = document.getElementById('loading-spinner');
     const content = document.getElementById('ecommerce-content');
 
-    const text = "Create professional e-commerce product photos with AI";
-    let index = 0;
+    // Words to display one by one
+    const words = [
+        'Professional',
+        'E-commerce',
+        'Product',
+        'Photos',
+        'With AI'
+    ];
+
+    let wordIndex = 0;
 
     // Reset state for every playback
-    promptText.textContent = '';
-    generateBtn.style.display = 'inline-flex'; // Reset display from none
+    wordsContainer.innerHTML = '';
+    generateBtn.style.display = 'inline-flex';
     generateBtn.classList.remove('visible', 'clicked');
     spinner.classList.remove('visible');
     content.classList.remove('visible');
     loadingOverlay.classList.remove('hidden');
 
-    // Typing animation
-    function typeText() {
-        if (index < text.length) {
-            promptText.textContent += text[index];
-            index++;
-            setTimeout(typeText, 50);
+    // Add words one by one - smooth from top to bottom
+    function addWord() {
+        if (wordIndex < words.length) {
+            // Fade out previous words
+            const existingWords = wordsContainer.querySelectorAll('.prompt-word');
+            existingWords.forEach(w => w.classList.add('faded'));
+
+            const wordEl = document.createElement('div');
+            wordEl.className = 'prompt-word';
+            wordEl.textContent = words[wordIndex];
+            wordsContainer.appendChild(wordEl);
+
+            // Trigger animation with slight delay for smoothness
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    wordEl.classList.add('visible');
+                });
+            });
+
+            wordIndex++;
+            setTimeout(addWord, 500);
         } else {
-            // Show generate button after typing
+            // All words added, show generate button
             setTimeout(() => {
                 generateBtn.classList.add('visible');
 
-                // Auto-click button after 500ms
+                // Auto-click button after 1 second
                 setTimeout(() => {
                     generateBtn.classList.add('clicked');
 
@@ -1541,25 +1564,25 @@ function playEcommerceLoadingAnimation() {
                         generateBtn.style.display = 'none';
                         spinner.classList.add('visible');
 
-                        // After 3 seconds, hide loading and show content
+                        // After 1.5 seconds, hide loading and show content
                         setTimeout(() => {
-                            renderEcommerceSlider(); // Randomize slider images
+                            renderEcommerceSlider();
                             loadingOverlay.classList.add('hidden');
                             content.classList.add('visible');
-                            isEcommerceAnimating = false; // Allow next animation
+                            isEcommerceAnimating = false;
                             // Start mobile gallery auto-play
                             if (typeof window.startMobileEcommerceAutoPlay === 'function') {
                                 window.startMobileEcommerceAutoPlay();
                             }
-                        }, 3000);
+                        }, 1500);
                     }, 300);
-                }, 500);
-            }, 300);
+                }, 1000);
+            }, 500);
         }
     }
 
-    // Start typing after a short delay
-    setTimeout(typeText, 500);
+    // Start animation after a short delay
+    setTimeout(addWord, 400);
 }
 
 // Watch for step changes to trigger animation
@@ -1568,6 +1591,86 @@ const customizeVideo = document.querySelector('.customize-video-bg');
 const colorPaletteGrid = document.getElementById('color-palette-grid');
 const skinTonePaletteGrid = document.getElementById('skin-tone-palette-grid');
 const ethnicityBg = document.getElementById('ethnicity-bg');
+const hairColorSlideshow = document.getElementById('hair-color-slideshow');
+
+// Hair Color Slideshow Animation
+let hairColorInterval = null;
+let currentHairColorIndex = 0;
+const hairColorSlides = document.querySelectorAll('.hair-color-slide');
+
+function startHairColorSlideshow() {
+    if (hairColorInterval || hairColorSlides.length === 0) return;
+
+    currentHairColorIndex = 0;
+    // Reset all slides
+    hairColorSlides.forEach((slide, i) => {
+        slide.classList.remove('active', 'fading-out');
+        if (i === 0) slide.classList.add('active');
+    });
+
+    hairColorInterval = setInterval(() => {
+        const currentSlide = hairColorSlides[currentHairColorIndex];
+        const nextIndex = (currentHairColorIndex + 1) % hairColorSlides.length;
+        const nextSlide = hairColorSlides[nextIndex];
+
+        // Fade out current
+        currentSlide.classList.add('fading-out');
+        currentSlide.classList.remove('active');
+
+        // Fade in next
+        nextSlide.classList.add('active');
+        nextSlide.classList.remove('fading-out');
+
+        currentHairColorIndex = nextIndex;
+    }, 2000); // Change every 2 seconds
+}
+
+function stopHairColorSlideshow() {
+    if (hairColorInterval) {
+        clearInterval(hairColorInterval);
+        hairColorInterval = null;
+    }
+}
+
+// Mobile Hair Color Slideshow Animation
+let mobileHairColorInterval = null;
+let currentMobileHairColorIndex = 0;
+
+function startMobileHairColorSlideshow() {
+    const mobileHairColorSlides = document.querySelectorAll('.mobile-hair-color-slide');
+    if (mobileHairColorInterval || mobileHairColorSlides.length === 0) return;
+
+    currentMobileHairColorIndex = 0;
+    // Reset all slides
+    mobileHairColorSlides.forEach((slide, i) => {
+        slide.classList.remove('active', 'fading-out');
+        if (i === 0) slide.classList.add('active');
+    });
+
+    mobileHairColorInterval = setInterval(() => {
+        const mobileHairColorSlides = document.querySelectorAll('.mobile-hair-color-slide');
+        const currentSlide = mobileHairColorSlides[currentMobileHairColorIndex];
+        const nextIndex = (currentMobileHairColorIndex + 1) % mobileHairColorSlides.length;
+        const nextSlide = mobileHairColorSlides[nextIndex];
+
+        // Fade out current
+        currentSlide.classList.add('fading-out');
+        currentSlide.classList.remove('active');
+
+        // Fade in next
+        nextSlide.classList.add('active');
+        nextSlide.classList.remove('fading-out');
+
+        currentMobileHairColorIndex = nextIndex;
+    }, 2000); // Change every 2 seconds
+}
+
+function stopMobileHairColorSlideshow() {
+    if (mobileHairColorInterval) {
+        clearInterval(mobileHairColorInterval);
+        mobileHairColorInterval = null;
+    }
+}
 
 // Generate 300 color cells for the palette with animated colors
 function generateColorPalette() {
@@ -1629,10 +1732,10 @@ function generateSkinTonePalette() {
         { hMin: 5, hMax: 25, sMin: 40, sMax: 70, lMin: 15, lMax: 25 }    // Very dark
     ];
 
-    // Animate skin tones continuously
+    // Animate skin tones continuously - matched with hair color animation speed
     let time = 0;
     function animateSkinTones() {
-        time += 0.003;
+        time += 0.008;
         cells.forEach((cell, index) => {
             const row = Math.floor(index / 20);
             const col = index % 20;
@@ -1641,10 +1744,10 @@ function generateSkinTonePalette() {
             const rangeIndex = Math.floor((row / 15) * skinToneRanges.length);
             const range = skinToneRanges[Math.min(rangeIndex, skinToneRanges.length - 1)];
 
-            // Create subtle wave effect with time
-            const hueOffset = Math.sin(col * 0.2 + time * 1.5) * 5 + Math.cos(row * 0.3 + time) * 3;
-            const satOffset = Math.sin(time * 1.2 + index * 0.01) * 8;
-            const lightOffset = Math.cos(time * 0.8 + col * 0.15) * 5;
+            // Create wave effect with time - more visible like hair color
+            const hueOffset = Math.sin(col * 0.4 + time * 2.5) * 8 + Math.cos(row * 0.4 + time * 2) * 6;
+            const satOffset = Math.sin(time * 1.8 + index * 0.03) * 12;
+            const lightOffset = Math.cos(time * 2.2 + col * 0.3) * 8;
 
             const hue = range.hMin + ((range.hMax - range.hMin) * (col / 20)) + hueOffset;
             const saturation = range.sMin + ((range.sMax - range.sMin) * 0.5) + satOffset;
@@ -2172,18 +2275,35 @@ updateUI = function () {
         videoElement3.pause();
     }
 
+    // Update substep class on main-container for CSS targeting
+    const mainContainer = document.querySelector('.main-container');
+    if (mainContainer) {
+        // Remove all substep classes
+        for (let i = 0; i < 6; i++) {
+            mainContainer.classList.remove(`substep-${i}`);
+        }
+        // Add current substep class when in Step 3
+        if (currentStep === 3) {
+            mainContainer.classList.add(`substep-${currentSubStep}`);
+        }
+    }
+
     // Control Customize Model backgrounds based on substep
     if (currentStep === 3) {
         if (currentSubStep === 0) {
-            // Hair Color - show color palette
+            // Hair Color - show slideshow and color palette (hide canvas)
             if (customizeVideo) {
                 customizeVideo.classList.add('hidden');
                 customizeVideo.pause();
             }
             if (colorPaletteGrid) colorPaletteGrid.classList.add('active');
+            if (hairColorSlideshow) hairColorSlideshow.classList.add('active');
             if (skinTonePaletteGrid) skinTonePaletteGrid.classList.remove('active');
             if (ethnicityBg) ethnicityBg.classList.remove('active');
+            // Hide Three.js canvas for Hair Color
+            if (artWrapper) artWrapper.style.opacity = '0';
             stopSkinToneRotation();
+            startHairColorSlideshow();
         } else if (currentSubStep === 1) {
             // Hair Style - show video
             if (customizeVideo) {
@@ -2191,9 +2311,13 @@ updateUI = function () {
                 customizeVideo.play().catch(() => {});
             }
             if (colorPaletteGrid) colorPaletteGrid.classList.remove('active');
+            if (hairColorSlideshow) hairColorSlideshow.classList.remove('active');
             if (skinTonePaletteGrid) skinTonePaletteGrid.classList.remove('active');
             if (ethnicityBg) ethnicityBg.classList.remove('active');
+            // Show Three.js canvas for Hair Style
+            if (artWrapper) artWrapper.style.opacity = '1';
             stopSkinToneRotation();
+            stopHairColorSlideshow();
         } else if (currentSubStep === 2) {
             // Skin Tone - show skin tone palette AND images with rotation
             if (customizeVideo) {
@@ -2201,8 +2325,12 @@ updateUI = function () {
                 customizeVideo.pause();
             }
             if (colorPaletteGrid) colorPaletteGrid.classList.remove('active');
+            if (hairColorSlideshow) hairColorSlideshow.classList.remove('active');
             if (skinTonePaletteGrid) skinTonePaletteGrid.classList.add('active');
             if (ethnicityBg) ethnicityBg.classList.remove('active');
+            // Show Three.js canvas for Skin Tone
+            if (artWrapper) artWrapper.style.opacity = '1';
+            stopHairColorSlideshow();
 
             // Start skin tone image rotation
             startSkinToneRotation();
@@ -2213,9 +2341,13 @@ updateUI = function () {
                 customizeVideo.pause();
             }
             if (colorPaletteGrid) colorPaletteGrid.classList.remove('active');
+            if (hairColorSlideshow) hairColorSlideshow.classList.remove('active');
             if (skinTonePaletteGrid) skinTonePaletteGrid.classList.remove('active');
             if (ethnicityBg) ethnicityBg.classList.add('active');
+            // Show Three.js canvas for Ethnicity
+            if (artWrapper) artWrapper.style.opacity = '1';
             stopSkinToneRotation();
+            stopHairColorSlideshow();
             resetMoodAnimations();
 
             // Start ethnicity animations (texture is set inside startEthnicityRotation)
@@ -2227,9 +2359,13 @@ updateUI = function () {
                 customizeVideo.pause();
             }
             if (colorPaletteGrid) colorPaletteGrid.classList.remove('active');
+            if (hairColorSlideshow) hairColorSlideshow.classList.remove('active');
             if (skinTonePaletteGrid) skinTonePaletteGrid.classList.remove('active');
             if (ethnicityBg) ethnicityBg.classList.remove('active');
+            // Show Three.js canvas for Mood
+            if (artWrapper) artWrapper.style.opacity = '1';
             stopSkinToneRotation();
+            stopHairColorSlideshow();
             resetEthnicityAnimations();
 
             // Start mood animations
@@ -2241,22 +2377,30 @@ updateUI = function () {
                 customizeVideo.play().catch(() => {});
             }
             if (colorPaletteGrid) colorPaletteGrid.classList.remove('active');
+            if (hairColorSlideshow) hairColorSlideshow.classList.remove('active');
             if (skinTonePaletteGrid) skinTonePaletteGrid.classList.remove('active');
             if (ethnicityBg) ethnicityBg.classList.remove('active');
+            // Show Three.js canvas for Body Shape
+            if (artWrapper) artWrapper.style.opacity = '1';
             stopSkinToneRotation();
+            stopHairColorSlideshow();
             resetEthnicityAnimations();
             resetMoodAnimations();
         }
     } else {
-        // Not in Step 3 - hide all backgrounds, pause video
+        // Not in Step 3 - show canvas, hide all backgrounds, pause video
         if (customizeVideo) {
             customizeVideo.classList.remove('hidden');
             customizeVideo.pause();
         }
         if (colorPaletteGrid) colorPaletteGrid.classList.remove('active');
+        if (hairColorSlideshow) hairColorSlideshow.classList.remove('active');
         if (skinTonePaletteGrid) skinTonePaletteGrid.classList.remove('active');
         if (ethnicityBg) ethnicityBg.classList.remove('active');
+        // Show Three.js canvas when not in Step 3
+        if (artWrapper) artWrapper.style.opacity = '1';
         stopSkinToneRotation();
+        stopHairColorSlideshow();
         resetEthnicityAnimations();
         resetMoodAnimations();
     }
@@ -3460,20 +3604,23 @@ function updateMobileCustomizeInfo() {
             const mobileHairstyleVideo = document.getElementById('mobile-hairstyle-video');
 
             const mobileMoodGrid = document.getElementById('mobile-mood-grid');
+            const mobileHairColorSlideshow = document.getElementById('mobile-hair-color-slideshow');
 
             if (currentSubStep === 0) {
-                // Hair Color - show animated color palette
+                // Hair Color - show animated color palette and slideshow (hide center image)
                 if (mobileColorPaletteGrid) {
                     mobileColorPaletteGrid.classList.add('active');
                     generateMobileColorPalette();
                 }
+                if (mobileHairColorSlideshow) mobileHairColorSlideshow.classList.add('active');
+                startMobileHairColorSlideshow();
                 if (mobileHairstyleVideoContainer) mobileHairstyleVideoContainer.classList.remove('active');
                 if (mobileHairstyleVideo) mobileHairstyleVideo.pause();
                 if (mobileSkinToneGrid) mobileSkinToneGrid.classList.remove('active');
                 if (mobileEthnicityGrid) mobileEthnicityGrid.classList.remove('active');
                 if (mobileMoodGrid) mobileMoodGrid.classList.remove('active');
                 if (mobileCustomizeColors) mobileCustomizeColors.classList.add('hidden');
-                if (mobileCustomizeModel) mobileCustomizeModel.style.display = 'block';
+                if (mobileCustomizeModel) mobileCustomizeModel.style.display = 'none';
                 if (mobileSkinToneImage) mobileSkinToneImage.classList.remove('active');
                 if (mobileEthnicityImage) mobileEthnicityImage.classList.remove('active');
                 stopMobileSkinToneRotation();
@@ -3482,6 +3629,8 @@ function updateMobileCustomizeInfo() {
             } else if (currentSubStep === 1) {
                 // Hair Style - show video background with blur overlay
                 if (mobileColorPaletteGrid) mobileColorPaletteGrid.classList.remove('active');
+                if (mobileHairColorSlideshow) mobileHairColorSlideshow.classList.remove('active');
+                stopMobileHairColorSlideshow();
                 if (mobileHairstyleVideoContainer) mobileHairstyleVideoContainer.classList.add('active');
                 if (mobileHairstyleVideo) mobileHairstyleVideo.play().catch(() => {});
                 if (mobileSkinToneGrid) mobileSkinToneGrid.classList.remove('active');
@@ -3497,6 +3646,8 @@ function updateMobileCustomizeInfo() {
             } else if (currentSubStep === 2) {
                 // Skin Tone - show skin tone palette and rotating images
                 if (mobileColorPaletteGrid) mobileColorPaletteGrid.classList.remove('active');
+                if (mobileHairColorSlideshow) mobileHairColorSlideshow.classList.remove('active');
+                stopMobileHairColorSlideshow();
                 if (mobileHairstyleVideoContainer) mobileHairstyleVideoContainer.classList.remove('active');
                 if (mobileHairstyleVideo) mobileHairstyleVideo.pause();
                 if (mobileSkinToneGrid) {
@@ -3515,6 +3666,8 @@ function updateMobileCustomizeInfo() {
             } else if (currentSubStep === 3) {
                 // Ethnicity - show ethnicity palette and rotating images
                 if (mobileColorPaletteGrid) mobileColorPaletteGrid.classList.remove('active');
+                if (mobileHairColorSlideshow) mobileHairColorSlideshow.classList.remove('active');
+                stopMobileHairColorSlideshow();
                 if (mobileHairstyleVideoContainer) mobileHairstyleVideoContainer.classList.remove('active');
                 if (mobileHairstyleVideo) mobileHairstyleVideo.pause();
                 if (mobileSkinToneGrid) mobileSkinToneGrid.classList.remove('active');
@@ -3533,6 +3686,8 @@ function updateMobileCustomizeInfo() {
             } else if (currentSubStep === 4) {
                 // Mood - show white palette and emoji rain
                 if (mobileColorPaletteGrid) mobileColorPaletteGrid.classList.remove('active');
+                if (mobileHairColorSlideshow) mobileHairColorSlideshow.classList.remove('active');
+                stopMobileHairColorSlideshow();
                 if (mobileHairstyleVideoContainer) mobileHairstyleVideoContainer.classList.remove('active');
                 if (mobileHairstyleVideo) mobileHairstyleVideo.pause();
                 if (mobileSkinToneGrid) mobileSkinToneGrid.classList.remove('active');
@@ -3551,6 +3706,8 @@ function updateMobileCustomizeInfo() {
             } else {
                 // Other substeps (Body Shape) - show static color boxes and default model
                 if (mobileColorPaletteGrid) mobileColorPaletteGrid.classList.remove('active');
+                if (mobileHairColorSlideshow) mobileHairColorSlideshow.classList.remove('active');
+                stopMobileHairColorSlideshow();
                 if (mobileHairstyleVideoContainer) mobileHairstyleVideoContainer.classList.remove('active');
                 if (mobileHairstyleVideo) mobileHairstyleVideo.pause();
                 if (mobileSkinToneGrid) mobileSkinToneGrid.classList.remove('active');
