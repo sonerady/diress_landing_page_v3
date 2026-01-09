@@ -2322,7 +2322,7 @@ header {
 .logo-icon-wrapper {
   position: relative;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 11px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2333,6 +2333,8 @@ header {
   position: absolute;
   top: 0;
   left: 0;
+  right: 0;
+  bottom: 0;
   width: 200%;
   height: 100%;
   background: linear-gradient(
@@ -2345,8 +2347,8 @@ header {
   );
   transform: skewX(-25deg) translateX(-150%);
   animation: shine 5s infinite;
-  /* Slowed down total cycle */
   pointer-events: none;
+  border-radius: inherit;
 }
 
 @keyframes shine {
@@ -2368,6 +2370,7 @@ header {
   width: 48px;
   height: 48px;
   object-fit: contain;
+  border-radius: 11px;
 }
 
 .logo .dot {
@@ -4954,11 +4957,11 @@ footer {
   .logo-icon {
     width: 46px;
     height: 46px;
-    border-radius: 0 !important;
+    border-radius: 11px !important;
   }
 
   .logo-icon-wrapper {
-    border-radius: 0 !important;
+    border-radius: 11px !important;
     position: relative;
     overflow: hidden;
   }
@@ -4968,6 +4971,8 @@ footer {
     position: absolute;
     top: 0;
     left: 0;
+    right: 0;
+    bottom: 0;
     width: 200%;
     height: 100%;
     background: linear-gradient(
@@ -4981,6 +4986,7 @@ footer {
     transform: skewX(-25deg) translateX(-150%);
     animation: shine 5s infinite;
     pointer-events: none;
+    border-radius: inherit;
   }
 
   /* Show logo text on mobile - force white color */
@@ -5199,7 +5205,7 @@ footer {
     min-height: 44px;
     background: #ffffff;
     color: #1a1a1a;
-    border: none;
+    border: 2px solid white;
     font-size: 0.85rem;
     border-radius: 8px;
   }
@@ -5724,6 +5730,7 @@ footer {
     height: 44px !important;
     box-shadow: none !important;
     transform: none !important;
+    border: none !important;
   }
 
   .main-container.step-2 .mobile-nav-btn:disabled {
@@ -6188,6 +6195,7 @@ footer {
     width: 44px !important;
     height: 44px !important;
     box-shadow: none !important;
+    border: none !important;
     transform: none !important;
   }
 
@@ -6968,7 +6976,8 @@ footer {
   }
 
   @keyframes mobileVideoCardFloat {
-    0%, 100% {
+    0%,
+    100% {
       transform: translateX(-50%) rotate(-5deg) translateY(0);
     }
     50% {
@@ -7078,6 +7087,7 @@ footer {
   .main-container.step-7 .mobile-nav-btn.next {
     background: #1a1a1a !important;
     color: #fff !important;
+    border: none !important;
   }
 
   /* === 13. GLOBAL TEXT SIZES === */
