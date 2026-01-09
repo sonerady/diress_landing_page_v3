@@ -4669,6 +4669,7 @@ function updateMobileCustomizeInfo() {
                 if (mobileMoodImage) mobileMoodImage.classList.remove('active');
                 stopMobileSkinToneRotation();
                 stopMobileEthnicityRotation();
+                stopMobileEthnicityFlagRain();
                 stopMobileMoodRotation();
                 stopMoodEmojiRain();
             } else if (currentSubStep === 1) {
@@ -4688,6 +4689,7 @@ function updateMobileCustomizeInfo() {
                 if (mobileMoodImage) mobileMoodImage.classList.remove('active');
                 stopMobileSkinToneRotation();
                 stopMobileEthnicityRotation();
+                stopMobileEthnicityFlagRain();
                 stopMobileMoodRotation();
                 stopMoodEmojiRain();
             } else if (currentSubStep === 2) {
@@ -4710,6 +4712,7 @@ function updateMobileCustomizeInfo() {
                 if (mobileMoodImage) mobileMoodImage.classList.remove('active');
                 startMobileSkinToneRotation();
                 stopMobileEthnicityRotation();
+                stopMobileEthnicityFlagRain();
                 stopMobileMoodRotation();
                 stopMoodEmojiRain();
             } else if (currentSubStep === 3) {
@@ -4732,6 +4735,7 @@ function updateMobileCustomizeInfo() {
                 if (mobileMoodImage) mobileMoodImage.classList.remove('active');
                 stopMobileSkinToneRotation();
                 startMobileEthnicityRotation();
+                startMobileEthnicityFlagRain();
                 stopMobileMoodRotation();
                 stopMoodEmojiRain();
             } else if (currentSubStep === 4) {
@@ -4754,6 +4758,7 @@ function updateMobileCustomizeInfo() {
                 if (mobileMoodImage) mobileMoodImage.classList.add('active');
                 stopMobileSkinToneRotation();
                 stopMobileEthnicityRotation();
+                stopMobileEthnicityFlagRain();
                 startMobileMoodRotation();
                 startMoodEmojiRain();
             } else {
@@ -4773,6 +4778,7 @@ function updateMobileCustomizeInfo() {
                 if (mobileMoodImage) mobileMoodImage.classList.remove('active');
                 stopMobileSkinToneRotation();
                 stopMobileEthnicityRotation();
+                stopMobileEthnicityFlagRain();
                 stopMobileMoodRotation();
                 stopMoodEmojiRain();
             }
@@ -5167,6 +5173,78 @@ function stopMoodEmojiRain() {
     if (mobileMoodAnimationId) {
         cancelAnimationFrame(mobileMoodAnimationId);
         mobileMoodAnimationId = null;
+    }
+}
+
+// Mobile Ethnicity Flag Rain
+let mobileEthnicityFlagInterval = null;
+
+// Flags for each ethnicity - indexed by mobileEthnicityIndex
+const mobileEthnicityFlags = [
+    ['🇯🇵', '🇨🇳', '🇰🇷', '🇹🇭', '🇻🇳', '🇮🇩', '🇲🇾', '🇵🇭'],  // Asian
+    ['🇳🇬', '🇰🇪', '🇪🇹', '🇬🇭', '🇿🇦', '🇹🇿', '🇺🇬', '🇸🇳'],  // African
+    ['🇧🇷', '🇲🇽', '🇦🇷', '🇨🇴', '🇨🇱', '🇵🇪', '🇻🇪', '🇨🇺'],  // Latin
+    ['🇸🇦', '🇦🇪', '🇪🇬', '🇯🇴', '🇱🇧', '🇲🇦', '🇶🇦', '🇰🇼'],  // Arabian
+    ['🇮🇳', '🇵🇰', '🇧🇩', '🇱🇰', '🇳🇵', '🇧🇹', '🇲🇻', '🇲🇲']   // Indian
+];
+
+function startMobileEthnicityFlagRain() {
+    const container = document.getElementById('mobile-ethnicity-flag-rain');
+    if (!container) return;
+
+    container.classList.add('active');
+
+    // Create initial batch of flags
+    for (let i = 0; i < 15; i++) {
+        setTimeout(() => createMobileEthnicityFlag(container), i * 200);
+    }
+
+    // Continue creating flags
+    mobileEthnicityFlagInterval = setInterval(() => {
+        createMobileEthnicityFlag(container);
+    }, 400);
+}
+
+function createMobileEthnicityFlag(container) {
+    const flag = document.createElement('div');
+    flag.className = 'ethnicity-flag';
+
+    // Get flags based on current ethnicity index
+    const currentFlags = mobileEthnicityFlags[mobileEthnicityIndex] || mobileEthnicityFlags[0];
+    flag.textContent = currentFlags[Math.floor(Math.random() * currentFlags.length)];
+
+    // Random position and size
+    const left = Math.random() * 100;
+    const size = 16 + Math.random() * 32; // 16px to 48px
+    const duration = 4 + Math.random() * 4; // 4-8 seconds
+    const delay = Math.random() * 0.5;
+
+    flag.style.left = `${left}%`;
+    flag.style.fontSize = `${size}px`;
+    flag.style.animationDuration = `${duration}s`;
+    flag.style.animationDelay = `${delay}s`;
+    flag.style.opacity = 0.4 + Math.random() * 0.4; // 0.4-0.8
+
+    container.appendChild(flag);
+
+    // Remove after animation completes
+    setTimeout(() => {
+        if (flag.parentNode) {
+            flag.parentNode.removeChild(flag);
+        }
+    }, (duration + delay) * 1000 + 500);
+}
+
+function stopMobileEthnicityFlagRain() {
+    const container = document.getElementById('mobile-ethnicity-flag-rain');
+    if (container) {
+        container.classList.remove('active');
+        container.innerHTML = '';
+    }
+
+    if (mobileEthnicityFlagInterval) {
+        clearInterval(mobileEthnicityFlagInterval);
+        mobileEthnicityFlagInterval = null;
     }
 }
 

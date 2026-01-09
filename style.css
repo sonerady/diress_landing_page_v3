@@ -8310,6 +8310,45 @@ footer {
     visibility: visible;
   }
 
+  /* Ethnicity Flag Rain Container */
+  .mobile-ethnicity-flag-rain {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+  }
+
+  .mobile-ethnicity-flag-rain.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .mobile-ethnicity-flag-rain .ethnicity-flag {
+    position: absolute;
+    top: -60px;
+    font-size: 24px;
+    animation: flagfall linear infinite;
+    opacity: 0.7;
+  }
+
+  @keyframes flagfall {
+    0% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 0.7;
+    }
+    100% {
+      transform: translateY(110vh) rotate(360deg);
+      opacity: 0.3;
+    }
+  }
+
   /* Mood Model Image - for rotation */
   .mobile-mood-image {
     position: absolute;
