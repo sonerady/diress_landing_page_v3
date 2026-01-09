@@ -1,1119 +1,1768 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/assets/icon.png" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <!-- Mobile Status Bar -->
+    <meta name="theme-color" content="#000000" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <title>
+      Diress - AI Fashion Model Generator | Professional Product Photos for
+      E-commerce
+    </title>
+    <meta
+      name="description"
+      content="Transform amateur product photos into professional e-commerce images with AI-powered virtual models. No studio, no photographer needed. Perfect for clothing, jewelry, shoes & accessories."
+    />
+    <meta
+      name="keywords"
+      content="AI fashion model, virtual model photography, e-commerce product photos, AI clothing model, product photography AI, virtual try-on, AI model generator, fashion photography"
+    />
+    <meta property="og:title" content="Diress - AI Fashion Model Generator" />
+    <meta
+      property="og:description"
+      content="Transform amateur product photos into professional e-commerce images with AI-powered virtual models. No studio needed."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://diress.ai" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Diress - AI Fashion Model Generator" />
+    <meta
+      name="twitter:description"
+      content="Transform amateur product photos into professional e-commerce images with AI-powered virtual models."
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/assets/icon.png" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <!-- Mobile Status Bar -->
-  <meta name="theme-color" content="#000000">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>Diress - AI Fashion Model Generator | Professional Product Photos for E-commerce</title>
-  <meta name="description" content="Transform amateur product photos into professional e-commerce images with AI-powered virtual models. No studio, no photographer needed. Perfect for clothing, jewelry, shoes & accessories.">
-  <meta name="keywords" content="AI fashion model, virtual model photography, e-commerce product photos, AI clothing model, product photography AI, virtual try-on, AI model generator, fashion photography">
-  <meta property="og:title" content="Diress - AI Fashion Model Generator">
-  <meta property="og:description" content="Transform amateur product photos into professional e-commerce images with AI-powered virtual models. No studio needed.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://diress.ai">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Diress - AI Fashion Model Generator">
-  <meta name="twitter:description" content="Transform amateur product photos into professional e-commerce images with AI-powered virtual models.">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="stylesheet" href="./style.css">
-</head>
-
-<body>
-  <div id="app">
-    <div id="main-container" class="main-container step-0 scene-0">
-
-      <!-- Header -->
-      <header>
-        <div class="logo" onclick="location.reload()" style="cursor: pointer;">
-          <div class="logo-icon-wrapper">
-            <img src="/assets/icon.png" alt="Diress AI Fashion Model Generator Logo" class="logo-icon" />
-          </div>
-          <span class="logo-text">diress<span class="dot">.</span></span>
-        </div>
-
-        <div class="header-right">
-          <nav>
-            <ul>
-              <li><a href="#" class="active" data-page="home">Home</a></li>
-              <li><a href="#" data-page="contacts">Contacts</a></li>
-              <li><a href="/pricing">Pricing</a></li>
-            </ul>
-          </nav>
-          <a href="https://app.diress.ai" target="_blank" class="get-started-btn">Get Started</a>
-        </div>
-
-        <!-- Mobile Header Right (Store Buttons + Hamburger) -->
-        <div class="mobile-header-right">
-          <a href="https://apps.apple.com/app/ai-fashion-model-maker-diress/id6738030797" target="_blank" class="mobile-store-btn" aria-label="Download on App Store">
-            <i class="fab fa-apple"></i>
-          </a>
-          <a href="https://play.google.com/store/apps/details?id=com.monalisa.diress.app" target="_blank" class="mobile-store-btn" aria-label="Get it on Google Play">
-            <i class="fab fa-google-play"></i>
-          </a>
-          <button class="hamburger-menu" id="hamburger-menu" aria-label="Toggle menu">
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-          </button>
-        </div>
-
-        <!-- Mobile Dropdown Menu -->
-        <div class="mobile-menu" id="mobile-menu">
-          <nav class="mobile-nav">
-            <a href="#" class="active" data-page="home">Home</a>
-            <a href="#" data-page="contacts">Contacts</a>
-            <a href="/pricing">Pricing</a>
-          </nav>
-          <a href="https://app.diress.ai" target="_blank" class="mobile-get-started-btn">Get Started</a>
-        </div>
-      </header>
-
-      <!-- Main Content -->
-      <section class="page-section active" id="home-section">
-        <div class="col-center">
-
-
-
-          <div class="art-wrapper" id="art-wrapper">
-
-
+  <body>
+    <div id="app">
+      <div id="main-container" class="main-container step-0 scene-0">
+        <!-- Header -->
+        <header>
+          <div class="logo" onclick="location.reload()" style="cursor: pointer">
+            <div class="logo-icon-wrapper">
+              <img
+                src="/assets/icon.png"
+                alt="Diress AI Fashion Model Generator Logo"
+                class="logo-icon"
+              />
+            </div>
+            <span class="logo-text">diress<span class="dot">.</span></span>
           </div>
 
-          <!-- Mobile Step 0: AI Model Screen -->
-          <div class="mobile-step-content mobile-step-0" id="mobile-step-0">
-            <video class="mobile-step-video" autoplay muted loop playsinline>
-              <source src="/assets/mobile-videos/step-0.mp4" type="video/mp4">
-            </video>
-            <div class="mobile-animated-text" id="mobile-animated-text">
-              <span class="mobile-text-line">No Photographer Needed</span>
-            </div>
-            <a href="https://app.diress.ai" target="_blank" class="mobile-cta-btn">
-              Get Started <i class="fas fa-arrow-right"></i>
-            </a>
+          <div class="header-right">
+            <nav>
+              <ul>
+                <li><a href="#" class="active" data-page="home">Home</a></li>
+                <li><a href="#" data-page="contacts">Contacts</a></li>
+                <li><a href="/pricing">Pricing</a></li>
+              </ul>
+            </nav>
+            <a
+              href="https://app.diress.ai"
+              target="_blank"
+              class="get-started-btn"
+              >Get Started</a
+            >
           </div>
 
-          <!-- Mobile Step 1: AI Background Screen -->
-          <div class="mobile-step-content mobile-step-1" id="mobile-step-1">
-            <video class="mobile-step-video" id="mobile-bg-video" autoplay muted loop playsinline>
-              <source src="/assets/mobile-videos/scene-1.mp4" type="video/mp4">
-            </video>
-
-            <!-- Mobile Scene Overlay - Bottom Left -->
-            <div class="mobile-scene-overlay" id="mobile-scene-overlay">
-              <!-- Scene Thumbnails - dynamically updated by JS based on Step 0 selection -->
-              <div class="mobile-scene-thumbs">
-                <div class="mobile-scene-thumb active" data-scene="0">
-                  <img src="/assets/center_image_scene_1.png" alt="Rustic Wooden Barn">
-                </div>
-                <div class="mobile-scene-thumb" data-scene="1">
-                  <img src="/assets/center_image_scene_2.png" alt="Cozy Mountain Lodge">
-                </div>
-                <div class="mobile-scene-thumb" data-scene="2">
-                  <img src="/assets/center_image_scene_3.png" alt="Bali Rice Terraces">
-                </div>
-                <div class="mobile-scene-thumb" data-scene="3">
-                  <img src="/assets/center_image_scene_4.png" alt="Greek Island">
-                </div>
-              </div>
-
-              <!-- Scene Text Content -->
-              <div class="mobile-scene-text">
-                <span class="mobile-scene-tag">5000+ Backgrounds</span>
-                <h3 class="mobile-scene-title" id="mobile-scene-title">Rustic Wooden Barn</h3>
-                <p class="mobile-scene-desc" id="mobile-scene-desc">Showcase your clothing in authentic rustic settings. Perfect for casual wear and vintage styles.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Mobile Step 3: Customize Model Screen -->
-          <div class="mobile-step-content mobile-step-3" id="mobile-step-3">
-            <!-- Hair Style Video Background with Blur Overlay -->
-            <div class="mobile-hairstyle-video-container" id="mobile-hairstyle-video-container">
-              <video class="mobile-hairstyle-video" id="mobile-hairstyle-video" autoplay loop muted playsinline>
-                <source src="/assets/customize_model_hair.mp4" type="video/mp4">
-              </video>
-              <div class="mobile-hairstyle-overlay"></div>
-            </div>
-
-            <!-- Animated Color Palette Grid (Hair Color substep) -->
-            <div class="mobile-color-palette-grid" id="mobile-color-palette-grid"></div>
-
-            <!-- Hair Color Slideshow (Mobile) -->
-            <div class="mobile-hair-color-slideshow" id="mobile-hair-color-slideshow">
-              <img src="/assets/color-1-Photoroom.png" alt="Hair Color 1" class="mobile-hair-color-slide active">
-              <img src="/assets/color-2-Photoroom.png" alt="Hair Color 2" class="mobile-hair-color-slide">
-              <img src="/assets/color-3-Photoroom.png" alt="Hair Color 3" class="mobile-hair-color-slide">
-              <img src="/assets/color-4-Photoroom.png" alt="Hair Color 4" class="mobile-hair-color-slide">
-              <img src="/assets/color-5-Photoroom.png" alt="Hair Color 5" class="mobile-hair-color-slide">
-            </div>
-
-            <!-- Animated Skin Tone Palette Grid (Skin Tone substep) -->
-            <div class="mobile-skin-tone-grid" id="mobile-skin-tone-grid"></div>
-
-            <!-- Background Color Boxes (fallback/other substeps) -->
-            <div class="mobile-customize-colors">
-              <div class="mobile-color-box" style="background: #8B4513;"></div>
-              <div class="mobile-color-box" style="background: #D2691E;"></div>
-              <div class="mobile-color-box" style="background: #CD853F;"></div>
-              <div class="mobile-color-box" style="background: #DEB887;"></div>
-              <div class="mobile-color-box" style="background: #F5DEB3;"></div>
-              <div class="mobile-color-box" style="background: #FFE4C4;"></div>
-            </div>
-
-            <!-- Center Model Image (default) -->
-            <img class="mobile-customize-model" id="mobile-customize-model" src="/assets/center_image.png" alt="AI Model Customization">
-
-            <!-- Skin Tone Model Images (for rotation) -->
-            <img class="mobile-skin-tone-image" id="mobile-skin-tone-image" src="/assets/skin_tone_1.png" alt="Skin Tone Model">
-
-            <!-- Animated Ethnicity Palette Grid (Ethnicity substep) -->
-            <div class="mobile-ethnicity-grid" id="mobile-ethnicity-grid"></div>
-
-            <!-- Ethnicity Flag Rain Container -->
-            <div class="mobile-ethnicity-flag-rain" id="mobile-ethnicity-flag-rain"></div>
-
-            <!-- Ethnicity Model Images (for rotation) -->
-            <div class="mobile-ethnicity-title" id="mobile-ethnicity-title">Asian</div>
-            <img class="mobile-ethnicity-image" id="mobile-ethnicity-image" src="/assets/center_image_2_asian_mobile.png" alt="Ethnicity Model">
-
-            <!-- Mood Model Images (for rotation) -->
-            <div class="mobile-mood-title" id="mobile-mood-title">Happy</div>
-            <img class="mobile-mood-image" id="mobile-mood-image" src="/assets/mood-1-Photoroom.png" alt="Mood Model">
-
-            <!-- Animated Mood Palette Grid (Mood substep) -->
-            <div class="mobile-mood-grid" id="mobile-mood-grid"></div>
-
-            <!-- Mood Emoji Rain Container -->
-            <div class="mobile-mood-emoji-rain" id="mobile-mood-emoji-rain"></div>
-
-            <!-- Customize Indicators - Left Side (Vertical) -->
-            <div class="customize-indicators" id="customize-indicators">
-              <div class="customize-indicator active" data-substep="0"></div>
-              <div class="customize-indicator" data-substep="1"></div>
-              <div class="customize-indicator" data-substep="2"></div>
-              <div class="customize-indicator" data-substep="3"></div>
-              <div class="customize-indicator" data-substep="4"></div>
-              <div class="customize-indicator" data-substep="5"></div>
-            </div>
-
-            <!-- SubStep Title - Top Right -->
-            <div class="mobile-customize-tags">
-              <span class="mobile-customize-tag" id="mobile-customize-substep-title">Hair Style</span>
-            </div>
-
-            <!-- Info Overlay - Bottom Left -->
-            <div class="mobile-customize-info">
-              <span class="mobile-customize-small" id="mobile-customize-small">Hair Style</span>
-              <h3 class="mobile-customize-title" id="mobile-customize-title">Select from thousands of premium hairstyles</h3>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Before/After Comparison Cards (Scene 0 only) -->
-        <div class="comparison-container">
-          <!-- Arrow pointing from Before to After -->
-          <img src="/assets/arrow.png" alt="AI transformation arrow" class="comparison-arrow">
-
-          <!-- Before Card (Amateur Photo) -->
-          <div class="comparison-card before-card">
-            <img src="/assets/amateur.png" alt="Amateur product photo before AI transformation">
-            <div class="card-overlay before-overlay">
-              <i class="fas fa-times-circle"></i>
-              <span>Before</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Image Grid (Scene 0 only) - 2x3 Grid -->
-        <div class="image-grid-container">
-          <div class="image-grid">
-            <div class="grid-card">
-              <img src="/assets/model-3.png" alt="AI generated fashion model wearing product">
-            </div>
-            <div class="grid-card">
-              <img src="/assets/model-5.png" alt="Virtual model product photography example">
-            </div>
-            <div class="grid-card">
-              <img src="/assets/model-1.png" alt="Professional AI model for e-commerce">
-            </div>
-            <div class="grid-card">
-              <img src="/assets/model-6.png" alt="AI fashion photography result">
-            </div>
-            <div class="grid-card">
-              <img src="/assets/model-2.png" alt="Virtual model wearing clothing product">
-            </div>
-            <div class="grid-card">
-              <img src="/assets/model-4.png" alt="E-commerce product on AI model">
-            </div>
-          </div>
-        </div>
-
-        <!-- Customize Model Grid (Step 3) - Video + Color Palette -->
-        <!-- Mobile Customize Tabs -->
-        <div class="customize-tabs-mobile" id="customize-tabs-mobile">
-          <button class="customize-tab active" data-substep="0">Hair Style</button>
-          <button class="customize-tab" data-substep="1">Hair Color</button>
-          <button class="customize-tab" data-substep="2">Skin Tone</button>
-          <button class="customize-tab" data-substep="3">Ethnicity</button>
-          <button class="customize-tab" data-substep="4">Mood</button>
-        </div>
-        <div class="customize-content-mobile" id="customize-content-mobile">
-          <!-- Content will be populated by JS -->
-        </div>
-        <div class="customize-grid-container">
-          <!-- Video Background for Hair Style -->
-          <video class="customize-video-bg" autoplay loop muted playsinline>
-            <source src="/assets/customize_model_hair.mp4" type="video/mp4">
-          </video>
-          <!-- Hair Style White Palette (Inside Container) -->
-          <div class="hairstyle-palette-inside" id="hairstyle-palette-inside"></div>
-          <!-- Hair Style Content Overlay -->
-          <div class="hairstyle-content" id="hairstyle-content">
-            <!-- Hair Style Slideshow Images -->
-            <div class="hairstyle-slideshow-inside" id="hairstyle-slideshow-inside">
-              <img src="/assets/color-1-Photoroom.png" alt="Style 1" class="hairstyle-slide-inside active">
-              <img src="/assets/color-2-Photoroom.png" alt="Style 2" class="hairstyle-slide-inside">
-              <img src="/assets/color-3-Photoroom.png" alt="Style 3" class="hairstyle-slide-inside">
-              <img src="/assets/color-4-Photoroom.png" alt="Style 4" class="hairstyle-slide-inside">
-              <img src="/assets/color-5-Photoroom.png" alt="Style 5" class="hairstyle-slide-inside">
-            </div>
-            <!-- Hair Style Title -->
-            <div class="hairstyle-title">
-              <span class="title-prefix">Choose Your</span>
-              <span class="title-hairstyle" id="hairstyle-text">Elegant</span>
-              <span class="title-suffix">Style</span>
-            </div>
-          </div>
-          <!-- Color Palette Grid for Hair Color -->
-          <div class="color-palette-grid" id="color-palette-grid"></div>
-          <!-- Skin Tone Palette Grid -->
-          <div class="skin-tone-palette-grid" id="skin-tone-palette-grid"></div>
-          <!-- Skin Tone White Palette (Inside Container) -->
-          <div class="skintone-palette-inside" id="skintone-palette-inside"></div>
-          <!-- Skin Tone Content Overlay -->
-          <div class="skintone-content" id="skintone-content">
-            <!-- Skin Tone Slideshow Images -->
-            <div class="skintone-slideshow-inside" id="skintone-slideshow-inside">
-              <img src="/assets/skin_tone_1.png" alt="Skin Tone 1" class="skintone-slide-inside active">
-              <img src="/assets/skin_tone_2.png" alt="Skin Tone 2" class="skintone-slide-inside">
-              <img src="/assets/skin_tone_3.png" alt="Skin Tone 3" class="skintone-slide-inside">
-              <img src="/assets/skin_tone_4.png" alt="Skin Tone 4" class="skintone-slide-inside">
-              <img src="/assets/skin_tone_5.png" alt="Skin Tone 5" class="skintone-slide-inside">
-            </div>
-            <!-- Skin Tone Title -->
-            <div class="skintone-title">
-              <span class="title-prefix">Select Your</span>
-              <span class="title-skintone" id="skintone-text">Fair</span>
-              <span class="title-suffix">Tone</span>
-            </div>
-          </div>
-          <!-- Ethnicity Background Image -->
-          <img class="ethnicity-bg" id="ethnicity-bg" src="/assets/ethnicity.png" alt="AI model ethnicity customization options">
-          <!-- Ethnicity White Palette (Inside Container) -->
-          <div class="ethnicity-palette-inside" id="ethnicity-palette-inside"></div>
-          <!-- Ethnicity Content Overlay -->
-          <div class="ethnicity-content" id="ethnicity-content">
-            <!-- Ethnicity Slideshow Images -->
-            <div class="ethnicity-slideshow-inside" id="ethnicity-slideshow-inside">
-              <img src="/assets/center_image_2_asian.png" alt="Asian" class="ethnicity-slide-inside active">
-              <img src="/assets/center_image_2_african.png" alt="African" class="ethnicity-slide-inside">
-              <img src="/assets/center_image_2_latine.png" alt="Latin" class="ethnicity-slide-inside">
-              <img src="/assets/center_image_2_arabian.png" alt="Arabian" class="ethnicity-slide-inside">
-              <img src="/assets/center_image_2_indian.png" alt="Indian" class="ethnicity-slide-inside">
-            </div>
-            <!-- Ethnicity Title -->
-            <div class="ethnicity-title">
-              <span class="title-prefix">Create Your</span>
-              <span class="title-ethnicity" id="ethnicity-text">Asian</span>
-              <span class="title-suffix">Model</span>
-            </div>
-          </div>
-          <!-- Ethnicity Flag Rain (Inside Container) -->
-          <div class="ethnicity-flag-rain-inside" id="ethnicity-flag-rain-inside"></div>
-          <!-- Mood Background Image -->
-          <img class="mood-bg" id="mood-bg" src="/assets/ethnicity.png" alt="AI model mood and expression settings">
-          <!-- Mood White Palette (Desktop) -->
-          <div class="mood-palette-desktop" id="mood-palette-desktop"></div>
-          <!-- Mood Content Overlay -->
-          <div class="mood-content" id="mood-content">
-            <!-- Mood Title -->
-            <div class="mood-title">
-              <span class="title-prefix">Set The</span>
-              <span class="title-mood" id="mood-text">Perfect</span>
-              <span class="title-suffix">Mood</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Change Pose Section (Step 6) - Three.js Canvas -->
-        <div class="change-pose-section">
-          <!-- Three.js Canvas Container -->
-          <div class="pose-canvas-container" id="pose-canvas-container">
-            <!-- Three.js canvas will be inserted here -->
-          </div>
-
-          <!-- Pose Labels Container (will be populated by JS) -->
-          <div class="pose-labels-container" id="pose-labels-container">
-            <!-- Labels will be dynamically created by JavaScript -->
-          </div>
-
-          <!-- Mobile Pose Carousel -->
-          <div class="mobile-pose-carousel" id="mobile-pose-carousel">
-            <div class="pose-carousel-track" id="pose-carousel-track">
-              <!-- Will be populated by JS -->
-            </div>
-            <!-- Pose Feature Tags - Top Right -->
-            <div class="pose-feature-tags">
-              <span class="pose-feature-tag">5000+ Poses</span>
-              <span class="pose-feature-tag">Create Custom Poses</span>
-            </div>
-            <!-- Pose Info Overlay -->
-            <div class="pose-info-overlay">
-              <span class="pose-info-small" id="pose-info-small">Confident Stance</span>
-              <h3 class="pose-info-big" id="pose-info-big">Hand on Hip Power Pose</h3>
-            </div>
-            <!-- Pose Indicators -->
-            <div class="pose-indicators" id="pose-indicators">
-              <!-- Will be populated by JS -->
-            </div>
-          </div>
-        </div>
-
-        <!-- Change Color Section (Step 5) -->
-        <div class="change-color-section">
-          <!-- Background Color -->
-          <div class="change-color-bg"></div>
-
-          <!-- Main Center Image -->
-          <div class="change-color-center">
-            <!-- Background Boxes -->
-            <div class="change-color-boxes">
-              <div class="box box-left">
-                <div class="color-info">
-                  <span class="hex-code">#B6B870</span>
-                  <span class="color-name">Olive Green</span>
-                </div>
-                <img src="/assets/change_color_left.png" alt="Product in olive green color variant">
-              </div>
-              <div class="box box-center">
-                <img src="/assets/change_color_back.png" alt="AI color change back view">
-              </div>
-              <div class="box box-right">
-                <img src="/assets/change_color_zoom.png" alt="Product color detail zoom view">
-              </div>
-            </div>
-            <img src="/assets/change_color_front.png" alt="AI model with color variant product">
-          </div>
-
-          <!-- Bottom Right Content -->
-          <div class="change-color-bottom-right">
-            <p class="change-color-tagline">Generate unlimited color variants instantly with AI</p>
-            <div class="change-color-badges">
-              <span class="color-badge olive">#B6B870</span>
-              <span class="color-badge navy">#2C3E50</span>
-              <span class="color-badge burgundy">#722F37</span>
-            </div>
-          </div>
-
-          <!-- Mobile Color Layout - Like Desktop -->
-          <div class="color-mobile-layout" id="color-mobile-layout">
-            <!-- Background Color -->
-            <div class="color-mobile-bg"></div>
-
-            <!-- Top Gradient -->
-            <div class="color-mobile-gradient-top"></div>
-
-            <!-- Background Boxes (behind main image) -->
-            <div class="color-mobile-boxes">
-              <div class="color-box-item left">
-                <img src="/assets/change_color_left.png" alt="Color variant left">
-              </div>
-              <div class="color-box-item center">
-                <img src="/assets/change_color_back.png" alt="Color variant back">
-              </div>
-              <div class="color-box-item right">
-                <img src="/assets/change_color_zoom.png" alt="Color variant zoom">
-              </div>
-            </div>
-
-            <!-- Main Front Image (in front) -->
-            <div class="color-mobile-front">
-              <img src="/assets/change_color_front.png" alt="AI model with color variant">
-            </div>
-
-            <!-- Bottom Gradient -->
-            <div class="color-mobile-gradient-bottom"></div>
-
-            <!-- Info Section with Color Swatches below -->
-            <div class="color-mobile-info">
-              <span class="color-mobile-tag">AI Colors</span>
-              <h3 class="color-mobile-title">Unlimited Color Variants</h3>
-              <p class="color-mobile-subtitle">See your products in different colors on AI models within seconds</p>
-              <!-- Color Swatches - Only 3 colors like desktop -->
-              <div class="color-swatches-inline">
-                <div class="color-swatch-item active" data-color="olive" data-bg="#b6b870">
-                  <span class="swatch-circle" style="background: #B6B870;"></span>
-                </div>
-                <div class="color-swatch-item" data-color="navy" data-bg="#2C3E50">
-                  <span class="swatch-circle" style="background: #2C3E50;"></span>
-                </div>
-                <div class="color-swatch-item" data-color="burgundy" data-bg="#722F37">
-                  <span class="swatch-circle" style="background: #722F37;"></span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Color Code Display - Right Center -->
-            <div class="color-code-mobile">
-              <span class="mobile-hex-code">#B6B870</span>
-              <span class="mobile-color-name">Olive Green</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Hair Style Slideshow (Desktop) - Outside container for z-index -->
-        <div class="hair-style-slideshow" id="hair-style-slideshow">
-          <img src="/assets/color-1-Photoroom.png" alt="Hair Style 1" class="hair-style-slide active">
-          <img src="/assets/color-2-Photoroom.png" alt="Hair Style 2" class="hair-style-slide">
-          <img src="/assets/color-3-Photoroom.png" alt="Hair Style 3" class="hair-style-slide">
-          <img src="/assets/color-4-Photoroom.png" alt="Hair Style 4" class="hair-style-slide">
-          <img src="/assets/color-5-Photoroom.png" alt="Hair Style 5" class="hair-style-slide">
-        </div>
-
-        <!-- Hair Style White Palette (Desktop) -->
-        <div class="hair-style-palette-desktop" id="hair-style-palette-desktop"></div>
-
-        <!-- Skin Tone Grid Overlay (Desktop) - Outside container for z-index -->
-        <div class="skin-tone-grid-overlay" id="skin-tone-grid-overlay">
-          <div class="skin-tone-grid-cells" id="skin-tone-grid-cells"></div>
-        </div>
-
-        <!-- Hair Color Slideshow (Desktop) - Outside container for z-index -->
-        <div class="hair-color-slideshow" id="hair-color-slideshow">
-          <img src="/assets/color-1-Photoroom.png" alt="Hair Color 1" class="hair-color-slide active">
-          <img src="/assets/color-2-Photoroom.png" alt="Hair Color 2" class="hair-color-slide">
-          <img src="/assets/color-3-Photoroom.png" alt="Hair Color 3" class="hair-color-slide">
-          <img src="/assets/color-4-Photoroom.png" alt="Hair Color 4" class="hair-color-slide">
-          <img src="/assets/color-5-Photoroom.png" alt="Hair Color 5" class="hair-color-slide">
-        </div>
-
-        <!-- Ethnicity Slideshow (Desktop) - Outside container for z-index -->
-        <div class="ethnicity-slideshow" id="ethnicity-slideshow">
-          <img src="/assets/center_image_2_asian.png" alt="Asian" class="ethnicity-slide active">
-          <img src="/assets/center_image_2_african.png" alt="African" class="ethnicity-slide">
-          <img src="/assets/center_image_2_latine.png" alt="Latin" class="ethnicity-slide">
-          <img src="/assets/center_image_2_arabian.png" alt="Arabian" class="ethnicity-slide">
-          <img src="/assets/center_image_2_indian.png" alt="Indian" class="ethnicity-slide">
-          <!-- Ethnicity Text - Right Side -->
-          <div class="ethnicity-text-right">
-            <span class="ethnicity-label">Create Your</span>
-            <span class="ethnicity-name" id="ethnicity-slideshow-text">Asian</span>
-            <span class="ethnicity-label">Model</span>
-          </div>
-        </div>
-
-        <!-- Ethnicity White Palette (Desktop) -->
-        <div class="ethnicity-palette-desktop" id="ethnicity-palette-desktop"></div>
-
-        <!-- Ethnicity Flag Rain (Desktop) -->
-        <div class="ethnicity-flag-rain-desktop" id="ethnicity-flag-rain-desktop"></div>
-
-        <!-- Mood Slideshow (Desktop) - Outside container for z-index -->
-        <div class="mood-slideshow" id="mood-slideshow">
-          <img src="/assets/mood-1-Photoroom.png" alt="Mood 1" class="mood-slide active">
-          <img src="/assets/mood-2-Photoroom.png" alt="Mood 2" class="mood-slide">
-          <img src="/assets/mood-3-Photoroom.png" alt="Mood 3" class="mood-slide">
-        </div>
-
-        <!-- Mood Emoji Rain (Desktop) -->
-        <div class="mood-emoji-rain-desktop" id="mood-emoji-rain-desktop"></div>
-
-        <!-- Ecommerce Kits Section (Step 2) -->
-        <div class="ecommerce-section">
-          <!-- Loading Intro -->
-          <div class="ecommerce-loading" id="ecommerce-loading">
-            <div class="loading-layout">
-              <div class="loading-content">
-                <!-- Word list container -->
-                <div class="prompt-words-container" id="prompt-words-container">
-                  <!-- Words will be added by JS -->
-                </div>
-                <button class="generate-btn" id="generate-btn">
-                  Generate
-                </button>
-                <div class="loading-spinner" id="loading-spinner">
-                  <div class="spinner"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Actual Product Content -->
-          <div class="ecommerce-container" id="ecommerce-content">
-            <!-- Mobile Info Header -->
-            <div class="ecommerce-mobile-info">
-              <span class="ecommerce-mobile-tag">AI Export</span>
-              <h3 class="ecommerce-mobile-title">E-commerce Ready Photos</h3>
-              <p class="ecommerce-mobile-subtitle">Professional product visuals generated by AI</p>
-            </div>
-            <!-- Ecommerce Results Slider (Desktop) -->
-            <div class="results-slider-container">
-              <div class="results-slider" id="results-slider">
-                <!-- Slides will be dynamically generated by JavaScript -->
-              </div>
-            </div>
-
-            <!-- Mobile Gallery Layout -->
-            <div class="ecommerce-mobile-gallery" id="ecommerce-mobile-gallery">
-              <!-- Left Thumbnails Column -->
-              <div class="ecommerce-thumbs-column" id="ecommerce-thumbs-column">
-                <div class="ecommerce-thumb active" data-index="0">
-                  <img src="/assets/editorial_1.png" alt="Editorial 1">
-                </div>
-                <div class="ecommerce-thumb" data-index="1">
-                  <img src="/assets/editorial_2.png" alt="Editorial 2">
-                </div>
-                <div class="ecommerce-thumb" data-index="2">
-                  <img src="/assets/editorial_3.png" alt="Editorial 3">
-                </div>
-                <div class="ecommerce-thumb" data-index="3">
-                  <img src="/assets/white_studio_2.png" alt="Studio Style">
-                </div>
-                <div class="ecommerce-thumb" data-index="4">
-                  <img src="/assets/detail_product.png" alt="Product Detail">
-                </div>
-                <div class="ecommerce-thumb" data-index="5">
-                  <img src="/assets/ghost_mannequin.png" alt="Ghost Mannequin">
-                </div>
-              </div>
-
-              <!-- Main Full Screen Image -->
-              <div class="ecommerce-main-image" id="ecommerce-main-image">
-                <img src="/assets/editorial_1.png" alt="AI Export Main" id="ecommerce-main-img">
-                <div class="ecommerce-main-label" id="ecommerce-main-label">Editorial Style</div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- Image to Video Section (Step 7) -->
-        <div class="image-to-video-section">
-          <!-- Center Video -->
-          <video class="image-to-video-player" autoplay loop muted playsinline>
-            <source src="/assets/image_to_video.mp4" type="video/mp4">
-          </video>
-
-          <!-- Right Side - Arrow and Image (like Virtual Model) -->
-          <div class="video-comparison-container">
-            <img src="/assets/arrow.png" alt="Transform to video" class="video-arrow">
-            <div class="video-source-card">
-              <img src="/assets/center_image.png" alt="Source image for video generation">
-            </div>
-          </div>
-
-          <!-- Mobile Image Card (Bottom) -->
-          <div class="mobile-video-image-card">
-            <img src="/assets/center_image.png" alt="Source image">
-            <span class="mobile-video-card-label">Image</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- Right Side Content for Customize Model Sub-steps -->
-      <div class="customize-content-right" id="customize-content-right">
-        <!-- Content injected by JS -->
-      </div>
-
-      <!-- Retouch Step Divider Line -->
-      <div class="retouch-divider" id="retouch-divider">
-        <span class="label-before">Before</span>
-        <span class="label-after">After</span>
-      </div>
-
-      <!-- Mobile Retouch Layout -->
-      <div class="retouch-mobile" id="retouch-mobile">
-        <!-- Feature Tags - Top Right like pose screen -->
-        <div class="retouch-feature-tags">
-          <span class="retouch-feature-tag">Remove Background</span>
-          <span class="retouch-feature-tag">Enhance Quality</span>
-          <span class="retouch-feature-tag">Fix Lighting</span>
-        </div>
-
-        <!-- Before/After Comparison Slider -->
-        <div class="retouch-comparison-container">
-          <div class="retouch-comparison-wrapper">
-            <!-- After Image (Background) -->
-            <img class="retouch-after-img" id="retouch-after-mobile" src="/assets/results-products-2/amateur-after-0.JPG" alt="After retouch">
-
-            <!-- Before Image (Clipped) -->
-            <div class="retouch-before-clip" id="retouch-before-clip">
-              <img class="retouch-before-img" id="retouch-before-mobile" src="/assets/amateur-products-2/amateur-before-0.png" alt="Before retouch">
-            </div>
-
-            <!-- Slider Handle -->
-            <div class="retouch-slider-handle" id="retouch-slider-handle">
-              <div class="retouch-slider-line"></div>
-              <div class="retouch-slider-circle">
-                <i class="fas fa-arrows-left-right"></i>
-              </div>
-            </div>
-
-            <!-- Labels -->
-            <span class="retouch-label-before">Before</span>
-            <span class="retouch-label-after">After</span>
-
-            <!-- Thumbnail Selector - Inside card with gradient -->
-            <div class="retouch-thumbnails-inner" id="retouch-thumbnails">
-              <div class="retouch-thumb active" data-index="0">
-                <img src="/assets/results-products-2/amateur-after-0.JPG" alt="Product 1">
-              </div>
-              <div class="retouch-thumb" data-index="1">
-                <img src="/assets/results-products-2/amateur-after-1.JPG" alt="Product 2">
-              </div>
-              <div class="retouch-thumb" data-index="2">
-                <img src="/assets/results-products-2/amateur-after-2.JPG" alt="Product 3">
-              </div>
-              <div class="retouch-thumb" data-index="3">
-                <img src="/assets/results-products-2/amateur-after-3.JPG" alt="Product 4">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Info Card - Bottom Left with feature badges -->
-        <div class="retouch-mobile-info">
-          <span class="retouch-mobile-tag">AI Retouch</span>
-          <h3 class="retouch-mobile-title">Professional Photo Editing</h3>
-          <div class="retouch-feature-badges">
-            <span class="retouch-feature-badge">Remove Background</span>
-            <span class="retouch-feature-badge">Enhance Quality</span>
-            <span class="retouch-feature-badge">Fix Lighting</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Vertical Step Slider -->
-      <div class="vertical-slider-container">
-        <div class="vertical-slider" id="vertical-slider">
-          <!-- Steps will be generated by JS -->
-        </div>
-      </div>
-
-      <!-- Customize Model Sub-menu (Active only in Step 3) -->
-      <div class="customize-submenu" id="customize-submenu">
-        <div class="submenu-arrow">
-          <i class="fas fa-chevron-right"></i>
-        </div>
-        <div class="submenu-card">
-          <div class="submenu-item">
-            <span class="item-tag">New</span>
-            <span class="item-label">Hair Style</span>
-          </div>
-          <div class="submenu-item">
-            <span class="item-label">Hair Color</span>
-          </div>
-          <div class="submenu-item">
-            <span class="item-label">Skin Tone</span>
-          </div>
-          <div class="submenu-item">
-            <span class="item-label">Ethnicity</span>
-          </div>
-          <div class="submenu-item">
-            <span class="item-label">Mood</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right Gradient Overlay for Scene 1, 2, 3 -->
-      <div class="right-gradient-overlay"></div>
-
-      <!-- Scene Text Overlay Container (for Scene 1, 2, 3) -->
-      <div class="scene-text-container">
-        <!-- Scene Selector Thumbnails -->
-        <div class="scene-selector" id="scene-selector">
-          <div class="scene-thumb" data-scene="1">
-            <img src="/assets/center_image_scene_1.png" alt="Rustic outdoor background for product photos">
-          </div>
-          <div class="scene-thumb" data-scene="2">
-            <img src="/assets/center_image_scene_2.png" alt="Premium interior scene for e-commerce">
-          </div>
-          <div class="scene-thumb" data-scene="3">
-            <img src="/assets/center_image_scene_3.png" alt="Exotic tropical background for fashion photos">
-          </div>
-          <div class="scene-thumb" data-scene="4">
-            <img src="/assets/center_image_scene_4.png" alt="Greek island background for fashion photos">
-          </div>
-        </div>
-
-        <!-- Scene 1 Text Overlay -->
-        <div class="scene-1-text scene-text-content">
-          <span class="small-tag">5000+ Backgrounds</span>
-          <h2>Rustic Wooden Barn</h2>
-          <p>Showcase your clothing in front of an authentic rustic barn.<br>Perfect for casual wear, denim collections and vintage styles.<br>Create that countryside aesthetic with AI-powered virtual models.</p>
-        </div>
-
-        <!-- Scene 2 Text Overlay -->
-        <div class="scene-2-text scene-text-content">
-          <span class="small-tag">5000+ Backgrounds</span>
-          <h2>Cozy Mountain Lodge</h2>
-          <p>Display your products in a warm fireplace mountain cabin.<br>Ideal for winter collections, knitwear and premium apparel.<br>Bring luxury atmosphere to your e-commerce catalog instantly.</p>
-        </div>
-
-        <!-- Scene 3 Text Overlay -->
-        <div class="scene-3-text scene-text-content">
-          <span class="small-tag">5000+ Backgrounds</span>
-          <h2>Bali Rice Terraces</h2>
-          <p>Present your fashion line against stunning Bali rice fields.<br>Perfect for summer collections, resort wear and bohemian styles.<br>Transport your products to exotic tropical destinations with AI.</p>
-        </div>
-
-        <!-- Scene 4 Text Overlay -->
-        <div class="scene-4-text scene-text-content">
-          <span class="small-tag">5000+ Backgrounds</span>
-          <h2>Greek Island Paradise</h2>
-          <p>Showcase your fashion on stunning Greek island backdrops.<br>Perfect for summer collections, resort wear and Mediterranean styles.<br>Bring the Aegean beauty to your e-commerce catalog with AI.</p>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="socials">
-          <a href="https://www.instagram.com/diress_app/" target="_blank"><i class="fab fa-instagram"></i></a>
-          <i class="fab fa-twitter"></i>
-          <i class="fab fa-linkedin-in"></i>
-          <a href="https://www.monailisa.com/privacy-policy" target="_blank" class="legal-link">Privacy Policy</a>
-          <span class="legal-separator">|</span>
-          <a href="https://www.monailisa.com/terms" target="_blank" class="legal-link">Terms of Service</a>
-        </div>
-
-        <div class="footer-right">
-          <!-- Language switch hidden -->
-          <div class="store-badges">
-            <a href="https://apps.apple.com/app/ai-fashion-model-maker-diress/id6738030797" class="store-btn"
-              target="_blank">
+          <!-- Mobile Header Right (Store Buttons + Hamburger) -->
+          <div class="mobile-header-right">
+            <a
+              href="https://apps.apple.com/app/ai-fashion-model-maker-diress/id6738030797"
+              target="_blank"
+              class="mobile-store-btn"
+              aria-label="Download on App Store"
+            >
               <i class="fab fa-apple"></i>
-              <div class="btn-text">
-                <span>Download on the</span>
-                <strong>App Store</strong>
-              </div>
             </a>
-            <a href="https://play.google.com/store/apps/details?id=com.monalisa.diress.app" class="store-btn"
-              target="_blank">
+            <a
+              href="https://play.google.com/store/apps/details?id=com.monalisa.diress.app"
+              target="_blank"
+              class="mobile-store-btn"
+              aria-label="Get it on Google Play"
+            >
               <i class="fab fa-google-play"></i>
-              <div class="btn-text">
-                <span>GET IT ON</span>
-                <strong>Google Play</strong>
-              </div>
             </a>
+            <button
+              class="hamburger-menu"
+              id="hamburger-menu"
+              aria-label="Toggle menu"
+            >
+              <span class="hamburger-line"></span>
+              <span class="hamburger-line"></span>
+              <span class="hamburger-line"></span>
+            </button>
+          </div>
+
+          <!-- Mobile Dropdown Menu -->
+          <div class="mobile-menu" id="mobile-menu">
+            <nav class="mobile-nav">
+              <a href="#" class="active" data-page="home">Home</a>
+              <a href="#" data-page="contacts">Contacts</a>
+              <a href="/pricing">Pricing</a>
+            </nav>
+            <a
+              href="https://app.diress.ai"
+              target="_blank"
+              class="mobile-get-started-btn"
+              >Get Started</a
+            >
+          </div>
+        </header>
+
+        <!-- Main Content -->
+        <section class="page-section active" id="home-section">
+          <div class="col-center">
+            <div class="art-wrapper" id="art-wrapper"></div>
+
+            <!-- Mobile Step 0: AI Model Screen -->
+            <div class="mobile-step-content mobile-step-0" id="mobile-step-0">
+              <video class="mobile-step-video" autoplay muted loop playsinline>
+                <source
+                  src="/assets/mobile-videos/step-0.mp4"
+                  type="video/mp4"
+                />
+              </video>
+              <div class="mobile-animated-text" id="mobile-animated-text">
+                <span class="mobile-text-line">No Photographer Needed</span>
+              </div>
+              <a
+                href="https://app.diress.ai"
+                target="_blank"
+                class="mobile-cta-btn"
+              >
+                Get Started <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+
+            <!-- Mobile Step 1: AI Background Screen -->
+            <div class="mobile-step-content mobile-step-1" id="mobile-step-1">
+              <video
+                class="mobile-step-video"
+                id="mobile-bg-video"
+                autoplay
+                muted
+                loop
+                playsinline
+              >
+                <source
+                  src="/assets/mobile-videos/scene-1.mp4"
+                  type="video/mp4"
+                />
+              </video>
+
+              <!-- Mobile Scene Overlay - Bottom Left -->
+              <div class="mobile-scene-overlay" id="mobile-scene-overlay">
+                <!-- Scene Thumbnails - dynamically updated by JS based on Step 0 selection -->
+                <div class="mobile-scene-thumbs">
+                  <div class="mobile-scene-thumb active" data-scene="0">
+                    <img
+                      src="/assets/center_image_scene_1.png"
+                      alt="Rustic Wooden Barn"
+                    />
+                  </div>
+                  <div class="mobile-scene-thumb" data-scene="1">
+                    <img
+                      src="/assets/center_image_scene_2.png"
+                      alt="Cozy Mountain Lodge"
+                    />
+                  </div>
+                  <div class="mobile-scene-thumb" data-scene="2">
+                    <img
+                      src="/assets/center_image_scene_3.png"
+                      alt="Bali Rice Terraces"
+                    />
+                  </div>
+                  <div class="mobile-scene-thumb" data-scene="3">
+                    <img
+                      src="/assets/center_image_scene_4.png"
+                      alt="Greek Island"
+                    />
+                  </div>
+                </div>
+
+                <!-- Scene Text Content -->
+                <div class="mobile-scene-text">
+                  <span class="mobile-scene-tag">5000+ Backgrounds</span>
+                  <h3 class="mobile-scene-title" id="mobile-scene-title">
+                    Rustic Wooden Barn
+                  </h3>
+                  <p class="mobile-scene-desc" id="mobile-scene-desc">
+                    Showcase your clothing in authentic rustic settings. Perfect
+                    for casual wear and vintage styles.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mobile Step 3: Customize Model Screen -->
+            <div class="mobile-step-content mobile-step-3" id="mobile-step-3">
+              <!-- Hair Style Video Background with Blur Overlay -->
+              <div
+                class="mobile-hairstyle-video-container"
+                id="mobile-hairstyle-video-container"
+              >
+                <video
+                  class="mobile-hairstyle-video"
+                  id="mobile-hairstyle-video"
+                  autoplay
+                  loop
+                  muted
+                  playsinline
+                >
+                  <source
+                    src="/assets/customize_model_hair.mp4"
+                    type="video/mp4"
+                  />
+                </video>
+                <div class="mobile-hairstyle-overlay"></div>
+              </div>
+
+              <!-- Animated Color Palette Grid (Hair Color substep) -->
+              <div
+                class="mobile-color-palette-grid"
+                id="mobile-color-palette-grid"
+              ></div>
+
+              <!-- Hair Color Slideshow (Mobile) -->
+              <div
+                class="mobile-hair-color-slideshow"
+                id="mobile-hair-color-slideshow"
+              >
+                <img
+                  src="/assets/color-1-Photoroom.png"
+                  alt="Hair Color 1"
+                  class="mobile-hair-color-slide active"
+                />
+                <img
+                  src="/assets/color-2-Photoroom.png"
+                  alt="Hair Color 2"
+                  class="mobile-hair-color-slide"
+                />
+                <img
+                  src="/assets/color-3-Photoroom.png"
+                  alt="Hair Color 3"
+                  class="mobile-hair-color-slide"
+                />
+                <img
+                  src="/assets/color-4-Photoroom.png"
+                  alt="Hair Color 4"
+                  class="mobile-hair-color-slide"
+                />
+                <img
+                  src="/assets/color-5-Photoroom.png"
+                  alt="Hair Color 5"
+                  class="mobile-hair-color-slide"
+                />
+              </div>
+
+              <!-- Animated Skin Tone Palette Grid (Skin Tone substep) -->
+              <div
+                class="mobile-skin-tone-grid"
+                id="mobile-skin-tone-grid"
+              ></div>
+
+              <!-- Background Color Boxes (fallback/other substeps) -->
+              <div class="mobile-customize-colors">
+                <div class="mobile-color-box" style="background: #8b4513"></div>
+                <div class="mobile-color-box" style="background: #d2691e"></div>
+                <div class="mobile-color-box" style="background: #cd853f"></div>
+                <div class="mobile-color-box" style="background: #deb887"></div>
+                <div class="mobile-color-box" style="background: #f5deb3"></div>
+                <div class="mobile-color-box" style="background: #ffe4c4"></div>
+              </div>
+
+              <!-- Center Model Image (default) -->
+              <img
+                class="mobile-customize-model"
+                id="mobile-customize-model"
+                src="/assets/center_image.png"
+                alt="AI Model Customization"
+              />
+
+              <!-- Skin Tone Model Images (for rotation) -->
+              <img
+                class="mobile-skin-tone-image"
+                id="mobile-skin-tone-image"
+                src="/assets/skin_tone_1.png"
+                alt="Skin Tone Model"
+              />
+
+              <!-- Animated Ethnicity Palette Grid (Ethnicity substep) -->
+              <div
+                class="mobile-ethnicity-grid"
+                id="mobile-ethnicity-grid"
+              ></div>
+
+              <!-- Ethnicity Flag Rain Container -->
+              <div
+                class="mobile-ethnicity-flag-rain"
+                id="mobile-ethnicity-flag-rain"
+              ></div>
+
+              <!-- Ethnicity Model Images (for rotation) -->
+              <div class="mobile-ethnicity-title" id="mobile-ethnicity-title">
+                Asian
+              </div>
+              <img
+                class="mobile-ethnicity-image"
+                id="mobile-ethnicity-image"
+                src="/assets/center_image_2_asian_mobile.png"
+                alt="Ethnicity Model"
+              />
+
+              <!-- Mood Model Images (for rotation) -->
+              <div class="mobile-mood-title" id="mobile-mood-title">Happy</div>
+              <img
+                class="mobile-mood-image"
+                id="mobile-mood-image"
+                src="/assets/mood-1-Photoroom.png"
+                alt="Mood Model"
+              />
+
+              <!-- Animated Mood Palette Grid (Mood substep) -->
+              <div class="mobile-mood-grid" id="mobile-mood-grid"></div>
+
+              <!-- Mood Emoji Rain Container -->
+              <div
+                class="mobile-mood-emoji-rain"
+                id="mobile-mood-emoji-rain"
+              ></div>
+
+              <!-- Customize Indicators - Left Side (Vertical) -->
+              <div class="customize-indicators" id="customize-indicators">
+                <div class="customize-indicator active" data-substep="0"></div>
+                <div class="customize-indicator" data-substep="1"></div>
+                <div class="customize-indicator" data-substep="2"></div>
+                <div class="customize-indicator" data-substep="3"></div>
+                <div class="customize-indicator" data-substep="4"></div>
+                <div class="customize-indicator" data-substep="5"></div>
+              </div>
+
+              <!-- SubStep Title - Top Right -->
+              <div class="mobile-customize-tags">
+                <span
+                  class="mobile-customize-tag"
+                  id="mobile-customize-substep-title"
+                  >Hair Style</span
+                >
+              </div>
+
+              <!-- Info Overlay - Bottom Left -->
+              <div class="mobile-customize-info">
+                <span class="mobile-customize-small" id="mobile-customize-small"
+                  >Hair Style</span
+                >
+                <h3 class="mobile-customize-title" id="mobile-customize-title">
+                  Select from thousands of premium hairstyles
+                </h3>
+              </div>
+            </div>
+          </div>
+
+          <!-- Before/After Comparison Cards (Scene 0 only) -->
+          <div class="comparison-container">
+            <!-- Arrow pointing from Before to After -->
+            <img
+              src="/assets/arrow.png"
+              alt="AI transformation arrow"
+              class="comparison-arrow"
+            />
+
+            <!-- Before Card (Amateur Photo) -->
+            <div class="comparison-card before-card">
+              <img
+                src="/assets/amateur.png"
+                alt="Amateur product photo before AI transformation"
+              />
+              <div class="card-overlay before-overlay">
+                <i class="fas fa-times-circle"></i>
+                <span>Before</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Image Grid (Scene 0 only) - 2x3 Grid -->
+          <div class="image-grid-container">
+            <div class="image-grid">
+              <div class="grid-card">
+                <img
+                  src="/assets/model-3.png"
+                  alt="AI generated fashion model wearing product"
+                />
+              </div>
+              <div class="grid-card">
+                <img
+                  src="/assets/model-5.png"
+                  alt="Virtual model product photography example"
+                />
+              </div>
+              <div class="grid-card">
+                <img
+                  src="/assets/model-1.png"
+                  alt="Professional AI model for e-commerce"
+                />
+              </div>
+              <div class="grid-card">
+                <img
+                  src="/assets/model-6.png"
+                  alt="AI fashion photography result"
+                />
+              </div>
+              <div class="grid-card">
+                <img
+                  src="/assets/model-2.png"
+                  alt="Virtual model wearing clothing product"
+                />
+              </div>
+              <div class="grid-card">
+                <img
+                  src="/assets/model-4.png"
+                  alt="E-commerce product on AI model"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Customize Model Grid (Step 3) - Video + Color Palette -->
+          <!-- Mobile Customize Tabs -->
+          <div class="customize-tabs-mobile" id="customize-tabs-mobile">
+            <button class="customize-tab active" data-substep="0">
+              Hair Style
+            </button>
+            <button class="customize-tab" data-substep="1">Hair Color</button>
+            <button class="customize-tab" data-substep="2">Skin Tone</button>
+            <button class="customize-tab" data-substep="3">Ethnicity</button>
+            <button class="customize-tab" data-substep="4">Mood</button>
+          </div>
+          <div class="customize-content-mobile" id="customize-content-mobile">
+            <!-- Content will be populated by JS -->
+          </div>
+          <div class="customize-grid-container">
+            <!-- Video Background for Hair Style -->
+            <video class="customize-video-bg" autoplay loop muted playsinline>
+              <source src="/assets/customize_model_hair.mp4" type="video/mp4" />
+            </video>
+            <!-- Hair Style White Palette (Inside Container) -->
+            <div
+              class="hairstyle-palette-inside"
+              id="hairstyle-palette-inside"
+            ></div>
+            <!-- Hair Style Content Overlay -->
+            <div class="hairstyle-content" id="hairstyle-content">
+              <!-- Hair Style Slideshow Images -->
+              <div
+                class="hairstyle-slideshow-inside"
+                id="hairstyle-slideshow-inside"
+              >
+                <img
+                  src="/assets/color-1-Photoroom.png"
+                  alt="Style 1"
+                  class="hairstyle-slide-inside active"
+                />
+                <img
+                  src="/assets/color-2-Photoroom.png"
+                  alt="Style 2"
+                  class="hairstyle-slide-inside"
+                />
+                <img
+                  src="/assets/color-3-Photoroom.png"
+                  alt="Style 3"
+                  class="hairstyle-slide-inside"
+                />
+                <img
+                  src="/assets/color-4-Photoroom.png"
+                  alt="Style 4"
+                  class="hairstyle-slide-inside"
+                />
+                <img
+                  src="/assets/color-5-Photoroom.png"
+                  alt="Style 5"
+                  class="hairstyle-slide-inside"
+                />
+              </div>
+              <!-- Hair Style Title -->
+              <div class="hairstyle-title">
+                <span class="title-prefix">Choose Your</span>
+                <span class="title-hairstyle" id="hairstyle-text">Elegant</span>
+                <span class="title-suffix">Style</span>
+              </div>
+            </div>
+            <!-- Color Palette Grid for Hair Color -->
+            <div class="color-palette-grid" id="color-palette-grid"></div>
+            <!-- Skin Tone Palette Grid -->
+            <div
+              class="skin-tone-palette-grid"
+              id="skin-tone-palette-grid"
+            ></div>
+            <!-- Skin Tone White Palette (Inside Container) -->
+            <div
+              class="skintone-palette-inside"
+              id="skintone-palette-inside"
+            ></div>
+            <!-- Skin Tone Content Overlay -->
+            <div class="skintone-content" id="skintone-content">
+              <!-- Skin Tone Slideshow Images -->
+              <div
+                class="skintone-slideshow-inside"
+                id="skintone-slideshow-inside"
+              >
+                <img
+                  src="/assets/skin_tone_1.png"
+                  alt="Skin Tone 1"
+                  class="skintone-slide-inside active"
+                />
+                <img
+                  src="/assets/skin_tone_2.png"
+                  alt="Skin Tone 2"
+                  class="skintone-slide-inside"
+                />
+                <img
+                  src="/assets/skin_tone_3.png"
+                  alt="Skin Tone 3"
+                  class="skintone-slide-inside"
+                />
+                <img
+                  src="/assets/skin_tone_4.png"
+                  alt="Skin Tone 4"
+                  class="skintone-slide-inside"
+                />
+                <img
+                  src="/assets/skin_tone_5.png"
+                  alt="Skin Tone 5"
+                  class="skintone-slide-inside"
+                />
+              </div>
+              <!-- Skin Tone Title -->
+              <div class="skintone-title">
+                <span class="title-prefix">Select Your</span>
+                <span class="title-skintone" id="skintone-text">Fair</span>
+                <span class="title-suffix">Tone</span>
+              </div>
+            </div>
+            <!-- Ethnicity Background Image -->
+            <img
+              class="ethnicity-bg"
+              id="ethnicity-bg"
+              src="/assets/ethnicity.png"
+              alt="AI model ethnicity customization options"
+            />
+            <!-- Ethnicity White Palette (Inside Container) -->
+            <div
+              class="ethnicity-palette-inside"
+              id="ethnicity-palette-inside"
+            ></div>
+            <!-- Ethnicity Content Overlay -->
+            <div class="ethnicity-content" id="ethnicity-content">
+              <!-- Ethnicity Slideshow Images -->
+              <div
+                class="ethnicity-slideshow-inside"
+                id="ethnicity-slideshow-inside"
+              >
+                <img
+                  src="/assets/center_image_2_asian.png"
+                  alt="Asian"
+                  class="ethnicity-slide-inside active"
+                />
+                <img
+                  src="/assets/center_image_2_african.png"
+                  alt="African"
+                  class="ethnicity-slide-inside"
+                />
+                <img
+                  src="/assets/center_image_2_latine.png"
+                  alt="Latin"
+                  class="ethnicity-slide-inside"
+                />
+                <img
+                  src="/assets/center_image_2_arabian.png"
+                  alt="Arabian"
+                  class="ethnicity-slide-inside"
+                />
+                <img
+                  src="/assets/center_image_2_indian.png"
+                  alt="Indian"
+                  class="ethnicity-slide-inside"
+                />
+              </div>
+              <!-- Ethnicity Title -->
+              <div class="ethnicity-title">
+                <span class="title-prefix">Create Your</span>
+                <span class="title-ethnicity" id="ethnicity-text">Asian</span>
+                <span class="title-suffix">Model</span>
+              </div>
+            </div>
+            <!-- Ethnicity Flag Rain (Inside Container) -->
+            <div
+              class="ethnicity-flag-rain-inside"
+              id="ethnicity-flag-rain-inside"
+            ></div>
+            <!-- Mood Background Image -->
+            <img
+              class="mood-bg"
+              id="mood-bg"
+              src="/assets/ethnicity.png"
+              alt="AI model mood and expression settings"
+            />
+            <!-- Mood White Palette (Desktop) -->
+            <div class="mood-palette-desktop" id="mood-palette-desktop"></div>
+            <!-- Mood Content Overlay -->
+            <div class="mood-content" id="mood-content">
+              <!-- Mood Title -->
+              <div class="mood-title">
+                <span class="title-prefix">Set The</span>
+                <span class="title-mood" id="mood-text">Perfect</span>
+                <span class="title-suffix">Mood</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Change Pose Section (Step 6) - Three.js Canvas -->
+          <div class="change-pose-section">
+            <!-- Three.js Canvas Container -->
+            <div class="pose-canvas-container" id="pose-canvas-container">
+              <!-- Three.js canvas will be inserted here -->
+            </div>
+
+            <!-- Pose Labels Container (will be populated by JS) -->
+            <div class="pose-labels-container" id="pose-labels-container">
+              <!-- Labels will be dynamically created by JavaScript -->
+            </div>
+
+            <!-- Mobile Pose Carousel -->
+            <div class="mobile-pose-carousel" id="mobile-pose-carousel">
+              <div class="pose-carousel-track" id="pose-carousel-track">
+                <!-- Will be populated by JS -->
+              </div>
+              <!-- Pose Feature Tags - Top Right -->
+              <div class="pose-feature-tags">
+                <span class="pose-feature-tag">5000+ Poses</span>
+                <span class="pose-feature-tag">Create Custom Poses</span>
+              </div>
+              <!-- Pose Info Overlay -->
+              <div class="pose-info-overlay">
+                <span class="pose-info-small" id="pose-info-small"
+                  >Confident Stance</span
+                >
+                <h3 class="pose-info-big" id="pose-info-big">
+                  Hand on Hip Power Pose
+                </h3>
+              </div>
+              <!-- Pose Indicators -->
+              <div class="pose-indicators" id="pose-indicators">
+                <!-- Will be populated by JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Change Color Section (Step 5) -->
+          <div class="change-color-section">
+            <!-- Background Color -->
+            <div class="change-color-bg"></div>
+
+            <!-- Main Center Image -->
+            <div class="change-color-center">
+              <!-- Background Boxes -->
+              <div class="change-color-boxes">
+                <div class="box box-left">
+                  <div class="color-info">
+                    <span class="hex-code">#B6B870</span>
+                    <span class="color-name">Olive Green</span>
+                  </div>
+                  <img
+                    src="/assets/change_color_left.png"
+                    alt="Product in olive green color variant"
+                  />
+                </div>
+                <div class="box box-center">
+                  <img
+                    src="/assets/change_color_back.png"
+                    alt="AI color change back view"
+                  />
+                </div>
+                <div class="box box-right">
+                  <img
+                    src="/assets/change_color_zoom.png"
+                    alt="Product color detail zoom view"
+                  />
+                </div>
+              </div>
+              <img
+                src="/assets/change_color_front.png"
+                alt="AI model with color variant product"
+              />
+            </div>
+
+            <!-- Bottom Right Content -->
+            <div class="change-color-bottom-right">
+              <p class="change-color-tagline">
+                Generate unlimited color variants instantly with AI
+              </p>
+              <div class="change-color-badges">
+                <span class="color-badge olive">#B6B870</span>
+                <span class="color-badge navy">#2C3E50</span>
+                <span class="color-badge burgundy">#722F37</span>
+              </div>
+            </div>
+
+            <!-- Mobile Color Layout - Like Desktop -->
+            <div class="color-mobile-layout" id="color-mobile-layout">
+              <!-- Background Color -->
+              <div class="color-mobile-bg"></div>
+
+              <!-- Top Gradient -->
+              <div class="color-mobile-gradient-top"></div>
+
+              <!-- Background Boxes (behind main image) -->
+              <div class="color-mobile-boxes">
+                <div class="color-box-item left">
+                  <img
+                    src="/assets/change_color_left.png"
+                    alt="Color variant left"
+                  />
+                </div>
+                <div class="color-box-item center">
+                  <img
+                    src="/assets/change_color_back.png"
+                    alt="Color variant back"
+                  />
+                </div>
+                <div class="color-box-item right">
+                  <img
+                    src="/assets/change_color_zoom.png"
+                    alt="Color variant zoom"
+                  />
+                </div>
+              </div>
+
+              <!-- Main Front Image (in front) -->
+              <div class="color-mobile-front">
+                <img
+                  src="/assets/change_color_front.png"
+                  alt="AI model with color variant"
+                />
+              </div>
+
+              <!-- Bottom Gradient -->
+              <div class="color-mobile-gradient-bottom"></div>
+
+              <!-- Info Section with Color Swatches below -->
+              <div class="color-mobile-info">
+                <span class="color-mobile-tag">AI Colors</span>
+                <h3 class="color-mobile-title">Unlimited Color Variants</h3>
+                <p class="color-mobile-subtitle">
+                  See your products in different colors on AI models within
+                  seconds
+                </p>
+                <!-- Color Swatches - Only 3 colors like desktop -->
+                <div class="color-swatches-inline">
+                  <div
+                    class="color-swatch-item active"
+                    data-color="olive"
+                    data-bg="#b6b870"
+                  >
+                    <span
+                      class="swatch-circle"
+                      style="background: #b6b870"
+                    ></span>
+                  </div>
+                  <div
+                    class="color-swatch-item"
+                    data-color="navy"
+                    data-bg="#2C3E50"
+                  >
+                    <span
+                      class="swatch-circle"
+                      style="background: #2c3e50"
+                    ></span>
+                  </div>
+                  <div
+                    class="color-swatch-item"
+                    data-color="burgundy"
+                    data-bg="#722F37"
+                  >
+                    <span
+                      class="swatch-circle"
+                      style="background: #722f37"
+                    ></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Color Code Display - Right Center -->
+              <div class="color-code-mobile">
+                <span class="mobile-hex-code">#B6B870</span>
+                <span class="mobile-color-name">Olive Green</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hair Style Slideshow (Desktop) - Outside container for z-index -->
+          <div class="hair-style-slideshow" id="hair-style-slideshow">
+            <img
+              src="/assets/color-1-Photoroom.png"
+              alt="Hair Style 1"
+              class="hair-style-slide active"
+            />
+            <img
+              src="/assets/color-2-Photoroom.png"
+              alt="Hair Style 2"
+              class="hair-style-slide"
+            />
+            <img
+              src="/assets/color-3-Photoroom.png"
+              alt="Hair Style 3"
+              class="hair-style-slide"
+            />
+            <img
+              src="/assets/color-4-Photoroom.png"
+              alt="Hair Style 4"
+              class="hair-style-slide"
+            />
+            <img
+              src="/assets/color-5-Photoroom.png"
+              alt="Hair Style 5"
+              class="hair-style-slide"
+            />
+          </div>
+
+          <!-- Hair Style White Palette (Desktop) -->
+          <div
+            class="hair-style-palette-desktop"
+            id="hair-style-palette-desktop"
+          ></div>
+
+          <!-- Skin Tone Grid Overlay (Desktop) - Outside container for z-index -->
+          <div class="skin-tone-grid-overlay" id="skin-tone-grid-overlay">
+            <div class="skin-tone-grid-cells" id="skin-tone-grid-cells"></div>
+          </div>
+
+          <!-- Hair Color Slideshow (Desktop) - Outside container for z-index -->
+          <div class="hair-color-slideshow" id="hair-color-slideshow">
+            <img
+              src="/assets/color-1-Photoroom.png"
+              alt="Hair Color 1"
+              class="hair-color-slide active"
+            />
+            <img
+              src="/assets/color-2-Photoroom.png"
+              alt="Hair Color 2"
+              class="hair-color-slide"
+            />
+            <img
+              src="/assets/color-3-Photoroom.png"
+              alt="Hair Color 3"
+              class="hair-color-slide"
+            />
+            <img
+              src="/assets/color-4-Photoroom.png"
+              alt="Hair Color 4"
+              class="hair-color-slide"
+            />
+            <img
+              src="/assets/color-5-Photoroom.png"
+              alt="Hair Color 5"
+              class="hair-color-slide"
+            />
+          </div>
+
+          <!-- Ethnicity Slideshow (Desktop) - Outside container for z-index -->
+          <div class="ethnicity-slideshow" id="ethnicity-slideshow">
+            <img
+              src="/assets/center_image_2_asian.png"
+              alt="Asian"
+              class="ethnicity-slide active"
+            />
+            <img
+              src="/assets/center_image_2_african.png"
+              alt="African"
+              class="ethnicity-slide"
+            />
+            <img
+              src="/assets/center_image_2_latine.png"
+              alt="Latin"
+              class="ethnicity-slide"
+            />
+            <img
+              src="/assets/center_image_2_arabian.png"
+              alt="Arabian"
+              class="ethnicity-slide"
+            />
+            <img
+              src="/assets/center_image_2_indian.png"
+              alt="Indian"
+              class="ethnicity-slide"
+            />
+            <!-- Ethnicity Text - Right Side -->
+            <div class="ethnicity-text-right">
+              <span class="ethnicity-label">Create Your</span>
+              <span class="ethnicity-name" id="ethnicity-slideshow-text"
+                >Asian</span
+              >
+              <span class="ethnicity-label">Model</span>
+            </div>
+          </div>
+
+          <!-- Ethnicity White Palette (Desktop) -->
+          <div
+            class="ethnicity-palette-desktop"
+            id="ethnicity-palette-desktop"
+          ></div>
+
+          <!-- Ethnicity Flag Rain (Desktop) -->
+          <div
+            class="ethnicity-flag-rain-desktop"
+            id="ethnicity-flag-rain-desktop"
+          ></div>
+
+          <!-- Mood Slideshow (Desktop) - Outside container for z-index -->
+          <div class="mood-slideshow" id="mood-slideshow">
+            <img
+              src="/assets/mood-1-Photoroom.png"
+              alt="Mood 1"
+              class="mood-slide active"
+            />
+            <img
+              src="/assets/mood-2-Photoroom.png"
+              alt="Mood 2"
+              class="mood-slide"
+            />
+            <img
+              src="/assets/mood-3-Photoroom.png"
+              alt="Mood 3"
+              class="mood-slide"
+            />
+          </div>
+
+          <!-- Mood Emoji Rain (Desktop) -->
+          <div
+            class="mood-emoji-rain-desktop"
+            id="mood-emoji-rain-desktop"
+          ></div>
+
+          <!-- Ecommerce Kits Section (Step 2) -->
+          <div class="ecommerce-section">
+            <!-- Loading Intro -->
+            <div class="ecommerce-loading" id="ecommerce-loading">
+              <div class="loading-layout">
+                <div class="loading-content">
+                  <!-- Word list container -->
+                  <div
+                    class="prompt-words-container"
+                    id="prompt-words-container"
+                  >
+                    <!-- Words will be added by JS -->
+                  </div>
+                  <button class="generate-btn" id="generate-btn">
+                    Generate
+                  </button>
+                  <div class="loading-spinner" id="loading-spinner">
+                    <div class="spinner"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Actual Product Content -->
+            <div class="ecommerce-container" id="ecommerce-content">
+              <!-- Mobile Info Header -->
+              <div class="ecommerce-mobile-info">
+                <span class="ecommerce-mobile-tag">AI Export</span>
+                <h3 class="ecommerce-mobile-title">E-commerce Ready Photos</h3>
+                <p class="ecommerce-mobile-subtitle">
+                  Professional product visuals generated by AI
+                </p>
+              </div>
+              <!-- Ecommerce Results Slider (Desktop) -->
+              <div class="results-slider-container">
+                <div class="results-slider" id="results-slider">
+                  <!-- Slides will be dynamically generated by JavaScript -->
+                </div>
+              </div>
+
+              <!-- Mobile Gallery Layout -->
+              <div
+                class="ecommerce-mobile-gallery"
+                id="ecommerce-mobile-gallery"
+              >
+                <!-- Left Thumbnails Column -->
+                <div
+                  class="ecommerce-thumbs-column"
+                  id="ecommerce-thumbs-column"
+                >
+                  <div class="ecommerce-thumb active" data-index="0">
+                    <img src="/assets/editorial_1.png" alt="Editorial 1" />
+                  </div>
+                  <div class="ecommerce-thumb" data-index="1">
+                    <img src="/assets/editorial_2.png" alt="Editorial 2" />
+                  </div>
+                  <div class="ecommerce-thumb" data-index="2">
+                    <img src="/assets/editorial_3.png" alt="Editorial 3" />
+                  </div>
+                  <div class="ecommerce-thumb" data-index="3">
+                    <img src="/assets/white_studio_2.png" alt="Studio Style" />
+                  </div>
+                  <div class="ecommerce-thumb" data-index="4">
+                    <img
+                      src="/assets/detail_product.png"
+                      alt="Product Detail"
+                    />
+                  </div>
+                  <div class="ecommerce-thumb" data-index="5">
+                    <img
+                      src="/assets/ghost_mannequin.png"
+                      alt="Ghost Mannequin"
+                    />
+                  </div>
+                </div>
+
+                <!-- Main Full Screen Image -->
+                <div class="ecommerce-main-image" id="ecommerce-main-image">
+                  <img
+                    src="/assets/editorial_1.png"
+                    alt="AI Export Main"
+                    id="ecommerce-main-img"
+                  />
+                  <div class="ecommerce-main-label" id="ecommerce-main-label">
+                    Editorial Style
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Image to Video Section (Step 7) -->
+          <div class="image-to-video-section">
+            <!-- Center Video -->
+            <video
+              class="image-to-video-player"
+              autoplay
+              loop
+              muted
+              playsinline
+            >
+              <source src="/assets/image_to_video.mp4" type="video/mp4" />
+            </video>
+
+            <!-- Right Side - Arrow and Image (like Virtual Model) -->
+            <div class="video-comparison-container">
+              <img
+                src="/assets/arrow.png"
+                alt="Transform to video"
+                class="video-arrow"
+              />
+              <div class="video-source-card">
+                <img
+                  src="/assets/center_image.png"
+                  alt="Source image for video generation"
+                />
+              </div>
+            </div>
+
+            <!-- Mobile Image Card (Bottom) -->
+            <div class="mobile-video-image-card">
+              <img src="/assets/center_image.png" alt="Source image" />
+              <span class="mobile-video-card-label">Image</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Right Side Content for Customize Model Sub-steps -->
+        <div class="customize-content-right" id="customize-content-right">
+          <!-- Content injected by JS -->
+        </div>
+
+        <!-- Retouch Step Divider Line -->
+        <div class="retouch-divider" id="retouch-divider">
+          <span class="label-before">Before</span>
+          <span class="label-after">After</span>
+        </div>
+
+        <!-- Mobile Retouch Layout -->
+        <div class="retouch-mobile" id="retouch-mobile">
+          <!-- Feature Tags - Top Right like pose screen -->
+          <div class="retouch-feature-tags">
+            <span class="retouch-feature-tag">Remove Background</span>
+            <span class="retouch-feature-tag">Enhance Quality</span>
+            <span class="retouch-feature-tag">Fix Lighting</span>
+          </div>
+
+          <!-- Before/After Comparison Slider -->
+          <div class="retouch-comparison-container">
+            <div class="retouch-comparison-wrapper">
+              <!-- After Image (Background) -->
+              <img
+                class="retouch-after-img"
+                id="retouch-after-mobile"
+                src="/assets/results-products-2/amateur-after-0.JPG"
+                alt="After retouch"
+              />
+
+              <!-- Before Image (Clipped) -->
+              <div class="retouch-before-clip" id="retouch-before-clip">
+                <img
+                  class="retouch-before-img"
+                  id="retouch-before-mobile"
+                  src="/assets/amateur-products-2/amateur-before-0.png"
+                  alt="Before retouch"
+                />
+              </div>
+
+              <!-- Slider Handle -->
+              <div class="retouch-slider-handle" id="retouch-slider-handle">
+                <div class="retouch-slider-line"></div>
+                <div class="retouch-slider-circle">
+                  <i class="fas fa-arrows-left-right"></i>
+                </div>
+              </div>
+
+              <!-- Labels -->
+              <span class="retouch-label-before">Before</span>
+              <span class="retouch-label-after">After</span>
+
+              <!-- Thumbnail Selector - Inside card with gradient -->
+              <div class="retouch-thumbnails-inner" id="retouch-thumbnails">
+                <div class="retouch-thumb active" data-index="0">
+                  <img
+                    src="/assets/results-products-2/amateur-after-0.JPG"
+                    alt="Product 1"
+                  />
+                </div>
+                <div class="retouch-thumb" data-index="1">
+                  <img
+                    src="/assets/results-products-2/amateur-after-1.JPG"
+                    alt="Product 2"
+                  />
+                </div>
+                <div class="retouch-thumb" data-index="2">
+                  <img
+                    src="/assets/results-products-2/amateur-after-2.JPG"
+                    alt="Product 3"
+                  />
+                </div>
+                <div class="retouch-thumb" data-index="3">
+                  <img
+                    src="/assets/results-products-2/amateur-after-3.JPG"
+                    alt="Product 4"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Info Card - Bottom Left with feature badges -->
+          <div class="retouch-mobile-info">
+            <span class="retouch-mobile-tag">AI Retouch</span>
+            <h3 class="retouch-mobile-title">Professional Photo Editing</h3>
+            <div class="retouch-feature-badges">
+              <span class="retouch-feature-badge">Remove Background</span>
+              <span class="retouch-feature-badge">Enhance Quality</span>
+              <span class="retouch-feature-badge">Fix Lighting</span>
+            </div>
           </div>
         </div>
-      </footer>
 
-      <!-- Scroll Indicator -->
-      <div class="scroll-indicator" id="scroll-indicator">
-        <div class="mouse"></div>
-        <span>Scroll</span>
-      </div>
-
-      <!-- Mobile Bottom Navigation -->
-      <div class="mobile-bottom-nav" id="mobile-bottom-nav">
-        <!-- Left side: Step info -->
-        <div class="mobile-step-info">
-          <div class="mobile-step-label" id="mobile-step-label">AI Model</div>
-          <div class="mobile-step-indicator" id="mobile-step-indicator">
-            <!-- Step dots will be generated by JS -->
+        <!-- Vertical Step Slider -->
+        <div class="vertical-slider-container">
+          <div class="vertical-slider" id="vertical-slider">
+            <!-- Steps will be generated by JS -->
           </div>
         </div>
-        <!-- Right side: Navigation buttons (vertical scroll) -->
-        <div class="mobile-nav-content">
-          <button class="mobile-nav-btn prev" id="mobile-prev-btn" aria-label="Previous step">
-            <i class="fas fa-chevron-left"></i>
-          </button>
-          <button class="mobile-nav-btn next" id="mobile-next-btn" aria-label="Next step">
+
+        <!-- Customize Model Sub-menu (Active only in Step 3) -->
+        <div class="customize-submenu" id="customize-submenu">
+          <div class="submenu-arrow">
             <i class="fas fa-chevron-right"></i>
-          </button>
+          </div>
+          <div class="submenu-card">
+            <div class="submenu-item">
+              <span class="item-tag">New</span>
+              <span class="item-label">Hair Style</span>
+            </div>
+            <div class="submenu-item">
+              <span class="item-label">Hair Color</span>
+            </div>
+            <div class="submenu-item">
+              <span class="item-label">Skin Tone</span>
+            </div>
+            <div class="submenu-item">
+              <span class="item-label">Ethnicity</span>
+            </div>
+            <div class="submenu-item">
+              <span class="item-label">Mood</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Gradient Overlay for Scene 1, 2, 3 -->
+        <div class="right-gradient-overlay"></div>
+
+        <!-- Scene Text Overlay Container (for Scene 1, 2, 3) -->
+        <div class="scene-text-container">
+          <!-- Scene Selector Thumbnails -->
+          <div class="scene-selector" id="scene-selector">
+            <div class="scene-thumb" data-scene="1">
+              <img
+                src="/assets/center_image_scene_1.png"
+                alt="Rustic outdoor background for product photos"
+              />
+            </div>
+            <div class="scene-thumb" data-scene="2">
+              <img
+                src="/assets/center_image_scene_2.png"
+                alt="Premium interior scene for e-commerce"
+              />
+            </div>
+            <div class="scene-thumb" data-scene="3">
+              <img
+                src="/assets/center_image_scene_3.png"
+                alt="Exotic tropical background for fashion photos"
+              />
+            </div>
+            <div class="scene-thumb" data-scene="4">
+              <img
+                src="/assets/center_image_scene_4.png"
+                alt="Greek island background for fashion photos"
+              />
+            </div>
+          </div>
+
+          <!-- Scene 1 Text Overlay -->
+          <div class="scene-1-text scene-text-content">
+            <span class="small-tag">5000+ Backgrounds</span>
+            <h2>Rustic Wooden Barn</h2>
+            <p>
+              Showcase your clothing in front of an authentic rustic barn.<br />Perfect
+              for casual wear, denim collections and vintage styles.<br />Create
+              that countryside aesthetic with AI-powered virtual models.
+            </p>
+          </div>
+
+          <!-- Scene 2 Text Overlay -->
+          <div class="scene-2-text scene-text-content">
+            <span class="small-tag">5000+ Backgrounds</span>
+            <h2>Cozy Mountain Lodge</h2>
+            <p>
+              Display your products in a warm fireplace mountain cabin.<br />Ideal
+              for winter collections, knitwear and premium apparel.<br />Bring
+              luxury atmosphere to your e-commerce catalog instantly.
+            </p>
+          </div>
+
+          <!-- Scene 3 Text Overlay -->
+          <div class="scene-3-text scene-text-content">
+            <span class="small-tag">5000+ Backgrounds</span>
+            <h2>Bali Rice Terraces</h2>
+            <p>
+              Present your fashion line against stunning Bali rice fields.<br />Perfect
+              for summer collections, resort wear and bohemian styles.<br />Transport
+              your products to exotic tropical destinations with AI.
+            </p>
+          </div>
+
+          <!-- Scene 4 Text Overlay -->
+          <div class="scene-4-text scene-text-content">
+            <span class="small-tag">5000+ Backgrounds</span>
+            <h2>Greek Island Paradise</h2>
+            <p>
+              Showcase your fashion on stunning Greek island backdrops.<br />Perfect
+              for summer collections, resort wear and Mediterranean styles.<br />Bring
+              the Aegean beauty to your e-commerce catalog with AI.
+            </p>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+          <div class="socials">
+            <a href="https://www.instagram.com/diress_app/" target="_blank"
+              ><i class="fab fa-instagram"></i
+            ></a>
+            <i class="fab fa-twitter"></i>
+            <i class="fab fa-linkedin-in"></i>
+            <a
+              href="https://www.monailisa.com/privacy-policy"
+              target="_blank"
+              class="legal-link"
+              >Privacy Policy</a
+            >
+            <span class="legal-separator">|</span>
+            <a
+              href="https://www.monailisa.com/terms"
+              target="_blank"
+              class="legal-link"
+              >Terms of Service</a
+            >
+          </div>
+
+          <div class="footer-right">
+            <!-- Language switch hidden -->
+            <div class="store-badges">
+              <a
+                href="https://apps.apple.com/app/ai-fashion-model-maker-diress/id6738030797"
+                class="store-btn"
+                target="_blank"
+              >
+                <i class="fab fa-apple"></i>
+                <div class="btn-text">
+                  <span>Download on the</span>
+                  <strong>App Store</strong>
+                </div>
+              </a>
+              <a
+                href="https://play.google.com/store/apps/details?id=com.monalisa.diress.app"
+                class="store-btn"
+                target="_blank"
+              >
+                <i class="fab fa-google-play"></i>
+                <div class="btn-text">
+                  <span>GET IT ON</span>
+                  <strong>Google Play</strong>
+                </div>
+              </a>
+            </div>
+          </div>
+        </footer>
+
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator" id="scroll-indicator">
+          <div class="mouse"></div>
+          <span>Scroll</span>
+        </div>
+
+        <!-- Mobile Bottom Navigation -->
+        <div class="mobile-bottom-nav" id="mobile-bottom-nav">
+          <!-- Left side: Step info -->
+          <div class="mobile-step-info">
+            <div class="mobile-step-label" id="mobile-step-label">AI Model</div>
+            <div class="mobile-step-indicator" id="mobile-step-indicator">
+              <!-- Step dots will be generated by JS -->
+            </div>
+          </div>
+          <!-- Right side: Navigation buttons (vertical scroll) -->
+          <div class="mobile-nav-content">
+            <button
+              class="mobile-nav-btn prev"
+              id="mobile-prev-btn"
+              aria-label="Previous step"
+            >
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button
+              class="mobile-nav-btn next"
+              id="mobile-next-btn"
+              aria-label="Next step"
+            >
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
         </div>
       </div>
 
-    </div>
-
-    <!-- Contact Page Overlay -->
-    <div class="contact-page" id="contact-page">
-      <!-- Contact Header -->
-      <header class="contact-header">
-        <div class="logo" id="contact-logo" style="cursor: pointer;">
-          <div class="logo-icon-wrapper">
-            <img src="/assets/icon.png" alt="Diress AI Fashion Model Generator Logo" class="logo-icon" />
+      <!-- Contact Page Overlay -->
+      <div class="contact-page" id="contact-page">
+        <!-- Contact Header -->
+        <header class="contact-header">
+          <div class="logo" id="contact-logo" style="cursor: pointer">
+            <div class="logo-icon-wrapper">
+              <img
+                src="/assets/icon.png"
+                alt="Diress AI Fashion Model Generator Logo"
+                class="logo-icon"
+              />
+            </div>
+            <span class="logo-text">diress<span class="dot">.</span></span>
           </div>
-          <span class="logo-text">diress<span class="dot">.</span></span>
-        </div>
 
-        <div class="header-right">
-          <nav>
-            <ul>
-              <li><a href="/" data-page="home">Home</a></li>
-              <li><a href="/contact" class="active">Contacts</a></li>
-              <li><a href="/pricing">Pricing</a></li>
-            </ul>
-          </nav>
-          <a href="https://app.diress.ai" target="_blank" class="get-started-btn">Get Started</a>
-        </div>
+          <div class="header-right">
+            <nav>
+              <ul>
+                <li><a href="/" data-page="home">Home</a></li>
+                <li><a href="/contact" class="active">Contacts</a></li>
+                <li><a href="/pricing">Pricing</a></li>
+              </ul>
+            </nav>
+            <a
+              href="https://app.diress.ai"
+              target="_blank"
+              class="get-started-btn"
+              >Get Started</a
+            >
+          </div>
 
-        <!-- Mobile Header Right (Store Buttons + Hamburger) -->
-        <div class="mobile-header-right">
-          <a href="https://apps.apple.com/app/ai-fashion-model-maker-diress/id6738030797" target="_blank" class="mobile-store-btn" aria-label="Download on App Store">
-            <i class="fab fa-apple"></i>
-          </a>
-          <a href="https://play.google.com/store/apps/details?id=com.monalisa.diress.app" target="_blank" class="mobile-store-btn" aria-label="Get it on Google Play">
-            <i class="fab fa-google-play"></i>
-          </a>
-          <button class="hamburger-menu" id="contact-hamburger-menu" aria-label="Toggle menu">
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-          </button>
-        </div>
+          <!-- Mobile Header Right (Store Buttons + Hamburger) -->
+          <div class="mobile-header-right">
+            <a
+              href="https://apps.apple.com/app/ai-fashion-model-maker-diress/id6738030797"
+              target="_blank"
+              class="mobile-store-btn"
+              aria-label="Download on App Store"
+            >
+              <i class="fab fa-apple"></i>
+            </a>
+            <a
+              href="https://play.google.com/store/apps/details?id=com.monalisa.diress.app"
+              target="_blank"
+              class="mobile-store-btn"
+              aria-label="Get it on Google Play"
+            >
+              <i class="fab fa-google-play"></i>
+            </a>
+            <button
+              class="hamburger-menu"
+              id="contact-hamburger-menu"
+              aria-label="Toggle menu"
+            >
+              <span class="hamburger-line"></span>
+              <span class="hamburger-line"></span>
+              <span class="hamburger-line"></span>
+            </button>
+          </div>
 
-        <!-- Mobile Dropdown Menu -->
-        <div class="mobile-menu" id="contact-mobile-menu">
-          <nav class="mobile-nav">
-            <a href="/" data-page="home">Home</a>
-            <a href="/contact" class="active">Contacts</a>
-            <a href="/pricing">Pricing</a>
-          </nav>
-          <a href="https://app.diress.ai" target="_blank" class="mobile-get-started-btn">Get Started</a>
-        </div>
-      </header>
+          <!-- Mobile Dropdown Menu -->
+          <div class="mobile-menu" id="contact-mobile-menu">
+            <nav class="mobile-nav">
+              <a href="/" data-page="home">Home</a>
+              <a href="/contact" class="active">Contacts</a>
+              <a href="/pricing">Pricing</a>
+            </nav>
+            <a
+              href="https://app.diress.ai"
+              target="_blank"
+              class="mobile-get-started-btn"
+              >Get Started</a
+            >
+          </div>
+        </header>
 
-      <div class="contact-container">
-        <div class="contact-content">
-          <div class="contact-left">
-            <span class="contact-tag">Get in Touch</span>
-            <h1 class="contact-title">Let's Start a<br>Conversation</h1>
-            <p class="contact-subtitle">Have questions about Diress? Want to learn more about our AI-powered fashion photography? We'd love to hear from you.</p>
+        <div class="contact-container">
+          <div class="contact-content">
+            <div class="contact-left">
+              <span class="contact-tag">Get in Touch</span>
+              <h1 class="contact-title">Let's Start a<br />Conversation</h1>
+              <p class="contact-subtitle">
+                Have questions about Diress? Want to learn more about our
+                AI-powered fashion photography? We'd love to hear from you.
+              </p>
 
-            <div class="contact-info">
-              <div class="contact-info-item">
-                <i class="fas fa-envelope"></i>
-                <div>
-                  <span class="info-label">Email</span>
-                  <a href="mailto:info@monalisa.com">info@monalisa.com</a>
+              <div class="contact-info">
+                <div class="contact-info-item">
+                  <i class="fas fa-envelope"></i>
+                  <div>
+                    <span class="info-label">Email</span>
+                    <a href="mailto:info@monailisa.com">info@monailisa.com</a>
+                  </div>
+                </div>
+                <div class="contact-info-item">
+                  <i class="fas fa-phone"></i>
+                  <div>
+                    <span class="info-label">Phone</span>
+                    <a href="tel:+905536778682">+90 553 677 86 82</a>
+                  </div>
+                </div>
+                <div class="contact-info-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <div>
+                    <span class="info-label">USA Office</span>
+                    <span
+                      >350 Fifth Avenue, Suite 4820<br />New York, NY 10118,
+                      USA</span
+                    >
+                  </div>
+                </div>
+                <div class="contact-info-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <div>
+                    <span class="info-label">Turkey Office</span>
+                    <span
+                      >Merdivenköy Mah. İmam Ramiz Sk.<br />No: 51-57 İç Kapı
+                      No: 43<br />Kadıköy / İstanbul</span
+                    >
+                  </div>
                 </div>
               </div>
-              <div class="contact-info-item">
-                <i class="fas fa-phone"></i>
-                <div>
-                  <span class="info-label">Phone</span>
-                  <a href="tel:+905536778682">+90 553 677 86 82</a>
-                </div>
-              </div>
-              <div class="contact-info-item">
-                <i class="fas fa-map-marker-alt"></i>
-                <div>
-                  <span class="info-label">USA Office</span>
-                  <span>350 Fifth Avenue, Suite 4820<br>New York, NY 10118, USA</span>
-                </div>
-              </div>
-              <div class="contact-info-item">
-                <i class="fas fa-map-marker-alt"></i>
-                <div>
-                  <span class="info-label">Turkey Office</span>
-                  <span>Merdivenköy Mah. İmam Ramiz Sk.<br>No: 51-57 İç Kapı No: 43<br>Kadıköy / İstanbul</span>
-                </div>
+
+              <div class="contact-social">
+                <a
+                  href="https://twitter.com/diressai"
+                  target="_blank"
+                  class="social-link"
+                >
+                  <i class="fab fa-twitter"></i>
+                </a>
+                <a
+                  href="https://instagram.com/diressai"
+                  target="_blank"
+                  class="social-link"
+                >
+                  <i class="fab fa-instagram"></i>
+                </a>
+                <a
+                  href="https://linkedin.com/company/diress"
+                  target="_blank"
+                  class="social-link"
+                >
+                  <i class="fab fa-linkedin-in"></i>
+                </a>
               </div>
             </div>
 
-            <div class="contact-social">
-              <a href="https://twitter.com/diressai" target="_blank" class="social-link">
-                <i class="fab fa-twitter"></i>
-              </a>
-              <a href="https://instagram.com/diressai" target="_blank" class="social-link">
-                <i class="fab fa-instagram"></i>
-              </a>
-              <a href="https://linkedin.com/company/diress" target="_blank" class="social-link">
-                <i class="fab fa-linkedin-in"></i>
-              </a>
+            <div class="contact-right">
+              <form class="contact-form" id="contact-form">
+                <div class="form-group">
+                  <label for="contact-name">Name</label>
+                  <input
+                    type="text"
+                    id="contact-name"
+                    name="name"
+                    placeholder="Your name"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="contact-email">Email</label>
+                  <input
+                    type="email"
+                    id="contact-email"
+                    name="email"
+                    placeholder="your@email.com"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="contact-subject">Subject</label>
+                  <select id="contact-subject" name="subject" required>
+                    <option value="" disabled selected>Select a topic</option>
+                    <option value="general">General Inquiry</option>
+                    <option value="support">Technical Support</option>
+                    <option value="partnership">Partnership</option>
+                    <option value="enterprise">Enterprise Solutions</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="contact-message">Message</label>
+                  <textarea
+                    id="contact-message"
+                    name="message"
+                    placeholder="Tell us how we can help..."
+                    rows="4"
+                    required
+                  ></textarea>
+                </div>
+                <button type="submit" class="contact-submit">
+                  Send Message
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+              </form>
             </div>
           </div>
+        </div>
+      </div>
 
-          <div class="contact-right">
-            <form class="contact-form" id="contact-form">
-              <div class="form-group">
-                <label for="contact-name">Name</label>
-                <input type="text" id="contact-name" name="name" placeholder="Your name" required>
-              </div>
-              <div class="form-group">
-                <label for="contact-email">Email</label>
-                <input type="email" id="contact-email" name="email" placeholder="your@email.com" required>
-              </div>
-              <div class="form-group">
-                <label for="contact-subject">Subject</label>
-                <select id="contact-subject" name="subject" required>
-                  <option value="" disabled selected>Select a topic</option>
-                  <option value="general">General Inquiry</option>
-                  <option value="support">Technical Support</option>
-                  <option value="partnership">Partnership</option>
-                  <option value="enterprise">Enterprise Solutions</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="contact-message">Message</label>
-                <textarea id="contact-message" name="message" placeholder="Tell us how we can help..." rows="4" required></textarea>
-              </div>
-              <button type="submit" class="contact-submit">
-                Send Message
-                <i class="fas fa-arrow-right"></i>
+      <!-- Pricing Page Overlay -->
+      <div class="pricing-page" id="pricing-page">
+        <!-- Pricing Header -->
+        <header class="pricing-header">
+          <div class="logo" id="pricing-logo" style="cursor: pointer">
+            <div class="logo-icon-wrapper">
+              <img
+                src="/assets/icon.png"
+                alt="Diress AI Fashion Model Generator Logo"
+                class="logo-icon"
+              />
+            </div>
+            <span class="logo-text">diress<span class="dot">.</span></span>
+          </div>
+
+          <div class="header-right">
+            <nav>
+              <ul>
+                <li><a href="/" data-page="home">Home</a></li>
+                <li><a href="/contact" data-page="contacts">Contacts</a></li>
+                <li><a href="/pricing" class="active">Pricing</a></li>
+              </ul>
+            </nav>
+            <a
+              href="https://app.diress.ai"
+              target="_blank"
+              class="get-started-btn"
+              >Get Started</a
+            >
+          </div>
+
+          <!-- Mobile Header Right (Store Buttons + Hamburger) -->
+          <div class="mobile-header-right">
+            <a
+              href="https://apps.apple.com/app/ai-fashion-model-maker-diress/id6738030797"
+              target="_blank"
+              class="mobile-store-btn"
+              aria-label="Download on App Store"
+            >
+              <i class="fab fa-apple"></i>
+            </a>
+            <a
+              href="https://play.google.com/store/apps/details?id=com.monalisa.diress.app"
+              target="_blank"
+              class="mobile-store-btn"
+              aria-label="Get it on Google Play"
+            >
+              <i class="fab fa-google-play"></i>
+            </a>
+            <button
+              class="hamburger-menu"
+              id="pricing-hamburger-menu"
+              aria-label="Toggle menu"
+            >
+              <span class="hamburger-line"></span>
+              <span class="hamburger-line"></span>
+              <span class="hamburger-line"></span>
+            </button>
+          </div>
+
+          <!-- Mobile Dropdown Menu -->
+          <div class="mobile-menu" id="pricing-mobile-menu">
+            <nav class="mobile-nav">
+              <a href="/" data-page="home">Home</a>
+              <a href="/contact" data-page="contacts">Contacts</a>
+              <a href="/pricing" class="active">Pricing</a>
+            </nav>
+            <a
+              href="https://app.diress.ai"
+              target="_blank"
+              class="mobile-get-started-btn"
+              >Get Started</a
+            >
+          </div>
+        </header>
+
+        <div class="pricing-container">
+          <div class="pricing-content">
+            <h1 class="pricing-title">Simple, Transparent Pricing</h1>
+            <p class="pricing-subtitle">
+              Choose the plan that works best for you. No hidden fees, cancel
+              anytime.
+            </p>
+
+            <!-- Billing Toggle -->
+            <div class="billing-toggle">
+              <button class="billing-btn active" data-billing="monthly">
+                Monthly
               </button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Pricing Page Overlay -->
-    <div class="pricing-page" id="pricing-page">
-      <!-- Pricing Header -->
-      <header class="pricing-header">
-        <div class="logo" id="pricing-logo" style="cursor: pointer;">
-          <div class="logo-icon-wrapper">
-            <img src="/assets/icon.png" alt="Diress AI Fashion Model Generator Logo" class="logo-icon" />
-          </div>
-          <span class="logo-text">diress<span class="dot">.</span></span>
-        </div>
-
-        <div class="header-right">
-          <nav>
-            <ul>
-              <li><a href="/" data-page="home">Home</a></li>
-              <li><a href="/contact" data-page="contacts">Contacts</a></li>
-              <li><a href="/pricing" class="active">Pricing</a></li>
-            </ul>
-          </nav>
-          <a href="https://app.diress.ai" target="_blank" class="get-started-btn">Get Started</a>
-        </div>
-
-        <!-- Mobile Header Right (Store Buttons + Hamburger) -->
-        <div class="mobile-header-right">
-          <a href="https://apps.apple.com/app/ai-fashion-model-maker-diress/id6738030797" target="_blank" class="mobile-store-btn" aria-label="Download on App Store">
-            <i class="fab fa-apple"></i>
-          </a>
-          <a href="https://play.google.com/store/apps/details?id=com.monalisa.diress.app" target="_blank" class="mobile-store-btn" aria-label="Get it on Google Play">
-            <i class="fab fa-google-play"></i>
-          </a>
-          <button class="hamburger-menu" id="pricing-hamburger-menu" aria-label="Toggle menu">
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-          </button>
-        </div>
-
-        <!-- Mobile Dropdown Menu -->
-        <div class="mobile-menu" id="pricing-mobile-menu">
-          <nav class="mobile-nav">
-            <a href="/" data-page="home">Home</a>
-            <a href="/contact" data-page="contacts">Contacts</a>
-            <a href="/pricing" class="active">Pricing</a>
-          </nav>
-          <a href="https://app.diress.ai" target="_blank" class="mobile-get-started-btn">Get Started</a>
-        </div>
-      </header>
-
-      <div class="pricing-container">
-        <div class="pricing-content">
-          <h1 class="pricing-title">Simple, Transparent Pricing</h1>
-          <p class="pricing-subtitle">Choose the plan that works best for you. No hidden fees, cancel anytime.</p>
-
-          <!-- Billing Toggle -->
-          <div class="billing-toggle">
-            <button class="billing-btn active" data-billing="monthly">Monthly</button>
-            <button class="billing-btn" data-billing="weekly">Weekly</button>
-          </div>
-
-          <!-- Pricing Cards -->
-          <div class="pricing-cards">
-            <!-- Standard Plan -->
-            <div class="pricing-card">
-              <div class="card-header">
-                <h3 class="plan-name">Standard</h3>
-                <p class="plan-description">Perfect for getting started</p>
-              </div>
-              <div class="card-price">
-                <span class="price monthly-price">$19</span>
-                <span class="price weekly-price" style="display: none;">$6</span>
-                <span class="period monthly-period">/month</span>
-                <span class="period weekly-period" style="display: none;">/week</span>
-              </div>
-              <ul class="plan-features">
-                <li><i class="fas fa-check"></i> 50 AI-generated photos</li>
-                <li><i class="fas fa-check"></i> 3 AI model styles</li>
-                <li><i class="fas fa-check"></i> Standard backgrounds</li>
-                <li><i class="fas fa-check"></i> 720p export quality</li>
-                <li><i class="fas fa-check"></i> Email support</li>
-              </ul>
-              <a href="https://app.diress.ai" target="_blank" class="plan-btn">Get Started</a>
+              <button class="billing-btn" data-billing="weekly">Weekly</button>
             </div>
 
-            <!-- Plus Plan -->
-            <div class="pricing-card popular">
-              <div class="card-header">
-                <h3 class="plan-name">Plus</h3>
-                <p class="plan-description">Best for growing businesses</p>
+            <!-- Pricing Cards -->
+            <div class="pricing-cards">
+              <!-- Standard Plan -->
+              <div class="pricing-card">
+                <div class="card-header">
+                  <h3 class="plan-name">Standard</h3>
+                  <p class="plan-description">Perfect for getting started</p>
+                </div>
+                <div class="card-price">
+                  <span class="price monthly-price">$19</span>
+                  <span class="price weekly-price" style="display: none"
+                    >$6</span
+                  >
+                  <span class="period monthly-period">/month</span>
+                  <span class="period weekly-period" style="display: none"
+                    >/week</span
+                  >
+                </div>
+                <ul class="plan-features">
+                  <li><i class="fas fa-check"></i> 50 AI-generated photos</li>
+                  <li><i class="fas fa-check"></i> 3 AI model styles</li>
+                  <li><i class="fas fa-check"></i> Standard backgrounds</li>
+                  <li><i class="fas fa-check"></i> 720p export quality</li>
+                  <li><i class="fas fa-check"></i> Email support</li>
+                </ul>
+                <a href="https://app.diress.ai" target="_blank" class="plan-btn"
+                  >Get Started</a
+                >
               </div>
-              <div class="card-price">
-                <span class="price monthly-price">$49</span>
-                <span class="price weekly-price" style="display: none;">$15</span>
-                <span class="period monthly-period">/month</span>
-                <span class="period weekly-period" style="display: none;">/week</span>
-              </div>
-              <ul class="plan-features">
-                <li><i class="fas fa-check"></i> 200 AI-generated photos</li>
-                <li><i class="fas fa-check"></i> 10 AI model styles</li>
-                <li><i class="fas fa-check"></i> Premium backgrounds</li>
-                <li><i class="fas fa-check"></i> 1080p export quality</li>
-                <li><i class="fas fa-check"></i> Priority support</li>
-              </ul>
-              <a href="https://app.diress.ai" target="_blank" class="plan-btn primary">Get Started</a>
-            </div>
 
-            <!-- Premium Plan -->
-            <div class="pricing-card premium">
-              <span class="premium-badge">Best Value</span>
-              <div class="card-header">
-                <h3 class="plan-name">Premium</h3>
-                <p class="plan-description">For professional studios</p>
+              <!-- Plus Plan -->
+              <div class="pricing-card popular">
+                <div class="card-header">
+                  <h3 class="plan-name">Plus</h3>
+                  <p class="plan-description">Best for growing businesses</p>
+                </div>
+                <div class="card-price">
+                  <span class="price monthly-price">$49</span>
+                  <span class="price weekly-price" style="display: none"
+                    >$15</span
+                  >
+                  <span class="period monthly-period">/month</span>
+                  <span class="period weekly-period" style="display: none"
+                    >/week</span
+                  >
+                </div>
+                <ul class="plan-features">
+                  <li><i class="fas fa-check"></i> 200 AI-generated photos</li>
+                  <li><i class="fas fa-check"></i> 10 AI model styles</li>
+                  <li><i class="fas fa-check"></i> Premium backgrounds</li>
+                  <li><i class="fas fa-check"></i> 1080p export quality</li>
+                  <li><i class="fas fa-check"></i> Priority support</li>
+                </ul>
+                <a
+                  href="https://app.diress.ai"
+                  target="_blank"
+                  class="plan-btn primary"
+                  >Get Started</a
+                >
               </div>
-              <div class="card-price">
-                <span class="price monthly-price">$99</span>
-                <span class="price weekly-price" style="display: none;">$29</span>
-                <span class="period monthly-period">/month</span>
-                <span class="period weekly-period" style="display: none;">/week</span>
+
+              <!-- Premium Plan -->
+              <div class="pricing-card premium">
+                <span class="premium-badge">Best Value</span>
+                <div class="card-header">
+                  <h3 class="plan-name">Premium</h3>
+                  <p class="plan-description">For professional studios</p>
+                </div>
+                <div class="card-price">
+                  <span class="price monthly-price">$99</span>
+                  <span class="price weekly-price" style="display: none"
+                    >$29</span
+                  >
+                  <span class="period monthly-period">/month</span>
+                  <span class="period weekly-period" style="display: none"
+                    >/week</span
+                  >
+                </div>
+                <ul class="plan-features">
+                  <li><i class="fas fa-check"></i> Unlimited AI photos</li>
+                  <li><i class="fas fa-check"></i> All AI model styles</li>
+                  <li><i class="fas fa-check"></i> All backgrounds + custom</li>
+                  <li><i class="fas fa-check"></i> 4K export quality</li>
+                  <li><i class="fas fa-check"></i> 24/7 priority support</li>
+                </ul>
+                <a href="https://app.diress.ai" target="_blank" class="plan-btn"
+                  >Get Started</a
+                >
               </div>
-              <ul class="plan-features">
-                <li><i class="fas fa-check"></i> Unlimited AI photos</li>
-                <li><i class="fas fa-check"></i> All AI model styles</li>
-                <li><i class="fas fa-check"></i> All backgrounds + custom</li>
-                <li><i class="fas fa-check"></i> 4K export quality</li>
-                <li><i class="fas fa-check"></i> 24/7 priority support</li>
-              </ul>
-              <a href="https://app.diress.ai" target="_blank" class="plan-btn">Get Started</a>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-  </div>
-  <script type="module" src="/main.js"></script>
-</body>
-
+    <script type="module" src="/main.js"></script>
+  </body>
 </html>
