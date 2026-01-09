@@ -1967,38 +1967,38 @@ function createEthnicityFlag() {
     const currentFlags = ethnicityFlags[currentEthnicitySlideIndex] || ethnicityFlags[0];
     flag.textContent = currentFlags[Math.floor(Math.random() * currentFlags.length)];
 
-    // Random horizontal position
-    flag.style.left = Math.random() * 100 + '%';
+    // Match mood emoji rain style
+    const left = Math.random() * 100;
+    const size = 20 + Math.random() * 20;
+    const duration = 3 + Math.random() * 2;
+    const delay = Math.random() * 0.5;
 
-    // Random animation duration (5-10 seconds)
-    const duration = 5 + Math.random() * 5;
-    flag.style.animationDuration = duration + 's';
-
-    // Random delay for staggered effect
-    flag.style.animationDelay = Math.random() * 0.5 + 's';
+    flag.style.left = `${left}%`;
+    flag.style.fontSize = `${size}px`;
+    flag.style.animationDuration = `${duration}s`;
+    flag.style.animationDelay = `${delay}s`;
+    flag.style.opacity = 0.6 + Math.random() * 0.4;
 
     ethnicityFlagRainDesktop.appendChild(flag);
 
     // Remove flag after animation
     setTimeout(() => {
-        if (flag.parentNode) {
-            flag.parentNode.removeChild(flag);
-        }
-    }, (duration + 1) * 1000);
+        if (flag.parentNode) flag.remove();
+    }, (duration + delay) * 1000 + 500);
 }
 
 function startEthnicityFlagRain() {
-    if (ethnicityFlagRainInterval) return;
+    if (ethnicityFlagRainInterval || !ethnicityFlagRainDesktop) return;
 
-    // Create initial flags
-    for (let i = 0; i < 8; i++) {
+    // Create initial flags - match mood emoji rain style
+    for (let i = 0; i < 10; i++) {
         setTimeout(() => createEthnicityFlag(), i * 200);
     }
 
-    // Continue creating flags
+    // Continue creating flags - match mood emoji rain interval
     ethnicityFlagRainInterval = setInterval(() => {
         createEthnicityFlag();
-    }, 400);
+    }, 300);
 }
 
 function stopEthnicityFlagRain() {
@@ -2333,7 +2333,7 @@ function stopEthnicitySlideshowInside() {
     }
 }
 
-// Ethnicity Flag Rain (inside container)
+// Ethnicity Flag Rain (inside container) - match mood emoji rain style
 function createEthnicityFlagInside() {
     if (!ethnicityFlagRainInside) return;
 
@@ -2344,38 +2344,38 @@ function createEthnicityFlagInside() {
     const currentFlags = ethnicityFlags[currentEthnicitySlideshowIndex] || ethnicityFlags[0];
     flag.textContent = currentFlags[Math.floor(Math.random() * currentFlags.length)];
 
-    // Random horizontal position
-    flag.style.left = Math.random() * 100 + '%';
+    // Match mood emoji rain style
+    const left = Math.random() * 100;
+    const size = 20 + Math.random() * 20;
+    const duration = 3 + Math.random() * 2;
+    const delay = Math.random() * 0.5;
 
-    // Random animation duration (5-10 seconds)
-    const duration = 5 + Math.random() * 5;
-    flag.style.animationDuration = duration + 's';
-
-    // Random delay for staggered effect
-    flag.style.animationDelay = Math.random() * 0.5 + 's';
+    flag.style.left = `${left}%`;
+    flag.style.fontSize = `${size}px`;
+    flag.style.animationDuration = `${duration}s`;
+    flag.style.animationDelay = `${delay}s`;
+    flag.style.opacity = 0.6 + Math.random() * 0.4;
 
     ethnicityFlagRainInside.appendChild(flag);
 
     // Remove flag after animation
     setTimeout(() => {
-        if (flag.parentNode) {
-            flag.parentNode.removeChild(flag);
-        }
-    }, (duration + 1) * 1000);
+        if (flag.parentNode) flag.remove();
+    }, (duration + delay) * 1000 + 500);
 }
 
 function startEthnicityFlagRainInside() {
-    if (ethnicityFlagRainInsideInterval) return;
+    if (ethnicityFlagRainInsideInterval || !ethnicityFlagRainInside) return;
 
-    // Create initial flags
-    for (let i = 0; i < 8; i++) {
+    // Create initial flags - match mood emoji rain style
+    for (let i = 0; i < 10; i++) {
         setTimeout(() => createEthnicityFlagInside(), i * 200);
     }
 
-    // Continue creating flags
+    // Continue creating flags - match mood emoji rain interval
     ethnicityFlagRainInsideInterval = setInterval(() => {
         createEthnicityFlagInside();
-    }, 400);
+    }, 300);
 }
 
 function stopEthnicityFlagRainInside() {

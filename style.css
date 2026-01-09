@@ -1099,8 +1099,8 @@ body {
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 550px;
-  height: 92vh;
+  width: 400px;
+  height: 85vh;
   object-fit: cover;
   object-position: top center;
   opacity: 0;
@@ -1153,14 +1153,14 @@ body {
   transition: opacity 0.3s ease;
 }
 
-/* Ethnicity White Palette (Desktop) */
+/* Ethnicity White Palette (Desktop) - Behind main content like mood-palette-desktop */
 .ethnicity-palette-desktop {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 49;
+  z-index: 2;
   display: grid;
   grid-template-columns: repeat(20, 1fr);
   grid-template-rows: repeat(15, 1fr);
@@ -1190,7 +1190,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 48;
+  z-index: 160;
   pointer-events: none;
   overflow: hidden;
   opacity: 0;
@@ -1205,25 +1205,18 @@ body {
 
 .ethnicity-flag-rain-desktop .flag {
   position: absolute;
-  font-size: 2rem;
-  animation: flagFall linear forwards;
-  opacity: 0.7;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  top: -50px;
+  animation: flagFallDesktop 4s linear forwards;
+  font-size: 24px;
 }
 
-@keyframes flagFall {
+@keyframes flagFallDesktop {
   0% {
-    transform: translateY(-50px) rotate(0deg);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.7;
-  }
-  90% {
-    opacity: 0.7;
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.8;
   }
   100% {
-    transform: translateY(100vh) rotate(360deg);
+    transform: translateY(110vh) rotate(360deg);
     opacity: 0;
   }
 }
@@ -1881,25 +1874,18 @@ body {
 
 .ethnicity-flag-rain-inside .flag {
   position: absolute;
-  font-size: 2rem;
-  animation: flagFallInside linear forwards;
-  opacity: 0.7;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  top: -50px;
+  animation: flagFallInside 4s linear forwards;
+  font-size: 24px;
 }
 
 @keyframes flagFallInside {
   0% {
-    transform: translateY(-50px) rotate(0deg);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.7;
-  }
-  90% {
-    opacity: 0.7;
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.8;
   }
   100% {
-    transform: translateY(100%) rotate(360deg);
+    transform: translateY(110vh) rotate(360deg);
     opacity: 0;
   }
 }
