@@ -8,10 +8,10 @@ let currentStep = 0;
 // Random Virtual Model variants for Scene 0 (Desktop only)
 // Each variant maps to a scene: 0=Original(no scene), 1=Scene1, 2=Scene2, 3=Scene3
 const virtualModelVariants = [
-    { video: '/assets/virtual_model_scene.mp4', front: '/assets/virtual_model_front.png', sceneIndex: null },      // Original (doesn't match any scene)
-    { video: '/assets/virtual_model_scene_1.mp4', front: '/assets/virtual_model_front_1.png', sceneIndex: 1 },  // Scene 1 style
-    { video: '/assets/virtual_model_scene_2.mp4', front: '/assets/virtual_model_front_2.png', sceneIndex: 2 },  // Scene 2 style
-    { video: '/assets/virtual_model_scene_3.mp4', front: '/assets/virtual_model_front_3.png', sceneIndex: 3 }   // Scene 3 style
+    { video: '/assets/virtual_model_scene.mp4', front: '/assets/virtual_model_front.png', sceneIndex: null, arrow: '/assets/arrow.png' },      // Original (doesn't match any scene)
+    { video: '/assets/virtual_model_scene_1.mp4', front: '/assets/virtual_model_front_1.png', sceneIndex: 1, arrow: '/assets/arrow_white.png' },  // Scene 1 style
+    { video: '/assets/virtual_model_scene_2.mp4', front: '/assets/virtual_model_front_2.png', sceneIndex: 2, arrow: '/assets/arrow_white.png' },  // Scene 2 style
+    { video: '/assets/virtual_model_scene_3.mp4', front: '/assets/virtual_model_front_3.png', sceneIndex: 3, arrow: '/assets/arrow_white.png' }   // Scene 3 style
 ];
 
 // Select random variant for Virtual Model (Desktop only)
@@ -40,10 +40,27 @@ const selectedVariant = virtualModelVariants[randomVariantIndex];
 // Track which scene to skip in AI Background (because it's shown in Virtual Model)
 const skipSceneInBackground = selectedVariant.sceneIndex;
 
+// Update arrow image based on selected variant (desktop only)
+function updateArrowForVariant() {
+    if (isMobileDevice) return;
+
+    const comparisonArrow = document.querySelector('.comparison-arrow');
+    if (comparisonArrow && selectedVariant.arrow) {
+        comparisonArrow.src = selectedVariant.arrow;
+    }
+}
+
+// Initialize arrow on DOM ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateArrowForVariant);
+} else {
+    updateArrowForVariant();
+}
+
 // Mobile Video Variants System (similar to desktop)
 // Step 0 variants - each maps to a scene that will be skipped in AI Background
 const mobileStep0Variants = [
-    { video: '/assets/mobile-videos/step-0.mp4', sceneIndex: null },      // Original (doesn't match any scene)
+    { video: '/assets/mobile-videos/step-0.mp4', sceneIndex: 3 },         // Greek Island (same as scene-4)
     { video: '/assets/mobile-videos/step-0-1.mp4', sceneIndex: 0 },       // Scene 1 style (Rustic Wooden Barn)
     { video: '/assets/mobile-videos/step-0-2.mp4', sceneIndex: 1 },       // Scene 2 style (Cozy Mountain Lodge)
     { video: '/assets/mobile-videos/step-0-3.mp4', sceneIndex: 2 },       // Scene 3 style (Bali Rice Terraces)
