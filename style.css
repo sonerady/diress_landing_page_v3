@@ -1183,6 +1183,51 @@ body {
   transition: background-color 0.3s ease;
 }
 
+/* Ethnicity Flag Rain (Desktop) */
+.ethnicity-flag-rain-desktop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 48;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.ethnicity-flag-rain-desktop.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.ethnicity-flag-rain-desktop .flag {
+  position: absolute;
+  font-size: 2rem;
+  animation: flagFall linear forwards;
+  opacity: 0.7;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+@keyframes flagFall {
+  0% {
+    transform: translateY(-50px) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  90% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
 /* Mood Slideshow (Desktop) */
 .mood-slideshow {
   position: fixed;
@@ -1506,6 +1551,195 @@ body {
   opacity: 0;
   visibility: hidden;
   /* Now using Three.js for mood model display */
+}
+
+/* ========================================
+   Ethnicity Content (Inside Container) - Substep 3
+   ======================================== */
+
+/* Ethnicity White Palette (Inside) */
+.ethnicity-palette-inside {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  grid-template-rows: repeat(15, 1fr);
+  gap: 6px;
+  padding: 20px;
+  background: #ffffff;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  pointer-events: none;
+}
+
+.main-container.step-3.substep-3 .ethnicity-palette-inside {
+  opacity: 1;
+  visibility: visible;
+}
+
+.ethnicity-palette-inside .ethnicity-cell-inside {
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+/* Ethnicity Content Overlay */
+.ethnicity-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 60px 80px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.main-container.step-3.substep-3 .ethnicity-content {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Ethnicity Slideshow Inside */
+.ethnicity-slideshow-inside {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 450px;
+  height: 90%;
+  z-index: 5;
+}
+
+.ethnicity-slide-inside {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+  z-index: 1;
+  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.9))
+    drop-shadow(0 0 40px rgba(255, 255, 255, 0.7))
+    drop-shadow(0 0 60px rgba(255, 255, 255, 0.5))
+    drop-shadow(0 0 80px rgba(255, 255, 255, 0.3));
+}
+
+.ethnicity-slide-inside.active {
+  opacity: 1;
+  z-index: 2;
+}
+
+.ethnicity-slide-inside.fading-out {
+  opacity: 0;
+  z-index: 1;
+}
+
+/* Ethnicity Title - Right Side */
+.ethnicity-title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition-delay: 0.3s;
+  z-index: 15;
+}
+
+.main-container.step-3.substep-3 .ethnicity-title {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.ethnicity-title .title-prefix {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #666;
+  letter-spacing: 1px;
+}
+
+.ethnicity-title .title-ethnicity {
+  font-family: "Poppins", sans-serif;
+  font-size: 4rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.1;
+  min-width: 280px;
+  transition: opacity 0.3s ease;
+}
+
+.ethnicity-title .title-suffix {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #666;
+  letter-spacing: 1px;
+}
+
+/* Ethnicity Flag Rain (Inside) */
+.ethnicity-flag-rain-inside {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.main-container.step-3.substep-3 .ethnicity-flag-rain-inside {
+  opacity: 1;
+  visibility: visible;
+}
+
+.ethnicity-flag-rain-inside .flag {
+  position: absolute;
+  font-size: 2rem;
+  animation: flagFallInside linear forwards;
+  opacity: 0.7;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+@keyframes flagFallInside {
+  0% {
+    transform: translateY(-50px) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  90% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(100%) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Hide left gradient for Ethnicity substep */
+.main-container.step-3.substep-3 .customize-grid-container::before {
+  display: none;
 }
 
 /* Mood Content Overlay */

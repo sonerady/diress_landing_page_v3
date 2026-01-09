@@ -1944,6 +1944,240 @@ function stopEthnicityPaletteDesktop() {
     }
 }
 
+// Ethnicity Flag Rain (Desktop) - flags fall like emoji rain in Mood
+const ethnicityFlagRainDesktop = document.getElementById('ethnicity-flag-rain-desktop');
+let ethnicityFlagRainInterval = null;
+
+// Flags for each ethnicity - indexed by currentEthnicitySlideIndex
+const ethnicityFlags = [
+    ['🇯🇵', '🇨🇳', '🇰🇷', '🇹🇭', '🇻🇳', '🇮🇩', '🇲🇾', '🇵🇭'],  // Asian
+    ['🇳🇬', '🇿🇦', '🇰🇪', '🇬🇭', '🇪🇹', '🇪🇬', '🇲🇦', '🇹🇿'],  // African
+    ['🇧🇷', '🇲🇽', '🇦🇷', '🇨🇴', '🇨🇱', '🇵🇪', '🇻🇪', '🇨🇺'],  // Latin
+    ['🇸🇦', '🇦🇪', '🇪🇬', '🇯🇴', '🇱🇧', '🇲🇦', '🇶🇦', '🇰🇼'],  // Arabian
+    ['🇮🇳', '🇵🇰', '🇧🇩', '🇱🇰', '🇳🇵', '🇧🇹', '🇲🇻', '🇲🇲']   // Indian
+];
+
+function createEthnicityFlag() {
+    if (!ethnicityFlagRainDesktop) return;
+
+    const flag = document.createElement('span');
+    flag.className = 'flag';
+
+    // Get flags based on current ethnicity slide
+    const currentFlags = ethnicityFlags[currentEthnicitySlideIndex] || ethnicityFlags[0];
+    flag.textContent = currentFlags[Math.floor(Math.random() * currentFlags.length)];
+
+    // Random horizontal position
+    flag.style.left = Math.random() * 100 + '%';
+
+    // Random animation duration (5-10 seconds)
+    const duration = 5 + Math.random() * 5;
+    flag.style.animationDuration = duration + 's';
+
+    // Random delay for staggered effect
+    flag.style.animationDelay = Math.random() * 0.5 + 's';
+
+    ethnicityFlagRainDesktop.appendChild(flag);
+
+    // Remove flag after animation
+    setTimeout(() => {
+        if (flag.parentNode) {
+            flag.parentNode.removeChild(flag);
+        }
+    }, (duration + 1) * 1000);
+}
+
+function startEthnicityFlagRain() {
+    if (ethnicityFlagRainInterval) return;
+
+    // Create initial flags
+    for (let i = 0; i < 8; i++) {
+        setTimeout(() => createEthnicityFlag(), i * 200);
+    }
+
+    // Continue creating flags
+    ethnicityFlagRainInterval = setInterval(() => {
+        createEthnicityFlag();
+    }, 400);
+}
+
+function stopEthnicityFlagRain() {
+    if (ethnicityFlagRainInterval) {
+        clearInterval(ethnicityFlagRainInterval);
+        ethnicityFlagRainInterval = null;
+    }
+
+    // Clear existing flags
+    if (ethnicityFlagRainDesktop) {
+        ethnicityFlagRainDesktop.innerHTML = '';
+    }
+}
+
+// ========================================
+// ETHNICITY INSIDE CONTAINER SYSTEM
+// (Like Mood - inside main container)
+// ========================================
+
+const ethnicityPaletteInside = document.getElementById('ethnicity-palette-inside');
+const ethnicityFlagRainInside = document.getElementById('ethnicity-flag-rain-inside');
+const ethnicitySlideshowInside = document.getElementById('ethnicity-slideshow-inside');
+const ethnicitySlidesInside = document.querySelectorAll('.ethnicity-slide-inside');
+
+let ethnicityPaletteInsideAnimationId = null;
+let ethnicityFlagRainInsideInterval = null;
+let ethnicitySlideshowInsideInterval = null;
+let currentEthnicitySlideshowIndex = 0;
+
+const ethnicitySlideshowNamesInside = ['Asian', 'African', 'Latin', 'Arabian', 'Indian'];
+
+// Generate white palette cells (inside container)
+function generateEthnicityPaletteInside() {
+    if (!ethnicityPaletteInside || ethnicityPaletteInside.children.length > 0) return;
+
+    const cells = [];
+    // 20 columns x 15 rows = 300 cells
+    for (let i = 0; i < 300; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'ethnicity-cell-inside';
+        cell.dataset.index = i;
+        ethnicityPaletteInside.appendChild(cell);
+        cells.push(cell);
+    }
+
+    // Animate with white/light colors
+    let time = 0;
+    function animateEthnicityPaletteInside() {
+        time += 0.015;
+        cells.forEach((cell, index) => {
+            const row = Math.floor(index / 20);
+            const col = index % 20;
+
+            // Create flowing white/light gray pattern
+            const wave = Math.sin(time + row * 0.3 + col * 0.2) * 0.5 + 0.5;
+            const lightness = 85 + wave * 15; // 85-100% lightness (very light)
+            const saturation = 5 + wave * 10; // Very low saturation
+            const hue = (time * 20 + index) % 360;
+
+            cell.style.backgroundColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+        });
+        ethnicityPaletteInsideAnimationId = requestAnimationFrame(animateEthnicityPaletteInside);
+    }
+    animateEthnicityPaletteInside();
+}
+
+function stopEthnicityPaletteInside() {
+    if (ethnicityPaletteInsideAnimationId) {
+        cancelAnimationFrame(ethnicityPaletteInsideAnimationId);
+        ethnicityPaletteInsideAnimationId = null;
+    }
+}
+
+// Ethnicity Slideshow (inside container)
+function startEthnicitySlideshowInside() {
+    if (ethnicitySlideshowInsideInterval || ethnicitySlidesInside.length === 0) return;
+
+    currentEthnicitySlideshowIndex = 0;
+    // Reset all slides
+    ethnicitySlidesInside.forEach((slide, i) => {
+        slide.classList.remove('active', 'fading-out');
+        if (i === 0) slide.classList.add('active');
+    });
+
+    // Update text
+    const ethnicityTextEl = document.getElementById('ethnicity-text');
+    if (ethnicityTextEl) ethnicityTextEl.textContent = ethnicitySlideshowNamesInside[0];
+
+    ethnicitySlideshowInsideInterval = setInterval(() => {
+        const currentSlide = ethnicitySlidesInside[currentEthnicitySlideshowIndex];
+        const nextIndex = (currentEthnicitySlideshowIndex + 1) % ethnicitySlidesInside.length;
+        const nextSlide = ethnicitySlidesInside[nextIndex];
+
+        // Fade out current
+        currentSlide.classList.add('fading-out');
+        currentSlide.classList.remove('active');
+
+        // Fade in next
+        nextSlide.classList.add('active');
+        nextSlide.classList.remove('fading-out');
+
+        // Update text with fade
+        const ethnicityTextEl = document.getElementById('ethnicity-text');
+        if (ethnicityTextEl) {
+            ethnicityTextEl.style.opacity = '0';
+            setTimeout(() => {
+                ethnicityTextEl.textContent = ethnicitySlideshowNamesInside[nextIndex];
+                ethnicityTextEl.style.opacity = '1';
+            }, 300);
+        }
+
+        currentEthnicitySlideshowIndex = nextIndex;
+    }, 2500);
+}
+
+function stopEthnicitySlideshowInside() {
+    if (ethnicitySlideshowInsideInterval) {
+        clearInterval(ethnicitySlideshowInsideInterval);
+        ethnicitySlideshowInsideInterval = null;
+    }
+}
+
+// Ethnicity Flag Rain (inside container)
+function createEthnicityFlagInside() {
+    if (!ethnicityFlagRainInside) return;
+
+    const flag = document.createElement('span');
+    flag.className = 'flag';
+
+    // Get flags based on current slideshow index
+    const currentFlags = ethnicityFlags[currentEthnicitySlideshowIndex] || ethnicityFlags[0];
+    flag.textContent = currentFlags[Math.floor(Math.random() * currentFlags.length)];
+
+    // Random horizontal position
+    flag.style.left = Math.random() * 100 + '%';
+
+    // Random animation duration (5-10 seconds)
+    const duration = 5 + Math.random() * 5;
+    flag.style.animationDuration = duration + 's';
+
+    // Random delay for staggered effect
+    flag.style.animationDelay = Math.random() * 0.5 + 's';
+
+    ethnicityFlagRainInside.appendChild(flag);
+
+    // Remove flag after animation
+    setTimeout(() => {
+        if (flag.parentNode) {
+            flag.parentNode.removeChild(flag);
+        }
+    }, (duration + 1) * 1000);
+}
+
+function startEthnicityFlagRainInside() {
+    if (ethnicityFlagRainInsideInterval) return;
+
+    // Create initial flags
+    for (let i = 0; i < 8; i++) {
+        setTimeout(() => createEthnicityFlagInside(), i * 200);
+    }
+
+    // Continue creating flags
+    ethnicityFlagRainInsideInterval = setInterval(() => {
+        createEthnicityFlagInside();
+    }, 400);
+}
+
+function stopEthnicityFlagRainInside() {
+    if (ethnicityFlagRainInsideInterval) {
+        clearInterval(ethnicityFlagRainInsideInterval);
+        ethnicityFlagRainInsideInterval = null;
+    }
+
+    // Clear existing flags
+    if (ethnicityFlagRainInside) {
+        ethnicityFlagRainInside.innerHTML = '';
+    }
+}
+
 // Desktop Hair Style White Palette Animation
 const hairStylePaletteDesktop = document.getElementById('hair-style-palette-desktop');
 let hairStylePaletteAnimationId = null;
@@ -2251,22 +2485,17 @@ function playEthnicityAnimations() {
         startEthnicityRotation();
     }, 600);
 
-    // Desktop: Show ethnicity slideshow and white palette (hide Three.js canvas)
+    // Desktop: Use inside container elements (like Mood)
     if (!isMobile()) {
-        const ethnicitySlideshowElement = document.getElementById('ethnicity-slideshow');
-        const ethnicityPaletteElement = document.getElementById('ethnicity-palette-desktop');
         const ethnicityBgElement = document.getElementById('ethnicity-bg');
 
         // Hide the default ethnicity-bg image
         if (ethnicityBgElement) ethnicityBgElement.classList.remove('active');
 
-        if (ethnicityPaletteElement) {
-            ethnicityPaletteElement.classList.add('active');
-            generateEthnicityPaletteDesktop();
-        }
-        if (ethnicitySlideshowElement) ethnicitySlideshowElement.classList.add('active');
-
-        startEthnicitySlideshow();
+        // Start inside container animations (CSS handles visibility via step-3.substep-3)
+        generateEthnicityPaletteInside();
+        startEthnicitySlideshowInside();
+        startEthnicityFlagRainInside();
     }
 }
 
@@ -2548,15 +2777,10 @@ function resetEthnicityAnimations() {
         uniforms.opacity.value = 1;
     }
 
-    // Desktop: Hide ethnicity slideshow and palette
-    const ethnicitySlideshowElement = document.getElementById('ethnicity-slideshow');
-    const ethnicityPaletteElement = document.getElementById('ethnicity-palette-desktop');
-
-    if (ethnicitySlideshowElement) ethnicitySlideshowElement.classList.remove('active');
-    if (ethnicityPaletteElement) ethnicityPaletteElement.classList.remove('active');
-
-    stopEthnicitySlideshow();
-    stopEthnicityPaletteDesktop();
+    // Desktop: Stop inside container animations (CSS handles visibility)
+    stopEthnicitySlideshowInside();
+    stopEthnicityPaletteInside();
+    stopEthnicityFlagRainInside();
 }
 
 // ===== MOOD SYSTEM (Substep 4) =====
