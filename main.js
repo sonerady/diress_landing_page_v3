@@ -6,17 +6,39 @@ let currentScene = 0;
 let currentStep = 0;
 
 // Random Virtual Model variants for Scene 0 (Desktop only)
+// Each variant maps to a scene: 0=Original(no scene), 1=Scene1, 2=Scene2, 3=Scene3
 const virtualModelVariants = [
-    { video: '/assets/virtual_model_scene.mp4', front: '/assets/virtual_model_front.png' },      // Original
-    { video: '/assets/virtual_model_scene_1.mp4', front: '/assets/virtual_model_front_1.png' },  // Scene 1 style
-    { video: '/assets/virtual_model_scene_2.mp4', front: '/assets/virtual_model_front_2.png' },  // Scene 2 style
-    { video: '/assets/virtual_model_scene_3.mp4', front: '/assets/virtual_model_front_3.png' }   // Scene 3 style
+    { video: '/assets/virtual_model_scene.mp4', front: '/assets/virtual_model_front.png', sceneIndex: null },      // Original (doesn't match any scene)
+    { video: '/assets/virtual_model_scene_1.mp4', front: '/assets/virtual_model_front_1.png', sceneIndex: 1 },  // Scene 1 style
+    { video: '/assets/virtual_model_scene_2.mp4', front: '/assets/virtual_model_front_2.png', sceneIndex: 2 },  // Scene 2 style
+    { video: '/assets/virtual_model_scene_3.mp4', front: '/assets/virtual_model_front_3.png', sceneIndex: 3 }   // Scene 3 style
 ];
 
 // Select random variant for Virtual Model (Desktop only)
+// Uses localStorage to avoid showing same variant on consecutive visits
 const isMobileDevice = window.innerWidth <= 768;
-const randomVariantIndex = isMobileDevice ? 0 : Math.floor(Math.random() * virtualModelVariants.length);
+let randomVariantIndex = 0;
+
+if (!isMobileDevice) {
+    // Get last used variant from localStorage
+    const lastVariantIndex = localStorage.getItem('diress_last_variant');
+
+    // Get available indices (all except the last used one)
+    let availableIndices = virtualModelVariants.map((_, i) => i);
+    if (lastVariantIndex !== null) {
+        availableIndices = availableIndices.filter(i => i !== parseInt(lastVariantIndex));
+    }
+
+    // Select random from available
+    randomVariantIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+
+    // Save current selection for next visit
+    localStorage.setItem('diress_last_variant', randomVariantIndex.toString());
+}
+
 const selectedVariant = virtualModelVariants[randomVariantIndex];
+// Track which scene to skip in AI Background (because it's shown in Virtual Model)
+const skipSceneInBackground = selectedVariant.sceneIndex;
 
 const scenes = [
     '/assets/center_image_2.png',           // Scene 0 (index 0)
@@ -1399,10 +1421,16 @@ window.addEventListener('wheel', (e) => {
             if (currentStep === 0 && currentScene === 0) {
                 // From Virtual Model to Select Scene (Step 1)
                 currentStep = 1;
-                transitionToScene(1);
+                // Skip to scene that's not shown in Virtual Model
+                let firstScene = 1;
+                if (skipSceneInBackground === 1) firstScene = 2;
+                transitionToScene(firstScene);
             } else if (currentStep === 1 && currentScene < 4) {
-                // Through scenes 1->2->3->4 within Step 1
-                transitionToScene(currentScene + 1);
+                // Through scenes within Step 1, skip the one shown in Virtual Model
+                let nextScene = currentScene + 1;
+                if (nextScene === skipSceneInBackground) nextScene++;
+                if (nextScene > 4) nextScene = 4; // Don't exceed max
+                transitionToScene(nextScene);
             } else if (currentStep === 1 && currentScene >= 4) {
                 // From Scene 4 to Change Pose (Step 2)
                 currentStep = 2;
@@ -1463,11 +1491,20 @@ window.addEventListener('wheel', (e) => {
             }
         } else {
             // Scroll up
-            if (currentStep === 1 && currentScene === 1) {
+            // Determine the first visible scene (skip the one shown in Virtual Model)
+            let firstVisibleScene = 1;
+            if (skipSceneInBackground === 1) firstVisibleScene = 2;
+
+            if (currentStep === 1 && currentScene === firstVisibleScene) {
+                // From first visible scene back to Virtual Model
                 currentStep = 0;
                 transitionToScene(0);
-            } else if (currentStep === 1 && currentScene > 1) {
-                transitionToScene(currentScene - 1);
+            } else if (currentStep === 1 && currentScene > firstVisibleScene) {
+                // Go back through scenes, skip the one shown in Virtual Model
+                let prevScene = currentScene - 1;
+                if (prevScene === skipSceneInBackground) prevScene--;
+                if (prevScene < 1) prevScene = 1;
+                transitionToScene(prevScene);
             } else if (currentStep === 3) {
                 // From Customize Model back
                 if (currentSubStep > 0) {
