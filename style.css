@@ -7438,6 +7438,50 @@ footer {
     visibility: visible;
   }
 
+  /* Mood Model Image - for rotation */
+  .mobile-mood-image {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    max-height: 85vh;
+    max-width: 90vw;
+    object-fit: contain;
+    z-index: 40;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease;
+  }
+
+  .mobile-mood-image.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Mood Title - Big text behind model */
+  .mobile-mood-title {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 4rem;
+    font-weight: 800;
+    color: rgba(0, 0, 0, 0.15);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    z-index: 5;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .mobile-mood-title.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
   /* Mood Grid - White animated palette like ethnicity */
   .mobile-mood-grid {
     position: absolute;

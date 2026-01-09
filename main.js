@@ -3603,6 +3603,7 @@ function updateMobileCustomizeInfo() {
             const mobileHairstyleVideo = document.getElementById('mobile-hairstyle-video');
 
             const mobileMoodGrid = document.getElementById('mobile-mood-grid');
+            const mobileMoodImage = document.getElementById('mobile-mood-image');
             const mobileHairColorSlideshow = document.getElementById('mobile-hair-color-slideshow');
 
             if (currentSubStep === 0) {
@@ -3622,8 +3623,10 @@ function updateMobileCustomizeInfo() {
                 if (mobileCustomizeModel) mobileCustomizeModel.style.display = 'none';
                 if (mobileSkinToneImage) mobileSkinToneImage.classList.remove('active');
                 if (mobileEthnicityImage) mobileEthnicityImage.classList.remove('active');
+                if (mobileMoodImage) mobileMoodImage.classList.remove('active');
                 stopMobileSkinToneRotation();
                 stopMobileEthnicityRotation();
+                stopMobileMoodRotation();
                 stopMoodEmojiRain();
             } else if (currentSubStep === 1) {
                 // Hair Style - show video background with blur overlay
@@ -3639,8 +3642,10 @@ function updateMobileCustomizeInfo() {
                 if (mobileCustomizeModel) mobileCustomizeModel.style.display = 'block';
                 if (mobileSkinToneImage) mobileSkinToneImage.classList.remove('active');
                 if (mobileEthnicityImage) mobileEthnicityImage.classList.remove('active');
+                if (mobileMoodImage) mobileMoodImage.classList.remove('active');
                 stopMobileSkinToneRotation();
                 stopMobileEthnicityRotation();
+                stopMobileMoodRotation();
                 stopMoodEmojiRain();
             } else if (currentSubStep === 2) {
                 // Skin Tone - show skin tone palette and rotating images
@@ -3659,8 +3664,10 @@ function updateMobileCustomizeInfo() {
                 if (mobileCustomizeModel) mobileCustomizeModel.style.display = 'none';
                 if (mobileSkinToneImage) mobileSkinToneImage.classList.add('active');
                 if (mobileEthnicityImage) mobileEthnicityImage.classList.remove('active');
+                if (mobileMoodImage) mobileMoodImage.classList.remove('active');
                 startMobileSkinToneRotation();
                 stopMobileEthnicityRotation();
+                stopMobileMoodRotation();
                 stopMoodEmojiRain();
             } else if (currentSubStep === 3) {
                 // Ethnicity - show ethnicity palette and rotating images
@@ -3679,11 +3686,13 @@ function updateMobileCustomizeInfo() {
                 if (mobileCustomizeModel) mobileCustomizeModel.style.display = 'none';
                 if (mobileSkinToneImage) mobileSkinToneImage.classList.remove('active');
                 if (mobileEthnicityImage) mobileEthnicityImage.classList.add('active');
+                if (mobileMoodImage) mobileMoodImage.classList.remove('active');
                 stopMobileSkinToneRotation();
                 startMobileEthnicityRotation();
+                stopMobileMoodRotation();
                 stopMoodEmojiRain();
             } else if (currentSubStep === 4) {
-                // Mood - show white palette and emoji rain
+                // Mood - show white palette, emoji rain and rotating mood images
                 if (mobileColorPaletteGrid) mobileColorPaletteGrid.classList.remove('active');
                 if (mobileHairColorSlideshow) mobileHairColorSlideshow.classList.remove('active');
                 stopMobileHairColorSlideshow();
@@ -3696,11 +3705,13 @@ function updateMobileCustomizeInfo() {
                     generateMobileMoodPalette();
                 }
                 if (mobileCustomizeColors) mobileCustomizeColors.classList.add('hidden');
-                if (mobileCustomizeModel) mobileCustomizeModel.style.display = 'block';
+                if (mobileCustomizeModel) mobileCustomizeModel.style.display = 'none';
                 if (mobileSkinToneImage) mobileSkinToneImage.classList.remove('active');
                 if (mobileEthnicityImage) mobileEthnicityImage.classList.remove('active');
+                if (mobileMoodImage) mobileMoodImage.classList.add('active');
                 stopMobileSkinToneRotation();
                 stopMobileEthnicityRotation();
+                startMobileMoodRotation();
                 startMoodEmojiRain();
             } else {
                 // Other substeps (Body Shape) - show static color boxes and default model
@@ -3716,8 +3727,10 @@ function updateMobileCustomizeInfo() {
                 if (mobileCustomizeModel) mobileCustomizeModel.style.display = 'block';
                 if (mobileSkinToneImage) mobileSkinToneImage.classList.remove('active');
                 if (mobileEthnicityImage) mobileEthnicityImage.classList.remove('active');
+                if (mobileMoodImage) mobileMoodImage.classList.remove('active');
                 stopMobileSkinToneRotation();
                 stopMobileEthnicityRotation();
+                stopMobileMoodRotation();
                 stopMoodEmojiRain();
             }
         }
@@ -3947,6 +3960,65 @@ function stopMobileEthnicityRotation() {
     const ethnicityTitle = document.getElementById('mobile-ethnicity-title');
     if (ethnicityTitle) {
         ethnicityTitle.classList.remove('active');
+    }
+}
+
+// Mobile Mood Image Rotation
+const mobileMoodImagePaths = [
+    '/assets/mood-1-Photoroom.png',
+    '/assets/mood-2-Photoroom.png',
+    '/assets/mood-3-Photoroom.png'
+];
+
+const mobileMoodNames = ['Happy', 'Confident', 'Serious'];
+
+let mobileMoodIndex = 0;
+let mobileMoodImageInterval = null;
+
+function startMobileMoodRotation() {
+    if (mobileMoodImageInterval) return;
+
+    const moodImage = document.getElementById('mobile-mood-image');
+    const moodTitle = document.getElementById('mobile-mood-title');
+    if (!moodImage) return;
+
+    mobileMoodIndex = 0;
+    moodImage.src = mobileMoodImagePaths[0];
+    moodImage.classList.add('active');
+    if (moodTitle) {
+        moodTitle.textContent = mobileMoodNames[0];
+        moodTitle.classList.add('active');
+    }
+
+    mobileMoodImageInterval = setInterval(() => {
+        moodImage.style.opacity = '0';
+        if (moodTitle) moodTitle.style.opacity = '0';
+
+        setTimeout(() => {
+            mobileMoodIndex = (mobileMoodIndex + 1) % mobileMoodImagePaths.length;
+            moodImage.src = mobileMoodImagePaths[mobileMoodIndex];
+            moodImage.style.opacity = '1';
+            if (moodTitle) {
+                moodTitle.textContent = mobileMoodNames[mobileMoodIndex];
+                moodTitle.style.opacity = '1';
+            }
+        }, 300);
+    }, 2500);
+}
+
+function stopMobileMoodRotation() {
+    if (mobileMoodImageInterval) {
+        clearInterval(mobileMoodImageInterval);
+        mobileMoodImageInterval = null;
+    }
+    // Hide mood title and image when stopping
+    const moodTitle = document.getElementById('mobile-mood-title');
+    const moodImage = document.getElementById('mobile-mood-image');
+    if (moodTitle) {
+        moodTitle.classList.remove('active');
+    }
+    if (moodImage) {
+        moodImage.classList.remove('active');
     }
 }
 
