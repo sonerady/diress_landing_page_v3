@@ -2014,6 +2014,112 @@ function stopEthnicityFlagRain() {
 }
 
 // ========================================
+// HAIR STYLE INSIDE CONTAINER SYSTEM
+// (Like Mood/Ethnicity - inside main container)
+// ========================================
+
+const hairstylePaletteInside = document.getElementById('hairstyle-palette-inside');
+const hairstyleSlideshowInside = document.getElementById('hairstyle-slideshow-inside');
+const hairstyleSlidesInside = document.querySelectorAll('.hairstyle-slide-inside');
+
+let hairstylePaletteInsideAnimationId = null;
+let hairstyleSlideshowInsideInterval = null;
+let currentHairstyleSlideshowIndex = 0;
+
+const hairstyleSlideshowNamesInside = ['Elegant', 'Casual', 'Bold', 'Classic', 'Modern'];
+
+// Generate white palette cells (inside container)
+function generateHairstylePaletteInside() {
+    if (!hairstylePaletteInside || hairstylePaletteInside.children.length > 0) return;
+
+    const cells = [];
+    // 20 columns x 15 rows = 300 cells
+    for (let i = 0; i < 300; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'hairstyle-cell-inside';
+        cell.dataset.index = i;
+        hairstylePaletteInside.appendChild(cell);
+        cells.push(cell);
+    }
+
+    // Animate with white/light colors
+    let time = 0;
+    function animateHairstylePaletteInside() {
+        time += 0.015;
+        cells.forEach((cell, index) => {
+            const row = Math.floor(index / 20);
+            const col = index % 20;
+
+            // Create flowing white/light gray pattern
+            const wave = Math.sin(time + row * 0.3 + col * 0.2) * 0.5 + 0.5;
+            const lightness = 85 + wave * 15; // 85-100% lightness (very light)
+            const saturation = 5 + wave * 10; // Very low saturation
+            const hue = (time * 20 + index) % 360;
+
+            cell.style.backgroundColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+        });
+        hairstylePaletteInsideAnimationId = requestAnimationFrame(animateHairstylePaletteInside);
+    }
+    animateHairstylePaletteInside();
+}
+
+function stopHairstylePaletteInside() {
+    if (hairstylePaletteInsideAnimationId) {
+        cancelAnimationFrame(hairstylePaletteInsideAnimationId);
+        hairstylePaletteInsideAnimationId = null;
+    }
+}
+
+// Hair Style Slideshow (inside container)
+function startHairstyleSlideshowInside() {
+    if (hairstyleSlideshowInsideInterval || hairstyleSlidesInside.length === 0) return;
+
+    currentHairstyleSlideshowIndex = 0;
+    // Reset all slides
+    hairstyleSlidesInside.forEach((slide, i) => {
+        slide.classList.remove('active', 'fading-out');
+        if (i === 0) slide.classList.add('active');
+    });
+
+    // Update text
+    const hairstyleTextEl = document.getElementById('hairstyle-text');
+    if (hairstyleTextEl) hairstyleTextEl.textContent = hairstyleSlideshowNamesInside[0];
+
+    hairstyleSlideshowInsideInterval = setInterval(() => {
+        const currentSlide = hairstyleSlidesInside[currentHairstyleSlideshowIndex];
+        const nextIndex = (currentHairstyleSlideshowIndex + 1) % hairstyleSlidesInside.length;
+        const nextSlide = hairstyleSlidesInside[nextIndex];
+
+        // Fade out current
+        currentSlide.classList.add('fading-out');
+        currentSlide.classList.remove('active');
+
+        // Fade in next
+        nextSlide.classList.add('active');
+        nextSlide.classList.remove('fading-out');
+
+        // Update text with fade
+        const hairstyleTextEl = document.getElementById('hairstyle-text');
+        if (hairstyleTextEl) {
+            hairstyleTextEl.style.opacity = '0';
+            setTimeout(() => {
+                hairstyleTextEl.textContent = hairstyleSlideshowNamesInside[nextIndex];
+                hairstyleTextEl.style.opacity = '1';
+            }, 300);
+        }
+
+        currentHairstyleSlideshowIndex = nextIndex;
+    }, 2500);
+}
+
+function stopHairstyleSlideshowInside() {
+    if (hairstyleSlideshowInsideInterval) {
+        clearInterval(hairstyleSlideshowInsideInterval);
+        hairstyleSlideshowInsideInterval = null;
+    }
+}
+
+// ========================================
 // ETHNICITY INSIDE CONTAINER SYSTEM
 // (Like Mood - inside main container)
 // ========================================
@@ -3055,6 +3161,9 @@ updateUI = function () {
             if (hairStylePaletteDesktop) hairStylePaletteDesktop.classList.remove('active');
             stopHairStyleSlideshow();
             stopHairStylePaletteDesktop();
+            // Stop Hair Style inside animations
+            stopHairstyleSlideshowInside();
+            stopHairstylePaletteInside();
             if (skinToneGridOverlay) skinToneGridOverlay.classList.remove('active');
             // Hide Three.js canvas for Hair Color
             if (artWrapper) artWrapper.style.opacity = '0';
@@ -3063,7 +3172,7 @@ updateUI = function () {
             resetMoodAnimations();
             startHairColorSlideshow();
         } else if (currentSubStep === 1) {
-            // Hair Style - show slideshow with gradient and white palette (like Ethnicity)
+            // Hair Style - use inside container system (like Ethnicity/Mood)
             if (customizeVideo) {
                 customizeVideo.classList.add('hidden');
                 customizeVideo.pause();
@@ -3072,20 +3181,19 @@ updateUI = function () {
             if (hairColorSlideshow) hairColorSlideshow.classList.remove('active');
             if (skinTonePaletteGrid) skinTonePaletteGrid.classList.remove('active');
             if (ethnicityBg) ethnicityBg.classList.remove('active');
-            // Show Hair Style slideshow and white palette
-            if (hairStyleSlideshow) hairStyleSlideshow.classList.add('active');
-            if (hairStylePaletteDesktop) {
-                hairStylePaletteDesktop.classList.add('active');
-                generateHairStylePaletteDesktop();
-            }
+            // Hide old desktop overlays
+            if (hairStyleSlideshow) hairStyleSlideshow.classList.remove('active');
+            if (hairStylePaletteDesktop) hairStylePaletteDesktop.classList.remove('active');
             if (skinToneGridOverlay) skinToneGridOverlay.classList.remove('active');
-            // Hide Three.js canvas for Hair Style (we use slideshow instead)
+            // Hide Three.js canvas for Hair Style
             if (artWrapper) artWrapper.style.opacity = '0';
             stopSkinToneRotation();
             stopHairColorSlideshow();
             resetEthnicityAnimations();
             resetMoodAnimations();
-            startHairStyleSlideshow();
+            // Start inside container animations (CSS handles visibility via step-3.substep-0)
+            generateHairstylePaletteInside();
+            startHairstyleSlideshowInside();
         } else if (currentSubStep === 2) {
             // Skin Tone - show skin tone grid overlay with gradient
             if (customizeVideo) {
@@ -3101,6 +3209,9 @@ updateUI = function () {
             if (hairStylePaletteDesktop) hairStylePaletteDesktop.classList.remove('active');
             stopHairStyleSlideshow();
             stopHairStylePaletteDesktop();
+            // Stop Hair Style inside animations
+            stopHairstyleSlideshowInside();
+            stopHairstylePaletteInside();
             if (skinToneGridOverlay) skinToneGridOverlay.classList.add('active');
             // Show Three.js canvas for Skin Tone
             if (artWrapper) artWrapper.style.opacity = '1';
@@ -3125,6 +3236,9 @@ updateUI = function () {
             if (hairStylePaletteDesktop) hairStylePaletteDesktop.classList.remove('active');
             stopHairStyleSlideshow();
             stopHairStylePaletteDesktop();
+            // Stop Hair Style inside animations
+            stopHairstyleSlideshowInside();
+            stopHairstylePaletteInside();
             if (skinToneGridOverlay) skinToneGridOverlay.classList.remove('active');
             // Hide Three.js canvas for Ethnicity (we use slideshow instead)
             if (artWrapper) artWrapper.style.opacity = '0';
@@ -3149,6 +3263,9 @@ updateUI = function () {
             if (hairStylePaletteDesktop) hairStylePaletteDesktop.classList.remove('active');
             stopHairStyleSlideshow();
             stopHairStylePaletteDesktop();
+            // Stop Hair Style inside animations
+            stopHairstyleSlideshowInside();
+            stopHairstylePaletteInside();
             if (skinToneGridOverlay) skinToneGridOverlay.classList.remove('active');
             // Hide Three.js canvas for Mood (we use slideshow instead)
             if (artWrapper) artWrapper.style.opacity = '0';
@@ -3173,6 +3290,9 @@ updateUI = function () {
             if (hairStylePaletteDesktop) hairStylePaletteDesktop.classList.remove('active');
             stopHairStyleSlideshow();
             stopHairStylePaletteDesktop();
+            // Stop Hair Style inside animations
+            stopHairstyleSlideshowInside();
+            stopHairstylePaletteInside();
             if (skinToneGridOverlay) skinToneGridOverlay.classList.remove('active');
             // Show Three.js canvas for Body Shape
             if (artWrapper) artWrapper.style.opacity = '1';
