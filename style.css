@@ -807,6 +807,119 @@ body {
   }
 }
 
+/* Hair Style Video Overlay (Desktop) - Outside main-container */
+.hair-style-video-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 50;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hair-style-video-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.hair-style-video-overlay::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 70%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 1) 45%,
+    rgba(255, 255, 255, 0.6) 75%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+.hair-style-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+/* Skin Tone Grid Overlay (Desktop) - Outside main-container */
+.skin-tone-grid-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 50;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  pointer-events: none;
+  background: #ffffff;
+}
+
+.skin-tone-grid-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.skin-tone-grid-overlay::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 70%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 1) 45%,
+    rgba(255, 255, 255, 0.6) 75%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+.skin-tone-grid-cells {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  grid-template-rows: repeat(15, 1fr);
+  gap: 6px;
+  padding: 20px;
+}
+
+.skin-tone-grid-cells .skin-cell {
+  border-radius: 6px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.skin-tone-grid-cells .skin-cell:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
 /* Hair Color Slideshow */
 .hair-color-slideshow {
   position: fixed;
@@ -1131,25 +1244,6 @@ body {
 .skin-tone-palette-grid.active {
   opacity: 1;
   visibility: visible;
-}
-
-/* Left gradient for Skin Tone palette */
-.skin-tone-palette-grid::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 70%;
-  height: 100%;
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 1) 0%,
-    rgba(255, 255, 255, 1) 45%,
-    rgba(255, 255, 255, 0.6) 75%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  pointer-events: none;
-  z-index: 5;
 }
 
 .skin-tone-palette-grid .skin-cell {
