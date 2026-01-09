@@ -5939,3 +5939,407 @@ if (isMobile()) {
     initMobileEcommerceGallery();
 }
 
+// ========================================
+// CONTACT PAGE FUNCTIONALITY
+// ========================================
+
+function openContactPage() {
+    const contactPage = document.getElementById('contact-page');
+    if (contactPage) {
+        contactPage.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        // Update URL to /contact
+        history.pushState({ page: 'contact' }, 'Contact - Diress', '/contact');
+    }
+}
+
+function closeContactPage() {
+    const contactPage = document.getElementById('contact-page');
+    if (contactPage) {
+        contactPage.classList.remove('active');
+        document.body.style.overflow = '';
+        // Update URL back to /
+        history.pushState({ page: 'home' }, 'Diress - AI Fashion Model Generator', '/');
+    }
+}
+
+function initContactPage() {
+    const contactPage = document.getElementById('contact-page');
+    const contactClose = document.getElementById('contact-close');
+    const contactForm = document.getElementById('contact-form');
+
+    // Get all nav links with data-page="contacts"
+    const contactLinks = document.querySelectorAll('a[data-page="contacts"]');
+
+    // Open contact page
+    contactLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            openContactPage();
+        });
+    });
+
+    // Close contact page
+    if (contactClose) {
+        contactClose.addEventListener('click', () => {
+            closeContactPage();
+        });
+    }
+
+    // Handle contact header logo click - close contact and go home
+    const contactLogo = document.getElementById('contact-logo');
+    if (contactLogo) {
+        contactLogo.addEventListener('click', () => {
+            closeContactPage();
+        });
+    }
+
+    // Handle contact header Home link click - close contact and go home
+    const contactHomeLink = document.querySelector('.contact-header a[data-page="home"]');
+    if (contactHomeLink) {
+        contactHomeLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeContactPage();
+        });
+    }
+
+    // Handle browser back/forward buttons
+    window.addEventListener('popstate', (e) => {
+        if (e.state && e.state.page === 'contact') {
+            const contactPage = document.getElementById('contact-page');
+            if (contactPage && !contactPage.classList.contains('active')) {
+                contactPage.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        } else {
+            const contactPage = document.getElementById('contact-page');
+            if (contactPage && contactPage.classList.contains('active')) {
+                contactPage.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+    });
+
+    // Check if we should open contact page on initial load (e.g., direct navigation to /contact)
+    if (window.location.pathname === '/contact') {
+        const contactPage = document.getElementById('contact-page');
+        if (contactPage) {
+            contactPage.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && contactPage && contactPage.classList.contains('active')) {
+            closeContactPage();
+        }
+    });
+
+    // Handle form submission
+    if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(contactForm);
+            const data = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                subject: formData.get('subject'),
+                message: formData.get('message')
+            };
+
+            // Show success message (you can replace this with actual form submission)
+            const submitBtn = contactForm.querySelector('.contact-submit');
+            const originalText = submitBtn.innerHTML;
+
+            submitBtn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
+            submitBtn.style.background = '#22c55e';
+            submitBtn.disabled = true;
+
+            // Reset form after delay
+            setTimeout(() => {
+                contactForm.reset();
+                submitBtn.innerHTML = originalText;
+                submitBtn.style.background = '';
+                submitBtn.disabled = false;
+
+                // Close contact page
+                closeContactPage();
+            }, 2000);
+
+            // Log data (replace with actual API call)
+            console.log('Contact form submitted:', data);
+        });
+    }
+}
+
+// Initialize contact page on DOM ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initContactPage);
+} else {
+    initContactPage();
+}
+
+// Contact Mobile Menu Handler
+let contactMobileMenuInitialized = false;
+
+function initContactMobileMenu() {
+    if (contactMobileMenuInitialized) return;
+
+    const contactHamburger = document.getElementById('contact-hamburger-menu');
+    const contactMobileMenu = document.getElementById('contact-mobile-menu');
+
+    if (contactHamburger && contactMobileMenu) {
+        contactMobileMenuInitialized = true;
+
+        contactHamburger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            contactMobileMenu.classList.toggle('active');
+            contactHamburger.classList.toggle('active');
+        });
+
+        // Handle mobile menu links
+        const mobileNavLinks = contactMobileMenu.querySelectorAll('.mobile-nav a');
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                const page = link.dataset.page;
+
+                if (page === 'home') {
+                    e.preventDefault();
+                    contactMobileMenu.classList.remove('active');
+                    contactHamburger.classList.remove('active');
+                    closeContactPage();
+                } else if (link.getAttribute('href') === '/pricing') {
+                    e.preventDefault();
+                    contactMobileMenu.classList.remove('active');
+                    contactHamburger.classList.remove('active');
+                    closeContactPage();
+                    setTimeout(() => openPricingPage(), 100);
+                } else if (link.getAttribute('href') === '/contact') {
+                    e.preventDefault();
+                    contactMobileMenu.classList.remove('active');
+                    contactHamburger.classList.remove('active');
+                }
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!contactHamburger.contains(e.target) && !contactMobileMenu.contains(e.target)) {
+                contactMobileMenu.classList.remove('active');
+                contactHamburger.classList.remove('active');
+            }
+        });
+    }
+}
+
+// Initialize contact mobile menu on DOM ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initContactMobileMenu);
+} else {
+    initContactMobileMenu();
+}
+
+// ========================================
+// PRICING PAGE FUNCTIONALITY
+// ========================================
+
+function openPricingPage() {
+    const pricingPage = document.getElementById('pricing-page');
+    if (pricingPage) {
+        pricingPage.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        // Update URL to /pricing
+        history.pushState({ page: 'pricing' }, 'Pricing - Diress', '/pricing');
+    }
+}
+
+function closePricingPage() {
+    const pricingPage = document.getElementById('pricing-page');
+    if (pricingPage) {
+        pricingPage.classList.remove('active');
+        document.body.style.overflow = '';
+        // Update URL back to /
+        history.pushState({ page: 'home' }, 'Diress - AI Fashion Model Generator', '/');
+    }
+}
+
+function initPricingPage() {
+    const pricingPage = document.getElementById('pricing-page');
+
+    // Get all nav links with href="/pricing" (internal pricing links)
+    const pricingLinks = document.querySelectorAll('a[href="/pricing"]');
+
+    // Open pricing page from internal links
+    pricingLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            openPricingPage();
+        });
+    });
+
+    // Handle pricing header logo click - close pricing and go home
+    const pricingLogo = document.getElementById('pricing-logo');
+    if (pricingLogo) {
+        pricingLogo.addEventListener('click', () => {
+            closePricingPage();
+        });
+    }
+
+    // Handle pricing header Home link click - close pricing and go home
+    const pricingHomeLink = document.querySelector('.pricing-header a[data-page="home"]');
+    if (pricingHomeLink) {
+        pricingHomeLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            closePricingPage();
+        });
+    }
+
+    // Handle pricing header Contacts link click - open contacts page
+    const pricingContactsLink = document.querySelector('.pricing-header a[data-page="contacts"]');
+    if (pricingContactsLink) {
+        pricingContactsLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            closePricingPage();
+            setTimeout(() => openContactPage(), 100);
+        });
+    }
+
+    // Handle contact header Pricing link click - open pricing page
+    const contactPricingLink = document.querySelector('.contact-header a[href="/pricing"]');
+    if (contactPricingLink) {
+        contactPricingLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeContactPage();
+            setTimeout(() => openPricingPage(), 100);
+        });
+    }
+
+    // Handle browser back/forward buttons for pricing
+    window.addEventListener('popstate', (e) => {
+        if (e.state && e.state.page === 'pricing') {
+            const pricingPage = document.getElementById('pricing-page');
+            const contactPage = document.getElementById('contact-page');
+            if (contactPage && contactPage.classList.contains('active')) {
+                contactPage.classList.remove('active');
+            }
+            if (pricingPage && !pricingPage.classList.contains('active')) {
+                pricingPage.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+    });
+
+    // Check if we should open pricing page on initial load
+    if (window.location.pathname === '/pricing') {
+        if (pricingPage) {
+            pricingPage.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && pricingPage && pricingPage.classList.contains('active')) {
+            closePricingPage();
+        }
+    });
+
+    // Handle billing toggle
+    const billingBtns = document.querySelectorAll('.billing-btn');
+    const monthlyPrices = document.querySelectorAll('.monthly-price');
+    const weeklyPrices = document.querySelectorAll('.weekly-price');
+    const monthlyPeriods = document.querySelectorAll('.monthly-period');
+    const weeklyPeriods = document.querySelectorAll('.weekly-period');
+
+    billingBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Update active button
+            billingBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const billing = btn.dataset.billing;
+
+            if (billing === 'monthly') {
+                monthlyPrices.forEach(el => el.style.display = 'inline');
+                weeklyPrices.forEach(el => el.style.display = 'none');
+                monthlyPeriods.forEach(el => el.style.display = 'inline');
+                weeklyPeriods.forEach(el => el.style.display = 'none');
+            } else {
+                monthlyPrices.forEach(el => el.style.display = 'none');
+                weeklyPrices.forEach(el => el.style.display = 'inline');
+                monthlyPeriods.forEach(el => el.style.display = 'none');
+                weeklyPeriods.forEach(el => el.style.display = 'inline');
+            }
+        });
+    });
+}
+
+// Initialize pricing page on DOM ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPricingPage);
+} else {
+    initPricingPage();
+}
+
+// Pricing Mobile Menu Handler
+let pricingMobileMenuInitialized = false;
+
+function initPricingMobileMenu() {
+    if (pricingMobileMenuInitialized) return;
+
+    const pricingHamburger = document.getElementById('pricing-hamburger-menu');
+    const pricingMobileMenu = document.getElementById('pricing-mobile-menu');
+
+    if (pricingHamburger && pricingMobileMenu) {
+        pricingMobileMenuInitialized = true;
+
+        pricingHamburger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            pricingMobileMenu.classList.toggle('active');
+            pricingHamburger.classList.toggle('active');
+        });
+
+        // Handle mobile menu links
+        const mobileNavLinks = pricingMobileMenu.querySelectorAll('.mobile-nav a');
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                const page = link.dataset.page;
+
+                if (page === 'home') {
+                    e.preventDefault();
+                    pricingMobileMenu.classList.remove('active');
+                    pricingHamburger.classList.remove('active');
+                    closePricingPage();
+                } else if (page === 'contacts') {
+                    e.preventDefault();
+                    pricingMobileMenu.classList.remove('active');
+                    pricingHamburger.classList.remove('active');
+                    closePricingPage();
+                    setTimeout(() => openContactPage(), 100);
+                } else if (link.getAttribute('href') === '/pricing') {
+                    e.preventDefault();
+                    pricingMobileMenu.classList.remove('active');
+                    pricingHamburger.classList.remove('active');
+                }
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!pricingHamburger.contains(e.target) && !pricingMobileMenu.contains(e.target)) {
+                pricingMobileMenu.classList.remove('active');
+                pricingHamburger.classList.remove('active');
+            }
+        });
+    }
+}
+
+// Initialize pricing mobile menu on DOM ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPricingMobileMenu);
+} else {
+    initPricingMobileMenu();
+}
+

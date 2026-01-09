@@ -43,9 +43,8 @@
           <nav>
             <ul>
               <li><a href="#" class="active" data-page="home">Home</a></li>
-              <li><a href="#" data-page="about">About</a></li>
               <li><a href="#" data-page="contacts">Contacts</a></li>
-              <li><a href="https://app.diress.ai/pricing" target="_blank">Pricing</a></li>
+              <li><a href="/pricing">Pricing</a></li>
             </ul>
           </nav>
           <a href="https://app.diress.ai" target="_blank" class="get-started-btn">Get Started</a>
@@ -70,9 +69,8 @@
         <div class="mobile-menu" id="mobile-menu">
           <nav class="mobile-nav">
             <a href="#" class="active" data-page="home">Home</a>
-            <a href="#" data-page="about">About</a>
             <a href="#" data-page="contacts">Contacts</a>
-            <a href="https://app.diress.ai/pricing" target="_blank">Pricing</a>
+            <a href="/pricing">Pricing</a>
           </nav>
           <a href="https://app.diress.ai" target="_blank" class="mobile-get-started-btn">Get Started</a>
         </div>
@@ -847,6 +845,273 @@
       </div>
 
     </div>
+
+    <!-- Contact Page Overlay -->
+    <div class="contact-page" id="contact-page">
+      <!-- Contact Header -->
+      <header class="contact-header">
+        <div class="logo" id="contact-logo" style="cursor: pointer;">
+          <div class="logo-icon-wrapper">
+            <img src="/assets/icon.png" alt="Diress AI Fashion Model Generator Logo" class="logo-icon" />
+          </div>
+          <span class="logo-text">diress<span class="dot">.</span></span>
+        </div>
+
+        <div class="header-right">
+          <nav>
+            <ul>
+              <li><a href="/" data-page="home">Home</a></li>
+              <li><a href="/contact" class="active">Contacts</a></li>
+              <li><a href="/pricing">Pricing</a></li>
+            </ul>
+          </nav>
+          <a href="https://app.diress.ai" target="_blank" class="get-started-btn">Get Started</a>
+        </div>
+
+        <!-- Mobile Header Right (Store Buttons + Hamburger) -->
+        <div class="mobile-header-right">
+          <a href="https://apps.apple.com/app/ai-fashion-model-maker-diress/id6738030797" target="_blank" class="mobile-store-btn" aria-label="Download on App Store">
+            <i class="fab fa-apple"></i>
+          </a>
+          <a href="https://play.google.com/store/apps/details?id=com.monalisa.diress.app" target="_blank" class="mobile-store-btn" aria-label="Get it on Google Play">
+            <i class="fab fa-google-play"></i>
+          </a>
+          <button class="hamburger-menu" id="contact-hamburger-menu" aria-label="Toggle menu">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </button>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div class="mobile-menu" id="contact-mobile-menu">
+          <nav class="mobile-nav">
+            <a href="/" data-page="home">Home</a>
+            <a href="/contact" class="active">Contacts</a>
+            <a href="/pricing">Pricing</a>
+          </nav>
+          <a href="https://app.diress.ai" target="_blank" class="mobile-get-started-btn">Get Started</a>
+        </div>
+      </header>
+
+      <div class="contact-container">
+        <div class="contact-content">
+          <div class="contact-left">
+            <span class="contact-tag">Get in Touch</span>
+            <h1 class="contact-title">Let's Start a<br>Conversation</h1>
+            <p class="contact-subtitle">Have questions about Diress? Want to learn more about our AI-powered fashion photography? We'd love to hear from you.</p>
+
+            <div class="contact-info">
+              <div class="contact-info-item">
+                <i class="fas fa-envelope"></i>
+                <div>
+                  <span class="info-label">Email</span>
+                  <a href="mailto:info@monalisa.com">info@monalisa.com</a>
+                </div>
+              </div>
+              <div class="contact-info-item">
+                <i class="fas fa-phone"></i>
+                <div>
+                  <span class="info-label">Phone</span>
+                  <a href="tel:+905536778682">+90 553 677 86 82</a>
+                </div>
+              </div>
+              <div class="contact-info-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <div>
+                  <span class="info-label">USA Office</span>
+                  <span>350 Fifth Avenue, Suite 4820<br>New York, NY 10118, USA</span>
+                </div>
+              </div>
+              <div class="contact-info-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <div>
+                  <span class="info-label">Turkey Office</span>
+                  <span>Merdivenköy Mah. İmam Ramiz Sk.<br>No: 51-57 İç Kapı No: 43<br>Kadıköy / İstanbul</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="contact-social">
+              <a href="https://twitter.com/diressai" target="_blank" class="social-link">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="https://instagram.com/diressai" target="_blank" class="social-link">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="https://linkedin.com/company/diress" target="_blank" class="social-link">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            </div>
+          </div>
+
+          <div class="contact-right">
+            <form class="contact-form" id="contact-form">
+              <div class="form-group">
+                <label for="contact-name">Name</label>
+                <input type="text" id="contact-name" name="name" placeholder="Your name" required>
+              </div>
+              <div class="form-group">
+                <label for="contact-email">Email</label>
+                <input type="email" id="contact-email" name="email" placeholder="your@email.com" required>
+              </div>
+              <div class="form-group">
+                <label for="contact-subject">Subject</label>
+                <select id="contact-subject" name="subject" required>
+                  <option value="" disabled selected>Select a topic</option>
+                  <option value="general">General Inquiry</option>
+                  <option value="support">Technical Support</option>
+                  <option value="partnership">Partnership</option>
+                  <option value="enterprise">Enterprise Solutions</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="contact-message">Message</label>
+                <textarea id="contact-message" name="message" placeholder="Tell us how we can help..." rows="4" required></textarea>
+              </div>
+              <button type="submit" class="contact-submit">
+                Send Message
+                <i class="fas fa-arrow-right"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pricing Page Overlay -->
+    <div class="pricing-page" id="pricing-page">
+      <!-- Pricing Header -->
+      <header class="pricing-header">
+        <div class="logo" id="pricing-logo" style="cursor: pointer;">
+          <div class="logo-icon-wrapper">
+            <img src="/assets/icon.png" alt="Diress AI Fashion Model Generator Logo" class="logo-icon" />
+          </div>
+          <span class="logo-text">diress<span class="dot">.</span></span>
+        </div>
+
+        <div class="header-right">
+          <nav>
+            <ul>
+              <li><a href="/" data-page="home">Home</a></li>
+              <li><a href="/contact" data-page="contacts">Contacts</a></li>
+              <li><a href="/pricing" class="active">Pricing</a></li>
+            </ul>
+          </nav>
+          <a href="https://app.diress.ai" target="_blank" class="get-started-btn">Get Started</a>
+        </div>
+
+        <!-- Mobile Header Right (Store Buttons + Hamburger) -->
+        <div class="mobile-header-right">
+          <a href="https://apps.apple.com/app/ai-fashion-model-maker-diress/id6738030797" target="_blank" class="mobile-store-btn" aria-label="Download on App Store">
+            <i class="fab fa-apple"></i>
+          </a>
+          <a href="https://play.google.com/store/apps/details?id=com.monalisa.diress.app" target="_blank" class="mobile-store-btn" aria-label="Get it on Google Play">
+            <i class="fab fa-google-play"></i>
+          </a>
+          <button class="hamburger-menu" id="pricing-hamburger-menu" aria-label="Toggle menu">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </button>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div class="mobile-menu" id="pricing-mobile-menu">
+          <nav class="mobile-nav">
+            <a href="/" data-page="home">Home</a>
+            <a href="/contact" data-page="contacts">Contacts</a>
+            <a href="/pricing" class="active">Pricing</a>
+          </nav>
+          <a href="https://app.diress.ai" target="_blank" class="mobile-get-started-btn">Get Started</a>
+        </div>
+      </header>
+
+      <div class="pricing-container">
+        <div class="pricing-content">
+          <h1 class="pricing-title">Simple, Transparent Pricing</h1>
+          <p class="pricing-subtitle">Choose the plan that works best for you. No hidden fees, cancel anytime.</p>
+
+          <!-- Billing Toggle -->
+          <div class="billing-toggle">
+            <button class="billing-btn active" data-billing="monthly">Monthly</button>
+            <button class="billing-btn" data-billing="weekly">Weekly</button>
+          </div>
+
+          <!-- Pricing Cards -->
+          <div class="pricing-cards">
+            <!-- Standard Plan -->
+            <div class="pricing-card">
+              <div class="card-header">
+                <h3 class="plan-name">Standard</h3>
+                <p class="plan-description">Perfect for getting started</p>
+              </div>
+              <div class="card-price">
+                <span class="price monthly-price">$19</span>
+                <span class="price weekly-price" style="display: none;">$6</span>
+                <span class="period monthly-period">/month</span>
+                <span class="period weekly-period" style="display: none;">/week</span>
+              </div>
+              <ul class="plan-features">
+                <li><i class="fas fa-check"></i> 50 AI-generated photos</li>
+                <li><i class="fas fa-check"></i> 3 AI model styles</li>
+                <li><i class="fas fa-check"></i> Standard backgrounds</li>
+                <li><i class="fas fa-check"></i> 720p export quality</li>
+                <li><i class="fas fa-check"></i> Email support</li>
+              </ul>
+              <a href="https://app.diress.ai" target="_blank" class="plan-btn">Get Started</a>
+            </div>
+
+            <!-- Plus Plan -->
+            <div class="pricing-card popular">
+              <div class="card-header">
+                <h3 class="plan-name">Plus</h3>
+                <p class="plan-description">Best for growing businesses</p>
+              </div>
+              <div class="card-price">
+                <span class="price monthly-price">$49</span>
+                <span class="price weekly-price" style="display: none;">$15</span>
+                <span class="period monthly-period">/month</span>
+                <span class="period weekly-period" style="display: none;">/week</span>
+              </div>
+              <ul class="plan-features">
+                <li><i class="fas fa-check"></i> 200 AI-generated photos</li>
+                <li><i class="fas fa-check"></i> 10 AI model styles</li>
+                <li><i class="fas fa-check"></i> Premium backgrounds</li>
+                <li><i class="fas fa-check"></i> 1080p export quality</li>
+                <li><i class="fas fa-check"></i> Priority support</li>
+              </ul>
+              <a href="https://app.diress.ai" target="_blank" class="plan-btn primary">Get Started</a>
+            </div>
+
+            <!-- Premium Plan -->
+            <div class="pricing-card premium">
+              <span class="premium-badge">Best Value</span>
+              <div class="card-header">
+                <h3 class="plan-name">Premium</h3>
+                <p class="plan-description">For professional studios</p>
+              </div>
+              <div class="card-price">
+                <span class="price monthly-price">$99</span>
+                <span class="price weekly-price" style="display: none;">$29</span>
+                <span class="period monthly-period">/month</span>
+                <span class="period weekly-period" style="display: none;">/week</span>
+              </div>
+              <ul class="plan-features">
+                <li><i class="fas fa-check"></i> Unlimited AI photos</li>
+                <li><i class="fas fa-check"></i> All AI model styles</li>
+                <li><i class="fas fa-check"></i> All backgrounds + custom</li>
+                <li><i class="fas fa-check"></i> 4K export quality</li>
+                <li><i class="fas fa-check"></i> 24/7 priority support</li>
+              </ul>
+              <a href="https://app.diress.ai" target="_blank" class="plan-btn">Get Started</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
   <script type="module" src="/main.js"></script>
 </body>
