@@ -1671,6 +1671,146 @@ function stopMobileHairColorSlideshow() {
     }
 }
 
+// Desktop Mood Slideshow Animation
+const moodSlideshow = document.getElementById('mood-slideshow');
+const moodPaletteDesktop = document.getElementById('mood-palette-desktop');
+const moodEmojiRainDesktop = document.getElementById('mood-emoji-rain-desktop');
+
+let moodSlideshowInterval = null;
+let currentMoodSlideIndex = 0;
+const moodSlides = document.querySelectorAll('.mood-slide');
+
+function startMoodSlideshow() {
+    if (moodSlideshowInterval || moodSlides.length === 0) return;
+
+    currentMoodSlideIndex = 0;
+    // Reset all slides
+    moodSlides.forEach((slide, i) => {
+        slide.classList.remove('active', 'fading-out');
+        if (i === 0) slide.classList.add('active');
+    });
+
+    moodSlideshowInterval = setInterval(() => {
+        const currentSlide = moodSlides[currentMoodSlideIndex];
+        const nextIndex = (currentMoodSlideIndex + 1) % moodSlides.length;
+        const nextSlide = moodSlides[nextIndex];
+
+        // Fade out current
+        currentSlide.classList.add('fading-out');
+        currentSlide.classList.remove('active');
+
+        // Fade in next
+        nextSlide.classList.add('active');
+        nextSlide.classList.remove('fading-out');
+
+        currentMoodSlideIndex = nextIndex;
+    }, 2500);
+}
+
+function stopMoodSlideshow() {
+    if (moodSlideshowInterval) {
+        clearInterval(moodSlideshowInterval);
+        moodSlideshowInterval = null;
+    }
+}
+
+// Desktop Mood White Palette Animation
+let moodPaletteAnimationId = null;
+
+function generateMoodPaletteDesktop() {
+    if (!moodPaletteDesktop || moodPaletteDesktop.children.length > 0) return;
+
+    const cells = [];
+    // 20 columns x 15 rows = 300 cells
+    for (let i = 0; i < 300; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'mood-cell';
+        cell.dataset.index = i;
+        moodPaletteDesktop.appendChild(cell);
+        cells.push(cell);
+    }
+
+    // Animate with white/light colors
+    let time = 0;
+    function animateMoodPalette() {
+        time += 0.015;
+        cells.forEach((cell, index) => {
+            const row = Math.floor(index / 20);
+            const col = index % 20;
+
+            // Create flowing white/light gray pattern
+            const wave = Math.sin(time + row * 0.3 + col * 0.2) * 0.5 + 0.5;
+            const lightness = 85 + wave * 15; // 85-100% lightness (very light)
+            const saturation = 5 + wave * 10; // Very low saturation
+            const hue = (time * 20 + index) % 360;
+
+            cell.style.backgroundColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+        });
+        moodPaletteAnimationId = requestAnimationFrame(animateMoodPalette);
+    }
+    animateMoodPalette();
+}
+
+function stopMoodPaletteDesktop() {
+    if (moodPaletteAnimationId) {
+        cancelAnimationFrame(moodPaletteAnimationId);
+        moodPaletteAnimationId = null;
+    }
+}
+
+// Desktop Mood Emoji Rain
+let moodEmojiDesktopInterval = null;
+const moodEmojisDesktop = ['😊', '😄', '🥰', '😎', '🤩', '💫', '✨', '💖', '🌟', '😇'];
+
+function startMoodEmojiRainDesktop() {
+    if (moodEmojiDesktopInterval || !moodEmojiRainDesktop) return;
+
+    // Create initial emojis
+    for (let i = 0; i < 10; i++) {
+        setTimeout(() => createMoodEmojiDesktop(), i * 200);
+    }
+
+    moodEmojiDesktopInterval = setInterval(() => {
+        createMoodEmojiDesktop();
+    }, 300);
+}
+
+function createMoodEmojiDesktop() {
+    if (!moodEmojiRainDesktop) return;
+
+    const emoji = document.createElement('span');
+    emoji.className = 'mood-emoji';
+    emoji.textContent = moodEmojisDesktop[Math.floor(Math.random() * moodEmojisDesktop.length)];
+
+    const left = Math.random() * 100;
+    const size = 20 + Math.random() * 20;
+    const duration = 3 + Math.random() * 2;
+    const delay = Math.random() * 0.5;
+
+    emoji.style.left = `${left}%`;
+    emoji.style.fontSize = `${size}px`;
+    emoji.style.animationDuration = `${duration}s`;
+    emoji.style.animationDelay = `${delay}s`;
+    emoji.style.opacity = 0.6 + Math.random() * 0.4;
+
+    moodEmojiRainDesktop.appendChild(emoji);
+
+    // Remove emoji after animation
+    setTimeout(() => {
+        if (emoji.parentNode) emoji.remove();
+    }, (duration + delay) * 1000 + 500);
+}
+
+function stopMoodEmojiRainDesktop() {
+    if (moodEmojiDesktopInterval) {
+        clearInterval(moodEmojiDesktopInterval);
+        moodEmojiDesktopInterval = null;
+    }
+    if (moodEmojiRainDesktop) {
+        moodEmojiRainDesktop.innerHTML = '';
+    }
+}
+
 // Generate 300 color cells for the palette with animated colors
 function generateColorPalette() {
     if (!colorPaletteGrid || colorPaletteGrid.children.length > 0) return;
@@ -2065,13 +2205,11 @@ function resetEthnicityAnimations() {
 }
 
 // ===== MOOD SYSTEM (Substep 4) =====
-const moodNames = ['Confident', 'Playful', 'Serious', 'Friendly', 'Mysterious'];
+const moodNames = ['Happy', 'Confident', 'Serious'];
 const moodImagePaths = [
-    '/assets/center_image_2_asian.png',
-    '/assets/center_image_2_african.png',
-    '/assets/center_image_2_latine.png',
-    '/assets/center_image_2_arabian.png',
-    '/assets/center_image_2_indian.png'
+    '/assets/mood-1-Photoroom.png',
+    '/assets/mood-2-Photoroom.png',
+    '/assets/mood-3-Photoroom.png'
 ];
 let moodIndex = 0;
 let moodInterval = null;
@@ -2203,6 +2341,27 @@ function playMoodAnimations() {
     setTimeout(() => {
         startMoodRotation();
     }, 600);
+
+    // Desktop: Show mood slideshow, white palette and emoji rain
+    if (!isMobile()) {
+        const moodSlideshowEl = document.getElementById('mood-slideshow');
+        const moodPaletteEl = document.getElementById('mood-palette-desktop');
+        const moodEmojiEl = document.getElementById('mood-emoji-rain-desktop');
+        const moodBgEl = document.getElementById('mood-bg');
+
+        // Hide the default mood-bg image
+        if (moodBgEl) moodBgEl.classList.remove('active');
+
+        if (moodPaletteEl) {
+            moodPaletteEl.classList.add('active');
+            generateMoodPaletteDesktop();
+        }
+        if (moodSlideshowEl) moodSlideshowEl.classList.add('active');
+        if (moodEmojiEl) moodEmojiEl.classList.add('active');
+
+        startMoodSlideshow();
+        startMoodEmojiRainDesktop();
+    }
 }
 
 function animateMoodNumber(element, targetValue) {
@@ -2242,7 +2401,7 @@ function resetMoodAnimations() {
     const statNumbers = document.querySelectorAll('.mood-stats .stat-number');
     statNumbers.forEach(el => el.textContent = '0');
     const moodText = document.getElementById('mood-text');
-    if (moodText) moodText.textContent = 'Confident';
+    if (moodText) moodText.textContent = 'Happy';
 
     // Reset to default scene texture
     if (textures[currentScene]) {
@@ -2251,6 +2410,19 @@ function resetMoodAnimations() {
         uniforms.progress.value = 0;
         uniforms.opacity.value = 1;
     }
+
+    // Desktop: Hide mood slideshow, palette and emoji rain
+    const moodSlideshowEl = document.getElementById('mood-slideshow');
+    const moodPaletteEl = document.getElementById('mood-palette-desktop');
+    const moodEmojiEl = document.getElementById('mood-emoji-rain-desktop');
+
+    if (moodSlideshowEl) moodSlideshowEl.classList.remove('active');
+    if (moodPaletteEl) moodPaletteEl.classList.remove('active');
+    if (moodEmojiEl) moodEmojiEl.classList.remove('active');
+
+    stopMoodSlideshow();
+    stopMoodPaletteDesktop();
+    stopMoodEmojiRainDesktop();
 }
 
 updateUI = function () {
@@ -2352,7 +2524,7 @@ updateUI = function () {
             // Start ethnicity animations (texture is set inside startEthnicityRotation)
             playEthnicityAnimations();
         } else if (currentSubStep === 4) {
-            // Mood - show mood model with Three.js transition
+            // Mood - show mood slideshow (hide Three.js canvas)
             if (customizeVideo) {
                 customizeVideo.classList.add('hidden');
                 customizeVideo.pause();
@@ -2361,8 +2533,8 @@ updateUI = function () {
             if (hairColorSlideshow) hairColorSlideshow.classList.remove('active');
             if (skinTonePaletteGrid) skinTonePaletteGrid.classList.remove('active');
             if (ethnicityBg) ethnicityBg.classList.remove('active');
-            // Show Three.js canvas for Mood
-            if (artWrapper) artWrapper.style.opacity = '1';
+            // Hide Three.js canvas for Mood (we use slideshow instead)
+            if (artWrapper) artWrapper.style.opacity = '0';
             stopSkinToneRotation();
             stopHairColorSlideshow();
             resetEthnicityAnimations();
