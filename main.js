@@ -1722,6 +1722,8 @@ let ethnicitySlideshowInterval = null;
 let currentEthnicitySlideIndex = 0;
 const ethnicitySlides = document.querySelectorAll('.ethnicity-slide');
 
+const ethnicitySlideshowNames = ['Asian', 'African', 'Latin', 'Arabian', 'Indian'];
+
 function startEthnicitySlideshow() {
     if (ethnicitySlideshowInterval || ethnicitySlides.length === 0) return;
 
@@ -1731,6 +1733,10 @@ function startEthnicitySlideshow() {
         slide.classList.remove('active', 'fading-out');
         if (i === 0) slide.classList.add('active');
     });
+
+    // Update text
+    const slideshowText = document.getElementById('ethnicity-slideshow-text');
+    if (slideshowText) slideshowText.textContent = ethnicitySlideshowNames[0];
 
     ethnicitySlideshowInterval = setInterval(() => {
         const currentSlide = ethnicitySlides[currentEthnicitySlideIndex];
@@ -1744,6 +1750,16 @@ function startEthnicitySlideshow() {
         // Fade in next
         nextSlide.classList.add('active');
         nextSlide.classList.remove('fading-out');
+
+        // Update text
+        const slideshowText = document.getElementById('ethnicity-slideshow-text');
+        if (slideshowText) {
+            slideshowText.style.opacity = '0';
+            setTimeout(() => {
+                slideshowText.textContent = ethnicitySlideshowNames[nextIndex];
+                slideshowText.style.opacity = '1';
+            }, 300);
+        }
 
         currentEthnicitySlideIndex = nextIndex;
     }, 2500);
@@ -2015,7 +2031,6 @@ function playEthnicityAnimations() {
         const ethnicitySlideshowElement = document.getElementById('ethnicity-slideshow');
         const ethnicityPaletteElement = document.getElementById('ethnicity-palette-desktop');
         const ethnicityBgElement = document.getElementById('ethnicity-bg');
-        const ethnicityContentElement = document.getElementById('ethnicity-content');
 
         // Hide the default ethnicity-bg image
         if (ethnicityBgElement) ethnicityBgElement.classList.remove('active');
@@ -2025,9 +2040,6 @@ function playEthnicityAnimations() {
             generateEthnicityPaletteDesktop();
         }
         if (ethnicitySlideshowElement) ethnicitySlideshowElement.classList.add('active');
-
-        // Show ethnicity content (fixed position needs active class)
-        if (ethnicityContentElement) ethnicityContentElement.classList.add('active');
 
         startEthnicitySlideshow();
     }
@@ -2311,14 +2323,12 @@ function resetEthnicityAnimations() {
         uniforms.opacity.value = 1;
     }
 
-    // Desktop: Hide ethnicity slideshow, palette and content
+    // Desktop: Hide ethnicity slideshow and palette
     const ethnicitySlideshowElement = document.getElementById('ethnicity-slideshow');
     const ethnicityPaletteElement = document.getElementById('ethnicity-palette-desktop');
-    const ethnicityContentElement = document.getElementById('ethnicity-content');
 
     if (ethnicitySlideshowElement) ethnicitySlideshowElement.classList.remove('active');
     if (ethnicityPaletteElement) ethnicityPaletteElement.classList.remove('active');
-    if (ethnicityContentElement) ethnicityContentElement.classList.remove('active');
 
     stopEthnicitySlideshow();
     stopEthnicityPaletteDesktop();
