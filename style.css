@@ -5294,8 +5294,8 @@ footer {
 
   /* === MOBILE STEP 1: SCENE OVERLAY (Bottom Left) === */
   .mobile-scene-overlay {
-    position: absolute;
-    bottom: calc(100px + env(safe-area-inset-bottom, 20px));
+    position: fixed;
+    bottom: calc(85px + env(safe-area-inset-bottom, 0px));
     left: 0;
     right: 0;
     z-index: 30;
@@ -5445,7 +5445,7 @@ footer {
   /* Animated Text at Bottom */
   .mobile-animated-text {
     position: fixed;
-    bottom: calc(140px + env(safe-area-inset-bottom, 0px));
+    bottom: calc(150px + env(safe-area-inset-bottom, 0px));
     left: 0;
     right: 0;
     z-index: 20;
