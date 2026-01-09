@@ -87,7 +87,8 @@ body {
 
 .main-container.scene-1::before,
 .main-container.scene-2::before,
-.main-container.scene-3::before {
+.main-container.scene-3::before,
+.main-container.scene-4::before {
   background: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0.6) 0%,
@@ -100,7 +101,8 @@ body {
 
 .main-container.scene-1::after,
 .main-container.scene-2::after,
-.main-container.scene-3::after {
+.main-container.scene-3::after,
+.main-container.scene-4::after {
   background: linear-gradient(
     to top,
     rgba(0, 0, 0, 0.6) 0%,
@@ -322,7 +324,8 @@ body {
 
 .main-container.step-0.scene-1::after,
 .main-container.step-0.scene-2::after,
-.main-container.step-0.scene-3::after {
+.main-container.step-0.scene-3::after,
+.main-container.step-0.scene-4::after {
   background: linear-gradient(
     to top,
     rgba(0, 0, 0, 0.85) 0%,
@@ -419,13 +422,15 @@ body {
 /* Header Contrast for Dark Scene */
 .main-container.scene-1 .logo-text,
 .main-container.scene-2 .logo-text,
-.main-container.scene-3 .logo-text {
+.main-container.scene-3 .logo-text,
+.main-container.scene-4 .logo-text {
   color: #fff;
 }
 
 .main-container.scene-1 nav a,
 .main-container.scene-2 nav a,
-.main-container.scene-3 nav a {
+.main-container.scene-3 nav a,
+.main-container.scene-4 nav a {
   color: rgba(255, 255, 255, 0.9);
   /* Brighter */
   font-weight: 500;
@@ -436,7 +441,9 @@ body {
 .main-container.scene-2 nav a.active,
 .main-container.scene-2 nav a:hover,
 .main-container.scene-3 nav a.active,
-.main-container.scene-3 nav a:hover {
+.main-container.scene-3 nav a:hover,
+.main-container.scene-4 nav a.active,
+.main-container.scene-4 nav a:hover {
   color: #fff;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
   /* Glow effect */
@@ -445,7 +452,8 @@ body {
 /* Brighten 'Get Started' button in dark scene */
 .main-container.scene-1 .get-started-btn,
 .main-container.scene-2 .get-started-btn,
-.main-container.scene-3 .get-started-btn {
+.main-container.scene-3 .get-started-btn,
+.main-container.scene-4 .get-started-btn {
   background: #fff;
   color: #000;
   border-color: #fff;
@@ -458,7 +466,9 @@ body {
 .main-container.scene-2 .socials i,
 .main-container.scene-2 .legal-link,
 .main-container.scene-3 .socials i,
-.main-container.scene-3 .legal-link {
+.main-container.scene-3 .legal-link,
+.main-container.scene-4 .socials i,
+.main-container.scene-4 .legal-link {
   color: rgba(255, 255, 255, 0.7);
 }
 
@@ -467,31 +477,37 @@ body {
 .main-container.scene-2 .socials i:hover,
 .main-container.scene-2 .legal-link:hover,
 .main-container.scene-3 .socials i:hover,
-.main-container.scene-3 .legal-link:hover {
+.main-container.scene-3 .legal-link:hover,
+.main-container.scene-4 .socials i:hover,
+.main-container.scene-4 .legal-link:hover {
   color: #fff;
 }
 
 .main-container.scene-1 .legal-separator,
 .main-container.scene-2 .legal-separator,
-.main-container.scene-3 .legal-separator {
+.main-container.scene-3 .legal-separator,
+.main-container.scene-4 .legal-separator {
   color: rgba(255, 255, 255, 0.2);
 }
 
 .main-container.step-0.scene-1 .lang-switch,
 .main-container.step-0.scene-2 .lang-switch,
-.main-container.step-0.scene-3 .lang-switch {
+.main-container.step-0.scene-3 .lang-switch,
+.main-container.step-0.scene-4 .lang-switch {
   color: rgba(255, 255, 255, 0.5);
 }
 
 .main-container.step-0.scene-1 .lang-switch span.active-lang,
 .main-container.step-0.scene-2 .lang-switch span.active-lang,
-.main-container.step-0.scene-3 .lang-switch span.active-lang {
+.main-container.step-0.scene-3 .lang-switch span.active-lang,
+.main-container.step-0.scene-4 .lang-switch span.active-lang {
   color: #fff;
 }
 
 .main-container.step-0.scene-1 .vertical-slider-container,
 .main-container.step-0.scene-2 .vertical-slider-container,
-.main-container.step-0.scene-3 .vertical-slider-container {
+.main-container.step-0.scene-3 .vertical-slider-container,
+.main-container.step-0.scene-4 .vertical-slider-container {
   background: rgba(0, 0, 0, 0.4);
   border-color: transparent;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
@@ -506,6 +522,10 @@ body {
   .step-item
   .step-label,
 .main-container.step-0.scene-3
+  .vertical-slider-container
+  .step-item
+  .step-label,
+.main-container.step-0.scene-4
   .vertical-slider-container
   .step-item
   .step-label {
@@ -523,13 +543,18 @@ body {
 .main-container.step-0.scene-3
   .vertical-slider-container
   .step-item.active
+  .step-label,
+.main-container.step-0.scene-4
+  .vertical-slider-container
+  .step-item.active
   .step-label {
   color: #fff;
 }
 
 .main-container.step-0.scene-1 .vertical-slider-container .step-dot,
 .main-container.step-0.scene-2 .vertical-slider-container .step-dot,
-.main-container.step-0.scene-3 .vertical-slider-container .step-dot {
+.main-container.step-0.scene-3 .vertical-slider-container .step-dot,
+.main-container.step-0.scene-4 .vertical-slider-container .step-dot {
   background: rgba(255, 255, 255, 0.2);
 }
 
@@ -544,13 +569,18 @@ body {
 .main-container.step-0.scene-3
   .vertical-slider-container
   .step-item.active
+  .step-dot,
+.main-container.step-0.scene-4
+  .vertical-slider-container
+  .step-item.active
   .step-dot {
   background: #fff;
 }
 
 .main-container.step-0.scene-1 .vertical-slider-container .step-line,
 .main-container.step-0.scene-2 .vertical-slider-container .step-line,
-.main-container.step-0.scene-3 .vertical-slider-container .step-line {
+.main-container.step-0.scene-3 .vertical-slider-container .step-line,
+.main-container.step-0.scene-4 .vertical-slider-container .step-line {
   background: rgba(255, 255, 255, 0.1);
 }
 
@@ -2328,10 +2358,11 @@ body {
   justify-content: center;
 }
 
-/* Show container for Scene 1, 2, 3 */
+/* Show container for Scene 1, 2, 3, 4 */
 .main-container.scene-1 .scene-text-container,
 .main-container.scene-2 .scene-text-container,
-.main-container.scene-3 .scene-text-container {
+.main-container.scene-3 .scene-text-container,
+.main-container.scene-4 .scene-text-container {
   opacity: 1;
   visibility: visible;
 }
@@ -2411,7 +2442,8 @@ body {
 
 .main-container.scene-1 .scene-1-text,
 .main-container.scene-2 .scene-2-text,
-.main-container.scene-3 .scene-3-text {
+.main-container.scene-3 .scene-3-text,
+.main-container.scene-4 .scene-4-text {
   opacity: 1;
   visibility: visible;
   display: block;
@@ -2421,7 +2453,8 @@ body {
 
 .scene-1-text .small-tag,
 .scene-2-text .small-tag,
-.scene-3-text .small-tag {
+.scene-3-text .small-tag,
+.scene-4-text .small-tag {
   font-family: "Poppins", sans-serif;
   font-size: 0.8rem;
   text-transform: uppercase;
@@ -2434,7 +2467,8 @@ body {
 
 .scene-1-text h2,
 .scene-2-text h2,
-.scene-3-text h2 {
+.scene-3-text h2,
+.scene-4-text h2 {
   font-family: "Playfair Display", serif;
   font-size: 3rem;
   font-weight: 700;
@@ -2448,7 +2482,8 @@ body {
 
 .scene-1-text p,
 .scene-2-text p,
-.scene-3-text p {
+.scene-3-text p,
+.scene-4-text p {
   font-family: "Lato", sans-serif;
   font-size: 1rem;
   line-height: 1.6;
@@ -2459,7 +2494,8 @@ body {
 @media (max-width: 768px) {
   .scene-1-text,
   .scene-2-text,
-  .scene-3-text {
+  .scene-3-text,
+  .scene-4-text {
     width: 80%;
     right: 50%;
     top: 50%;
@@ -2473,20 +2509,23 @@ body {
 
   .main-container.scene-1 .scene-1-text,
   .main-container.scene-2 .scene-2-text,
-  .main-container.scene-3 .scene-3-text {
+  .main-container.scene-3 .scene-3-text,
+  .main-container.scene-4 .scene-4-text {
     transform: translate(50%, -50%);
     /* Final centered position */
   }
 
   .scene-1-text h2,
   .scene-2-text h2,
-  .scene-3-text h2 {
+  .scene-3-text h2,
+  .scene-4-text h2 {
     font-size: 2rem;
   }
 
   .scene-1-text p,
   .scene-2-text p,
-  .scene-3-text p {
+  .scene-3-text p,
+  .scene-4-text p {
     font-size: 0.9rem;
   }
 }
@@ -4338,10 +4377,11 @@ footer {
   background: rgba(0, 0, 0, 0.4);
 }
 
-/* Dark Mode styles for Slider in Select Scene (Scene 1, 2, 3) */
+/* Dark Mode styles for Slider in Select Scene (Scene 1, 2, 3, 4) */
 .main-container.scene-1 .vertical-slider-container,
 .main-container.scene-2 .vertical-slider-container,
-.main-container.scene-3 .vertical-slider-container {
+.main-container.scene-3 .vertical-slider-container,
+.main-container.scene-4 .vertical-slider-container {
   background: rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(25px);
   -webkit-backdrop-filter: blur(25px);
@@ -4351,20 +4391,23 @@ footer {
 
 .main-container.scene-1 .vertical-slider-container .step-item .step-dot,
 .main-container.scene-2 .vertical-slider-container .step-item .step-dot,
-.main-container.scene-3 .vertical-slider-container .step-item .step-dot {
+.main-container.scene-3 .vertical-slider-container .step-item .step-dot,
+.main-container.scene-4 .vertical-slider-container .step-item .step-dot {
   background: rgba(255, 255, 255, 0.3);
 }
 
 .main-container.scene-1 .vertical-slider-container .step-item.active .step-dot,
 .main-container.scene-2 .vertical-slider-container .step-item.active .step-dot,
-.main-container.scene-3 .vertical-slider-container .step-item.active .step-dot {
+.main-container.scene-3 .vertical-slider-container .step-item.active .step-dot,
+.main-container.scene-4 .vertical-slider-container .step-item.active .step-dot {
   background: #fff;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 .main-container.scene-1 .vertical-slider-container .step-item .step-label,
 .main-container.scene-2 .vertical-slider-container .step-item .step-label,
-.main-container.scene-3 .vertical-slider-container .step-item .step-label {
+.main-container.scene-3 .vertical-slider-container .step-item .step-label,
+.main-container.scene-4 .vertical-slider-container .step-item .step-label {
   color: rgba(255, 255, 255, 0.5);
 }
 
@@ -4379,6 +4422,10 @@ footer {
 .main-container.scene-3
   .vertical-slider-container
   .step-item.active
+  .step-label,
+.main-container.scene-4
+  .vertical-slider-container
+  .step-item.active
   .step-label {
   color: #fff;
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
@@ -4386,7 +4433,8 @@ footer {
 
 .main-container.scene-1 .vertical-slider-container .step-item .step-subtitle,
 .main-container.scene-2 .vertical-slider-container .step-item .step-subtitle,
-.main-container.scene-3 .vertical-slider-container .step-item .step-subtitle {
+.main-container.scene-3 .vertical-slider-container .step-item .step-subtitle,
+.main-container.scene-4 .vertical-slider-container .step-item .step-subtitle {
   color: rgba(255, 255, 255, 0.4);
 }
 
@@ -4401,13 +4449,18 @@ footer {
 .main-container.scene-3
   .vertical-slider-container
   .step-item.active
+  .step-subtitle,
+.main-container.scene-4
+  .vertical-slider-container
+  .step-item.active
   .step-subtitle {
   color: rgba(255, 255, 255, 0.7);
 }
 
 .main-container.scene-1 .vertical-slider-container .step-line,
 .main-container.scene-2 .vertical-slider-container .step-line,
-.main-container.scene-3 .vertical-slider-container .step-line {
+.main-container.scene-3 .vertical-slider-container .step-line,
+.main-container.scene-4 .vertical-slider-container .step-line {
   background: rgba(255, 255, 255, 0.15);
 }
 
@@ -5430,7 +5483,8 @@ footer {
   .main-container.scene-0 .logo-text,
   .main-container.scene-1 .logo-text,
   .main-container.scene-2 .logo-text,
-  .main-container.scene-3 .logo-text {
+  .main-container.scene-3 .logo-text,
+  .main-container.scene-4 .logo-text {
     display: inline !important;
     visibility: visible !important;
     font-size: 1.1rem;

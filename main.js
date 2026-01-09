@@ -9,16 +9,16 @@ const scenes = [
     '/assets/center_image_scene_1.png',     // Scene 1 (index 1)
     '/assets/center_image_scene_2.png',     // Scene 2 (index 2)
     '/assets/center_image_scene_3.png',     // Scene 3 (index 3)
-    '/assets/center_image_2.png'            // Scene 4 (index 4) - same as Scene 0
+    '/assets/center_image_scene_4.png'      // Scene 4 (index 4) - Greek Island
 ];
 
-// Foreground layers for parallax (Scene 0=Virtual Model, Scene 1=1, Scene 2=2, Scene 3=3)
+// Foreground layers for parallax (Scene 0=Virtual Model, Scene 1=1, Scene 2=2, Scene 3=3, Scene 4=4)
 const foregroundImages = [
     '/assets/virtual_model_front.png',                       // Scene 0 (Virtual Model)
     '/assets/center_image_scene_1_front_people.png',         // Scene 1
     '/assets/center_image_scene_2_front_people.png',         // Scene 2
     '/assets/center_image_scene_3_front_people.png',         // Scene 3
-    null                                                     // Scene 4
+    '/assets/center_image_scene_4_front_people.png'          // Scene 4 (Greek Island)
 ];
 const steps = [
     { label: 'AI Model', subtitle: 'Generate virtual fashion models' },
@@ -277,6 +277,19 @@ videoElement3.setAttribute('webkit-playsinline', '');
 videoElement3.load();
 setupVideoLoop(videoElement3, 3);
 
+// Video element for Scene 4 (Greek Island)
+const videoElement4 = document.createElement('video');
+videoElement4.src = '/assets/center_image_scene_4.mp4';
+videoElement4.loop = true;
+videoElement4.muted = true;
+videoElement4.playsInline = true;
+videoElement4.crossOrigin = 'anonymous';
+videoElement4.preload = 'auto';
+videoElement4.setAttribute('playsinline', '');
+videoElement4.setAttribute('webkit-playsinline', '');
+videoElement4.load();
+setupVideoLoop(videoElement4, 4);
+
 // Create VideoTextures
 const videoTexture0 = new THREE.VideoTexture(videoElement0);
 videoTexture0.minFilter = THREE.LinearFilter;
@@ -302,7 +315,13 @@ videoTexture3.magFilter = THREE.LinearFilter;
 videoTexture3.format = THREE.RGBAFormat;
 videoTexture3.generateMipmaps = false;
 
-// Load textures - Scene 0, 1, 2, 3 use video, Scene 4 uses image
+const videoTexture4 = new THREE.VideoTexture(videoElement4);
+videoTexture4.minFilter = THREE.LinearFilter;
+videoTexture4.magFilter = THREE.LinearFilter;
+videoTexture4.format = THREE.RGBAFormat;
+videoTexture4.generateMipmaps = false;
+
+// Load textures - Scene 0, 1, 2, 3, 4 use video
 const textures = scenes.map((url, index) => {
     if (index === 0) {
         return videoTexture0; // Scene 0 uses Virtual Model video
@@ -312,6 +331,8 @@ const textures = scenes.map((url, index) => {
         return videoTexture2;
     } else if (index === 3) {
         return videoTexture3;
+    } else if (index === 4) {
+        return videoTexture4; // Scene 4 uses Greek Island video
     } else {
         return loader.load(url, (tex) => {
             tex.minFilter = THREE.LinearFilter;
@@ -1054,29 +1075,41 @@ function transitionToScene(index) {
         videoElement1.pause();
         videoElement2.pause();
         videoElement3.pause();
+        videoElement4.pause();
     } else if (index === 1) {
         videoElement1.currentTime = 0;
         videoElement1.play().catch(e => console.log('Video 1 autoplay blocked:', e));
         videoElement0.pause();
         videoElement2.pause();
         videoElement3.pause();
+        videoElement4.pause();
     } else if (index === 2) {
         videoElement2.currentTime = 0;
         videoElement2.play().catch(e => console.log('Video 2 autoplay blocked:', e));
         videoElement0.pause();
         videoElement1.pause();
         videoElement3.pause();
+        videoElement4.pause();
     } else if (index === 3) {
         videoElement3.currentTime = 0;
         videoElement3.play().catch(e => console.log('Video 3 autoplay blocked:', e));
         videoElement0.pause();
         videoElement1.pause();
         videoElement2.pause();
+        videoElement4.pause();
+    } else if (index === 4) {
+        videoElement4.currentTime = 0;
+        videoElement4.play().catch(e => console.log('Video 4 autoplay blocked:', e));
+        videoElement0.pause();
+        videoElement1.pause();
+        videoElement2.pause();
+        videoElement3.pause();
     } else {
         videoElement0.pause();
         videoElement1.pause();
         videoElement2.pause();
         videoElement3.pause();
+        videoElement4.pause();
     }
 
     updateUI();
@@ -1100,8 +1133,8 @@ function updateUI() {
     }
 
     // Toggle Text Plane and Gradient Plane
-    if ((currentStep === 0 || currentStep === 1) && currentScene >= 0 && currentScene < 4) {
-        // Show in Scenes 0, 1, 2, 3 (not Scene 4)
+    if ((currentStep === 0 || currentStep === 1) && currentScene >= 0 && currentScene <= 4) {
+        // Show in Scenes 0, 1, 2, 3, 4
         textPlane.visible = true;
         textPlane.material.color.setHex(0xffffff);
         textPlane.position.z = 0.05;
@@ -1335,7 +1368,7 @@ window.addEventListener('wheel', (e) => {
             }, 800);
         } else if (result === 'prev') {
             currentStep = 1;
-            transitionToScene(3);
+            transitionToScene(4); // Back to Scene 4 (last scene)
             updateUI();
         }
         // 'handled' means stay in step 2
@@ -1351,11 +1384,11 @@ window.addEventListener('wheel', (e) => {
                 // From Virtual Model to Select Scene (Step 1)
                 currentStep = 1;
                 transitionToScene(1);
-            } else if (currentStep === 1 && currentScene < 3) {
-                // Through scenes 1->2->3 within Step 1
+            } else if (currentStep === 1 && currentScene < 4) {
+                // Through scenes 1->2->3->4 within Step 1
                 transitionToScene(currentScene + 1);
-            } else if (currentStep === 1 && currentScene >= 3) {
-                // From Scene 3 to Change Pose (Step 2)
+            } else if (currentStep === 1 && currentScene >= 4) {
+                // From Scene 4 to Change Pose (Step 2)
                 currentStep = 2;
                 poseScrollLocked = true;
                 currentPoseIndex = 0;
