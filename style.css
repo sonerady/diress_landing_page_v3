@@ -24,7 +24,6 @@ body {
 /* --- Main Container --- */
 .main-container {
   width: calc(100vw - 60px);
-  max-width: 1800px;
   height: calc(100vh - 60px);
   margin: 30px auto;
   display: block;
@@ -97,10 +96,10 @@ body {
   z-index: 20 !important;
 }
 
-.main-container.scene-1::before,
-.main-container.scene-2::before,
-.main-container.scene-3::before,
-.main-container.scene-4::before {
+.main-container.step-1.scene-1::before,
+.main-container.step-1.scene-2::before,
+.main-container.step-1.scene-3::before,
+.main-container.step-1.scene-4::before {
   background: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0.6) 0%,
@@ -111,10 +110,10 @@ body {
   visibility: visible;
 }
 
-.main-container.scene-1::after,
-.main-container.scene-2::after,
-.main-container.scene-3::after,
-.main-container.scene-4::after {
+.main-container.step-1.scene-1::after,
+.main-container.step-1.scene-2::after,
+.main-container.step-1.scene-3::after,
+.main-container.step-1.scene-4::after {
   background: linear-gradient(
     to top,
     rgba(0, 0, 0, 0.6) 0%,
@@ -390,20 +389,20 @@ body {
     visibility: visible;
 } */
 
-/* Header Contrast for Dark Scene (including Scene 0 - Virtual Model) */
+/* Header Contrast for Dark Scene (Step 0 Scene 0 and Step 1 Scene 1-4) */
 .main-container.step-0.scene-0 .logo-text,
-.main-container.scene-1 .logo-text,
-.main-container.scene-2 .logo-text,
-.main-container.scene-3 .logo-text,
-.main-container.scene-4 .logo-text {
+.main-container.step-1.scene-1 .logo-text,
+.main-container.step-1.scene-2 .logo-text,
+.main-container.step-1.scene-3 .logo-text,
+.main-container.step-1.scene-4 .logo-text {
   color: #fff;
 }
 
 .main-container.step-0.scene-0 nav a,
-.main-container.scene-1 nav a,
-.main-container.scene-2 nav a,
-.main-container.scene-3 nav a,
-.main-container.scene-4 nav a {
+.main-container.step-1.scene-1 nav a,
+.main-container.step-1.scene-2 nav a,
+.main-container.step-1.scene-3 nav a,
+.main-container.step-1.scene-4 nav a {
   color: rgba(255, 255, 255, 0.9);
   /* Brighter */
   font-weight: 500;
@@ -411,14 +410,14 @@ body {
 
 .main-container.step-0.scene-0 nav a.active,
 .main-container.step-0.scene-0 nav a:hover,
-.main-container.scene-1 nav a.active,
-.main-container.scene-1 nav a:hover,
-.main-container.scene-2 nav a.active,
-.main-container.scene-2 nav a:hover,
-.main-container.scene-3 nav a.active,
-.main-container.scene-3 nav a:hover,
-.main-container.scene-4 nav a.active,
-.main-container.scene-4 nav a:hover {
+.main-container.step-1.scene-1 nav a.active,
+.main-container.step-1.scene-1 nav a:hover,
+.main-container.step-1.scene-2 nav a.active,
+.main-container.step-1.scene-2 nav a:hover,
+.main-container.step-1.scene-3 nav a.active,
+.main-container.step-1.scene-3 nav a:hover,
+.main-container.step-1.scene-4 nav a.active,
+.main-container.step-1.scene-4 nav a:hover {
   color: #fff;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
   /* Glow effect */
@@ -426,10 +425,10 @@ body {
 
 /* Brighten 'Get Started' button in dark scene */
 .main-container.step-0.scene-0 .get-started-btn,
-.main-container.scene-1 .get-started-btn,
-.main-container.scene-2 .get-started-btn,
-.main-container.scene-3 .get-started-btn,
-.main-container.scene-4 .get-started-btn {
+.main-container.step-1.scene-1 .get-started-btn,
+.main-container.step-1.scene-2 .get-started-btn,
+.main-container.step-1.scene-3 .get-started-btn,
+.main-container.step-1.scene-4 .get-started-btn {
   background: #fff;
   color: #000;
   border-color: #fff;
@@ -439,35 +438,35 @@ body {
 /* Footer Contrast for Dark Scene */
 .main-container.step-0.scene-0 .socials i,
 .main-container.step-0.scene-0 .legal-link,
-.main-container.scene-1 .socials i,
-.main-container.scene-1 .legal-link,
-.main-container.scene-2 .socials i,
-.main-container.scene-2 .legal-link,
-.main-container.scene-3 .socials i,
-.main-container.scene-3 .legal-link,
-.main-container.scene-4 .socials i,
-.main-container.scene-4 .legal-link {
+.main-container.step-1.scene-1 .socials i,
+.main-container.step-1.scene-1 .legal-link,
+.main-container.step-1.scene-2 .socials i,
+.main-container.step-1.scene-2 .legal-link,
+.main-container.step-1.scene-3 .socials i,
+.main-container.step-1.scene-3 .legal-link,
+.main-container.step-1.scene-4 .socials i,
+.main-container.step-1.scene-4 .legal-link {
   color: rgba(255, 255, 255, 0.7);
 }
 
 .main-container.step-0.scene-0 .socials i:hover,
 .main-container.step-0.scene-0 .legal-link:hover,
-.main-container.scene-1 .socials i:hover,
-.main-container.scene-1 .legal-link:hover,
-.main-container.scene-2 .socials i:hover,
-.main-container.scene-2 .legal-link:hover,
-.main-container.scene-3 .socials i:hover,
-.main-container.scene-3 .legal-link:hover,
-.main-container.scene-4 .socials i:hover,
-.main-container.scene-4 .legal-link:hover {
+.main-container.step-1.scene-1 .socials i:hover,
+.main-container.step-1.scene-1 .legal-link:hover,
+.main-container.step-1.scene-2 .socials i:hover,
+.main-container.step-1.scene-2 .legal-link:hover,
+.main-container.step-1.scene-3 .socials i:hover,
+.main-container.step-1.scene-3 .legal-link:hover,
+.main-container.step-1.scene-4 .socials i:hover,
+.main-container.step-1.scene-4 .legal-link:hover {
   color: #fff;
 }
 
 .main-container.step-0.scene-0 .legal-separator,
-.main-container.scene-1 .legal-separator,
-.main-container.scene-2 .legal-separator,
-.main-container.scene-3 .legal-separator,
-.main-container.scene-4 .legal-separator {
+.main-container.step-1.scene-1 .legal-separator,
+.main-container.step-1.scene-2 .legal-separator,
+.main-container.step-1.scene-3 .legal-separator,
+.main-container.step-1.scene-4 .legal-separator {
   color: rgba(255, 255, 255, 0.2);
 }
 
@@ -2357,10 +2356,10 @@ body {
 }
 
 /* Show container for Scene 1, 2, 3, 4 */
-.main-container.scene-1 .scene-text-container,
-.main-container.scene-2 .scene-text-container,
-.main-container.scene-3 .scene-text-container,
-.main-container.scene-4 .scene-text-container {
+.main-container.step-1.scene-1 .scene-text-container,
+.main-container.step-1.scene-2 .scene-text-container,
+.main-container.step-1.scene-3 .scene-text-container,
+.main-container.step-1.scene-4 .scene-text-container {
   opacity: 1;
   visibility: visible;
 }
@@ -2438,10 +2437,10 @@ body {
   margin-top: 20px;
 }
 
-.main-container.scene-1 .scene-1-text,
-.main-container.scene-2 .scene-2-text,
-.main-container.scene-3 .scene-3-text,
-.main-container.scene-4 .scene-4-text {
+.main-container.step-1.scene-1 .scene-1-text,
+.main-container.step-1.scene-2 .scene-2-text,
+.main-container.step-1.scene-3 .scene-3-text,
+.main-container.step-1.scene-4 .scene-4-text {
   opacity: 1;
   visibility: visible;
   display: block;
@@ -2505,10 +2504,10 @@ body {
     margin-right: -40%;
   }
 
-  .main-container.scene-1 .scene-1-text,
-  .main-container.scene-2 .scene-2-text,
-  .main-container.scene-3 .scene-3-text,
-  .main-container.scene-4 .scene-4-text {
+  .main-container.step-1.scene-1 .scene-1-text,
+  .main-container.step-1.scene-2 .scene-2-text,
+  .main-container.step-1.scene-3 .scene-3-text,
+  .main-container.step-1.scene-4 .scene-4-text {
     transform: translate(50%, -50%);
     /* Final centered position */
   }
@@ -4375,12 +4374,12 @@ footer {
   background: rgba(0, 0, 0, 0.4);
 }
 
-/* Dark Mode styles for Slider in Select Scene (Scene 0, 1, 2, 3, 4) */
+/* Dark Mode styles for Slider in Select Scene (Step 0 Scene 0, Step 1 Scene 1-4) */
 .main-container.step-0.scene-0 .vertical-slider-container,
-.main-container.scene-1 .vertical-slider-container,
-.main-container.scene-2 .vertical-slider-container,
-.main-container.scene-3 .vertical-slider-container,
-.main-container.scene-4 .vertical-slider-container {
+.main-container.step-1.scene-1 .vertical-slider-container,
+.main-container.step-1.scene-2 .vertical-slider-container,
+.main-container.step-1.scene-3 .vertical-slider-container,
+.main-container.step-1.scene-4 .vertical-slider-container {
   background: rgba(0, 0, 0, 0.45) !important;
   backdrop-filter: blur(25px) !important;
   -webkit-backdrop-filter: blur(25px) !important;
@@ -4389,27 +4388,27 @@ footer {
 }
 
 .main-container.step-0.scene-0 .vertical-slider-container .step-item .step-dot,
-.main-container.scene-1 .vertical-slider-container .step-item .step-dot,
-.main-container.scene-2 .vertical-slider-container .step-item .step-dot,
-.main-container.scene-3 .vertical-slider-container .step-item .step-dot,
-.main-container.scene-4 .vertical-slider-container .step-item .step-dot {
+.main-container.step-1.scene-1 .vertical-slider-container .step-item .step-dot,
+.main-container.step-1.scene-2 .vertical-slider-container .step-item .step-dot,
+.main-container.step-1.scene-3 .vertical-slider-container .step-item .step-dot,
+.main-container.step-1.scene-4 .vertical-slider-container .step-item .step-dot {
   background: rgba(255, 255, 255, 0.3) !important;
 }
 
 .main-container.step-0.scene-0 .vertical-slider-container .step-item.active .step-dot,
-.main-container.scene-1 .vertical-slider-container .step-item.active .step-dot,
-.main-container.scene-2 .vertical-slider-container .step-item.active .step-dot,
-.main-container.scene-3 .vertical-slider-container .step-item.active .step-dot,
-.main-container.scene-4 .vertical-slider-container .step-item.active .step-dot {
+.main-container.step-1.scene-1 .vertical-slider-container .step-item.active .step-dot,
+.main-container.step-1.scene-2 .vertical-slider-container .step-item.active .step-dot,
+.main-container.step-1.scene-3 .vertical-slider-container .step-item.active .step-dot,
+.main-container.step-1.scene-4 .vertical-slider-container .step-item.active .step-dot {
   background: #fff !important;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.5) !important;
 }
 
 .main-container.step-0.scene-0 .vertical-slider-container .step-item .step-label,
-.main-container.scene-1 .vertical-slider-container .step-item .step-label,
-.main-container.scene-2 .vertical-slider-container .step-item .step-label,
-.main-container.scene-3 .vertical-slider-container .step-item .step-label,
-.main-container.scene-4 .vertical-slider-container .step-item .step-label {
+.main-container.step-1.scene-1 .vertical-slider-container .step-item .step-label,
+.main-container.step-1.scene-2 .vertical-slider-container .step-item .step-label,
+.main-container.step-1.scene-3 .vertical-slider-container .step-item .step-label,
+.main-container.step-1.scene-4 .vertical-slider-container .step-item .step-label {
   color: rgba(255, 255, 255, 0.5) !important;
 }
 
@@ -4417,19 +4416,19 @@ footer {
   .vertical-slider-container
   .step-item.active
   .step-label,
-.main-container.scene-1
+.main-container.step-1.scene-1
   .vertical-slider-container
   .step-item.active
   .step-label,
-.main-container.scene-2
+.main-container.step-1.scene-2
   .vertical-slider-container
   .step-item.active
   .step-label,
-.main-container.scene-3
+.main-container.step-1.scene-3
   .vertical-slider-container
   .step-item.active
   .step-label,
-.main-container.scene-4
+.main-container.step-1.scene-4
   .vertical-slider-container
   .step-item.active
   .step-label {
@@ -4438,10 +4437,10 @@ footer {
 }
 
 .main-container.step-0.scene-0 .vertical-slider-container .step-item .step-subtitle,
-.main-container.scene-1 .vertical-slider-container .step-item .step-subtitle,
-.main-container.scene-2 .vertical-slider-container .step-item .step-subtitle,
-.main-container.scene-3 .vertical-slider-container .step-item .step-subtitle,
-.main-container.scene-4 .vertical-slider-container .step-item .step-subtitle {
+.main-container.step-1.scene-1 .vertical-slider-container .step-item .step-subtitle,
+.main-container.step-1.scene-2 .vertical-slider-container .step-item .step-subtitle,
+.main-container.step-1.scene-3 .vertical-slider-container .step-item .step-subtitle,
+.main-container.step-1.scene-4 .vertical-slider-container .step-item .step-subtitle {
   color: rgba(255, 255, 255, 0.4) !important;
 }
 
@@ -4449,19 +4448,19 @@ footer {
   .vertical-slider-container
   .step-item.active
   .step-subtitle,
-.main-container.scene-1
+.main-container.step-1.scene-1
   .vertical-slider-container
   .step-item.active
   .step-subtitle,
-.main-container.scene-2
+.main-container.step-1.scene-2
   .vertical-slider-container
   .step-item.active
   .step-subtitle,
-.main-container.scene-3
+.main-container.step-1.scene-3
   .vertical-slider-container
   .step-item.active
   .step-subtitle,
-.main-container.scene-4
+.main-container.step-1.scene-4
   .vertical-slider-container
   .step-item.active
   .step-subtitle {
@@ -4469,10 +4468,10 @@ footer {
 }
 
 .main-container.step-0.scene-0 .vertical-slider-container .step-line,
-.main-container.scene-1 .vertical-slider-container .step-line,
-.main-container.scene-2 .vertical-slider-container .step-line,
-.main-container.scene-3 .vertical-slider-container .step-line,
-.main-container.scene-4 .vertical-slider-container .step-line {
+.main-container.step-1.scene-1 .vertical-slider-container .step-line,
+.main-container.step-1.scene-2 .vertical-slider-container .step-line,
+.main-container.step-1.scene-3 .vertical-slider-container .step-line,
+.main-container.step-1.scene-4 .vertical-slider-container .step-line {
   background: rgba(255, 255, 255, 0.15) !important;
 }
 
@@ -5492,11 +5491,11 @@ footer {
   .main-container.step-5 .logo-text,
   .main-container.step-6 .logo-text,
   .main-container.step-7 .logo-text,
-  .main-container.scene-0 .logo-text,
-  .main-container.scene-1 .logo-text,
-  .main-container.scene-2 .logo-text,
-  .main-container.scene-3 .logo-text,
-  .main-container.scene-4 .logo-text {
+  .main-container.step-0.scene-0 .logo-text,
+  .main-container.step-1.scene-1 .logo-text,
+  .main-container.step-1.scene-2 .logo-text,
+  .main-container.step-1.scene-3 .logo-text,
+  .main-container.step-1.scene-4 .logo-text {
     display: inline !important;
     visibility: visible !important;
     font-size: 1.1rem;
