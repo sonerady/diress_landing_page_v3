@@ -4,6 +4,20 @@ import * as THREE from 'three'
 // State
 let currentScene = 0;
 let currentStep = 0;
+
+// Random Virtual Model variants for Scene 0 (Desktop only)
+const virtualModelVariants = [
+    { video: '/assets/virtual_model_scene.mp4', front: '/assets/virtual_model_front.png' },      // Original
+    { video: '/assets/virtual_model_scene_1.mp4', front: '/assets/virtual_model_front_1.png' },  // Scene 1 style
+    { video: '/assets/virtual_model_scene_2.mp4', front: '/assets/virtual_model_front_2.png' },  // Scene 2 style
+    { video: '/assets/virtual_model_scene_3.mp4', front: '/assets/virtual_model_front_3.png' }   // Scene 3 style
+];
+
+// Select random variant for Virtual Model (Desktop only)
+const isMobileDevice = window.innerWidth <= 768;
+const randomVariantIndex = isMobileDevice ? 0 : Math.floor(Math.random() * virtualModelVariants.length);
+const selectedVariant = virtualModelVariants[randomVariantIndex];
+
 const scenes = [
     '/assets/center_image_2.png',           // Scene 0 (index 0)
     '/assets/center_image_scene_1.png',     // Scene 1 (index 1)
@@ -14,7 +28,7 @@ const scenes = [
 
 // Foreground layers for parallax (Scene 0=Virtual Model, Scene 1=1, Scene 2=2, Scene 3=3, Scene 4=4)
 const foregroundImages = [
-    '/assets/virtual_model_front.png',                       // Scene 0 (Virtual Model)
+    selectedVariant.front,                                   // Scene 0 (Virtual Model - random)
     '/assets/center_image_scene_1_front_people.png',         // Scene 1
     '/assets/center_image_scene_2_front_people.png',         // Scene 2
     '/assets/center_image_scene_3_front_people.png',         // Scene 3
@@ -225,9 +239,9 @@ function setupVideoLoop(videoElement, sceneIndex) {
     });
 }
 
-// Video element for Scene 0 (Virtual Model)
+// Video element for Scene 0 (Virtual Model) - Uses random variant
 const videoElement0 = document.createElement('video');
-videoElement0.src = '/assets/virtual_model_scene.mp4';
+videoElement0.src = selectedVariant.video;
 videoElement0.loop = true;
 videoElement0.muted = true;
 videoElement0.playsInline = true;
@@ -598,16 +612,17 @@ const gradientPlane = new THREE.Mesh(gradientGeometry, gradientMaterial);
 gradientPlane.position.z = 0.02; // BEHIND Text (0.05) and FG (0.1), but FRONT of BG (0)
 scene.add(gradientPlane);
 
-// Header gradient plane (top) - for Scene 0 only, behind foreground
+// Header gradient plane (top) - for Scene 0 only, behind foreground (now dark like other scenes)
 function createHeaderGradientTexture() {
     const canvas = document.createElement('canvas');
     canvas.width = 1;
     canvas.height = 512;
     const ctx = canvas.getContext('2d');
     const gradient = ctx.createLinearGradient(0, 0, 0, 512);
-    gradient.addColorStop(0, 'rgba(255, 255, 255, 0.9)');
-    gradient.addColorStop(0.3, 'rgba(255, 255, 255, 0.5)');
-    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    // Dark gradient to match other scenes
+    gradient.addColorStop(0, 'rgba(0, 0, 0, 0.7)');
+    gradient.addColorStop(0.3, 'rgba(0, 0, 0, 0.4)');
+    gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, 1, 512);
     const texture = new THREE.CanvasTexture(canvas);
@@ -622,9 +637,10 @@ function createFooterGradientTexture() {
     canvas.height = 512;
     const ctx = canvas.getContext('2d');
     const gradient = ctx.createLinearGradient(0, 0, 0, 512);
-    gradient.addColorStop(0, 'rgba(255, 255, 255, 0)');
-    gradient.addColorStop(0.7, 'rgba(255, 255, 255, 0.5)');
-    gradient.addColorStop(1, 'rgba(255, 255, 255, 0.9)');
+    // Dark gradient to match other scenes
+    gradient.addColorStop(0, 'rgba(0, 0, 0, 0)');
+    gradient.addColorStop(0.7, 'rgba(0, 0, 0, 0.4)');
+    gradient.addColorStop(1, 'rgba(0, 0, 0, 0.7)');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, 1, 512);
     const texture = new THREE.CanvasTexture(canvas);
@@ -1144,9 +1160,9 @@ function updateUI() {
         // Scenes 1, 2, 3: DIRESS text
         if (currentScene === 0) {
             gradientPlane.visible = false;
-            // Show only header gradient for Scene 0 (behind foreground), hide footer gradient
+            // Show header and footer gradients for Scene 0 (dark mode like other scenes)
             headerGradientPlane.visible = true;
-            footerGradientPlane.visible = false;
+            footerGradientPlane.visible = true;
             // Start rotating text for Virtual Model
             startVirtualModelTextRotation();
         } else {
