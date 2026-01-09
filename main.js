@@ -1714,6 +1714,92 @@ function stopMoodSlideshow() {
     }
 }
 
+// Desktop Ethnicity Slideshow Animation
+const ethnicitySlideshowEl = document.getElementById('ethnicity-slideshow');
+const ethnicityPaletteDesktop = document.getElementById('ethnicity-palette-desktop');
+
+let ethnicitySlideshowInterval = null;
+let currentEthnicitySlideIndex = 0;
+const ethnicitySlides = document.querySelectorAll('.ethnicity-slide');
+
+function startEthnicitySlideshow() {
+    if (ethnicitySlideshowInterval || ethnicitySlides.length === 0) return;
+
+    currentEthnicitySlideIndex = 0;
+    // Reset all slides
+    ethnicitySlides.forEach((slide, i) => {
+        slide.classList.remove('active', 'fading-out');
+        if (i === 0) slide.classList.add('active');
+    });
+
+    ethnicitySlideshowInterval = setInterval(() => {
+        const currentSlide = ethnicitySlides[currentEthnicitySlideIndex];
+        const nextIndex = (currentEthnicitySlideIndex + 1) % ethnicitySlides.length;
+        const nextSlide = ethnicitySlides[nextIndex];
+
+        // Fade out current
+        currentSlide.classList.add('fading-out');
+        currentSlide.classList.remove('active');
+
+        // Fade in next
+        nextSlide.classList.add('active');
+        nextSlide.classList.remove('fading-out');
+
+        currentEthnicitySlideIndex = nextIndex;
+    }, 2500);
+}
+
+function stopEthnicitySlideshow() {
+    if (ethnicitySlideshowInterval) {
+        clearInterval(ethnicitySlideshowInterval);
+        ethnicitySlideshowInterval = null;
+    }
+}
+
+// Desktop Ethnicity White Palette Animation
+let ethnicityPaletteAnimationId = null;
+
+function generateEthnicityPaletteDesktop() {
+    if (!ethnicityPaletteDesktop || ethnicityPaletteDesktop.children.length > 0) return;
+
+    const cells = [];
+    // 20 columns x 15 rows = 300 cells
+    for (let i = 0; i < 300; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'ethnicity-cell';
+        cell.dataset.index = i;
+        ethnicityPaletteDesktop.appendChild(cell);
+        cells.push(cell);
+    }
+
+    // Animate with white/light colors
+    let time = 0;
+    function animateEthnicityPalette() {
+        time += 0.015;
+        cells.forEach((cell, index) => {
+            const row = Math.floor(index / 20);
+            const col = index % 20;
+
+            // Create flowing white/light gray pattern
+            const wave = Math.sin(time + row * 0.3 + col * 0.2) * 0.5 + 0.5;
+            const lightness = 85 + wave * 15; // 85-100% lightness (very light)
+            const saturation = 5 + wave * 10; // Very low saturation
+            const hue = (time * 20 + index) % 360;
+
+            cell.style.backgroundColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+        });
+        ethnicityPaletteAnimationId = requestAnimationFrame(animateEthnicityPalette);
+    }
+    animateEthnicityPalette();
+}
+
+function stopEthnicityPaletteDesktop() {
+    if (ethnicityPaletteAnimationId) {
+        cancelAnimationFrame(ethnicityPaletteAnimationId);
+        ethnicityPaletteAnimationId = null;
+    }
+}
+
 // Desktop Mood White Palette Animation
 let moodPaletteAnimationId = null;
 
@@ -1923,6 +2009,28 @@ function playEthnicityAnimations() {
     setTimeout(() => {
         startEthnicityRotation();
     }, 600);
+
+    // Desktop: Show ethnicity slideshow and white palette (hide Three.js canvas)
+    if (!isMobile()) {
+        const ethnicitySlideshowElement = document.getElementById('ethnicity-slideshow');
+        const ethnicityPaletteElement = document.getElementById('ethnicity-palette-desktop');
+        const ethnicityBgElement = document.getElementById('ethnicity-bg');
+        const ethnicityContentElement = document.getElementById('ethnicity-content');
+
+        // Hide the default ethnicity-bg image
+        if (ethnicityBgElement) ethnicityBgElement.classList.remove('active');
+
+        if (ethnicityPaletteElement) {
+            ethnicityPaletteElement.classList.add('active');
+            generateEthnicityPaletteDesktop();
+        }
+        if (ethnicitySlideshowElement) ethnicitySlideshowElement.classList.add('active');
+
+        // Show ethnicity content (fixed position needs active class)
+        if (ethnicityContentElement) ethnicityContentElement.classList.add('active');
+
+        startEthnicitySlideshow();
+    }
 }
 
 function animateNumber(element, targetValue) {
@@ -2202,6 +2310,18 @@ function resetEthnicityAnimations() {
         uniforms.progress.value = 0;
         uniforms.opacity.value = 1;
     }
+
+    // Desktop: Hide ethnicity slideshow, palette and content
+    const ethnicitySlideshowElement = document.getElementById('ethnicity-slideshow');
+    const ethnicityPaletteElement = document.getElementById('ethnicity-palette-desktop');
+    const ethnicityContentElement = document.getElementById('ethnicity-content');
+
+    if (ethnicitySlideshowElement) ethnicitySlideshowElement.classList.remove('active');
+    if (ethnicityPaletteElement) ethnicityPaletteElement.classList.remove('active');
+    if (ethnicityContentElement) ethnicityContentElement.classList.remove('active');
+
+    stopEthnicitySlideshow();
+    stopEthnicityPaletteDesktop();
 }
 
 // ===== MOOD SYSTEM (Substep 4) =====
@@ -2474,6 +2594,8 @@ updateUI = function () {
             // Hide Three.js canvas for Hair Color
             if (artWrapper) artWrapper.style.opacity = '0';
             stopSkinToneRotation();
+            resetEthnicityAnimations();
+            resetMoodAnimations();
             startHairColorSlideshow();
         } else if (currentSubStep === 1) {
             // Hair Style - show video
@@ -2489,6 +2611,8 @@ updateUI = function () {
             if (artWrapper) artWrapper.style.opacity = '1';
             stopSkinToneRotation();
             stopHairColorSlideshow();
+            resetEthnicityAnimations();
+            resetMoodAnimations();
         } else if (currentSubStep === 2) {
             // Skin Tone - show skin tone palette AND images with rotation
             if (customizeVideo) {
@@ -2502,11 +2626,13 @@ updateUI = function () {
             // Show Three.js canvas for Skin Tone
             if (artWrapper) artWrapper.style.opacity = '1';
             stopHairColorSlideshow();
+            resetEthnicityAnimations();
+            resetMoodAnimations();
 
             // Start skin tone image rotation
             startSkinToneRotation();
         } else if (currentSubStep === 3) {
-            // Ethnicity - show ethnicity model with Three.js transition
+            // Ethnicity - show ethnicity slideshow (hide Three.js canvas)
             if (customizeVideo) {
                 customizeVideo.classList.add('hidden');
                 customizeVideo.pause();
@@ -2514,14 +2640,14 @@ updateUI = function () {
             if (colorPaletteGrid) colorPaletteGrid.classList.remove('active');
             if (hairColorSlideshow) hairColorSlideshow.classList.remove('active');
             if (skinTonePaletteGrid) skinTonePaletteGrid.classList.remove('active');
-            if (ethnicityBg) ethnicityBg.classList.add('active');
-            // Show Three.js canvas for Ethnicity
-            if (artWrapper) artWrapper.style.opacity = '1';
+            if (ethnicityBg) ethnicityBg.classList.remove('active');
+            // Hide Three.js canvas for Ethnicity (we use slideshow instead)
+            if (artWrapper) artWrapper.style.opacity = '0';
             stopSkinToneRotation();
             stopHairColorSlideshow();
             resetMoodAnimations();
 
-            // Start ethnicity animations (texture is set inside startEthnicityRotation)
+            // Start ethnicity animations
             playEthnicityAnimations();
         } else if (currentSubStep === 4) {
             // Mood - show mood slideshow (hide Three.js canvas)
