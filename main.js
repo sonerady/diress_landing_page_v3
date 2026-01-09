@@ -40,6 +40,47 @@ const selectedVariant = virtualModelVariants[randomVariantIndex];
 // Track which scene to skip in AI Background (because it's shown in Virtual Model)
 const skipSceneInBackground = selectedVariant.sceneIndex;
 
+// Mobile Video Variants System (similar to desktop)
+// Step 0 variants - each maps to a scene that will be skipped in AI Background
+const mobileStep0Variants = [
+    { video: '/assets/mobile-videos/step-0.mp4', sceneIndex: null },      // Original (doesn't match any scene)
+    { video: '/assets/mobile-videos/step-0-1.mp4', sceneIndex: 0 },       // Scene 1 style (Rustic Wooden Barn)
+    { video: '/assets/mobile-videos/step-0-2.mp4', sceneIndex: 1 },       // Scene 2 style (Cozy Mountain Lodge)
+    { video: '/assets/mobile-videos/step-0-3.mp4', sceneIndex: 2 },       // Scene 3 style (Bali Rice Terraces)
+    { video: '/assets/mobile-videos/step-0-4.mp4', sceneIndex: 3 }        // Scene 4 style (Greek Island)
+];
+
+// Step 1 (AI Background) scene videos - includes Greek Island
+const mobileStep1AllVideos = [
+    { video: '/assets/mobile-videos/scene-1.mp4', sceneIndex: 0, title: 'Rustic Wooden Barn', desc: 'Showcase your clothing in authentic rustic settings. Perfect for casual wear and vintage styles.' },
+    { video: '/assets/mobile-videos/scene-2.mp4', sceneIndex: 1, title: 'Cozy Mountain Lodge', desc: 'Display your products in a warm mountain cabin atmosphere. Ideal for winter collections and knitwear.' },
+    { video: '/assets/mobile-videos/scene-3.mp4', sceneIndex: 2, title: 'Bali Rice Terraces', desc: 'Present your fashion against stunning tropical backgrounds. Perfect for summer and resort wear.' },
+    { video: '/assets/mobile-videos/scene-4.mp4', sceneIndex: 3, title: 'Greek Island', desc: 'Showcase your fashion with stunning Mediterranean views. Perfect for summer collections and resort wear.' }
+];
+
+// Select random variants for mobile using localStorage
+let mobileStep0VariantIndex = 0;
+let mobileSkipSceneInBackground = null; // Scene to skip in AI Background (shown in Step 0)
+
+if (isMobileDevice) {
+    // Step 0: Select different video variant than last visit
+    const lastMobileStep0Variant = localStorage.getItem('diress_mobile_step0_variant');
+    let availableStep0Indices = mobileStep0Variants.map((_, i) => i);
+    if (lastMobileStep0Variant !== null) {
+        availableStep0Indices = availableStep0Indices.filter(i => i !== parseInt(lastMobileStep0Variant));
+    }
+    mobileStep0VariantIndex = availableStep0Indices[Math.floor(Math.random() * availableStep0Indices.length)];
+    localStorage.setItem('diress_mobile_step0_variant', mobileStep0VariantIndex.toString());
+
+    // Track which scene to skip in AI Background
+    mobileSkipSceneInBackground = mobileStep0Variants[mobileStep0VariantIndex].sceneIndex;
+}
+
+const selectedMobileStep0Video = mobileStep0Variants[mobileStep0VariantIndex].video;
+
+// Filter AI Background videos to exclude the one shown in Step 0
+const mobileStep1Videos = mobileStep1AllVideos.filter(v => v.sceneIndex !== mobileSkipSceneInBackground);
+
 const scenes = [
     '/assets/center_image_2.png',           // Scene 0 (index 0)
     '/assets/center_image_scene_1.png',     // Scene 1 (index 1)
@@ -4536,12 +4577,30 @@ function rotateMobileText() {
 setInterval(rotateMobileText, 3000);
 
 // Update mobile step content visibility based on current step
+// Start from first available video (index 0 of filtered mobileStep1Videos)
 let mobileStep1VideoIndex = 0;
-const mobileStep1Videos = [
-    '/assets/mobile-videos/scene-1.mp4',
-    '/assets/mobile-videos/scene-2.mp4',
-    '/assets/mobile-videos/scene-3.mp4'
-];
+
+// Initialize mobile videos with localStorage-selected variants on page load
+function initMobileVideoVariants() {
+    if (!isMobile()) return;
+
+    // Set Step 0 video source based on localStorage selection
+    const mobileStep0Video = document.querySelector('#mobile-step-0 .mobile-step-video');
+    if (mobileStep0Video) {
+        mobileStep0Video.src = selectedMobileStep0Video;
+        mobileStep0Video.load();
+    }
+
+    // Set Step 1 video source to first available video (Step 0's video is already filtered out)
+    const mobileBgVideo = document.getElementById('mobile-bg-video');
+    if (mobileBgVideo && mobileStep1Videos.length > 0) {
+        mobileBgVideo.src = mobileStep1Videos[0].video;
+        mobileBgVideo.load();
+    }
+
+    // Update scene thumbnail active state - first one is active
+    updateMobileSceneThumbnails();
+}
 
 function updateMobileStepContent() {
     if (!isMobile()) return;
@@ -4571,10 +4630,10 @@ function updateMobileStepContent() {
             if (mobileBgVideo) {
                 mobileBgVideo.pause();
             }
-            // Reset video index when leaving Step 1
+            // Reset video index when leaving Step 1 to first available video
             mobileStep1VideoIndex = 0;
-            if (mobileBgVideo) {
-                mobileBgVideo.src = mobileStep1Videos[0];
+            if (mobileBgVideo && mobileStep1Videos.length > 0) {
+                mobileBgVideo.src = mobileStep1Videos[0].video;
             }
         }
     }
@@ -5263,21 +5322,50 @@ function initCustomizeIndicators() {
 }
 
 // Change to next video on mobile Step 1 when next button is pressed
-// Mobile Step 1 scene data
-const mobileSceneData = [
-    {
-        title: 'Rustic Wooden Barn',
-        desc: 'Showcase your clothing in authentic rustic settings. Perfect for casual wear and vintage styles.'
-    },
-    {
-        title: 'Cozy Mountain Lodge',
-        desc: 'Display your products in a warm mountain cabin atmosphere. Ideal for winter collections and knitwear.'
-    },
-    {
-        title: 'Bali Rice Terraces',
-        desc: 'Present your fashion against stunning tropical backgrounds. Perfect for summer and resort wear.'
+// Scene data now comes from mobileStep1Videos (filtered based on Step 0 selection)
+
+// Initialize mobile video variants on page load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMobileVideoVariants);
+} else {
+    initMobileVideoVariants();
+}
+
+// Update mobile scene thumbnails to match filtered videos
+function updateMobileSceneThumbnails() {
+    const thumbsContainer = document.querySelector('.mobile-scene-thumbs');
+    if (!thumbsContainer) return;
+
+    // Clear existing thumbs
+    thumbsContainer.innerHTML = '';
+
+    // Create thumbs for each available video
+    mobileStep1Videos.forEach((videoData, index) => {
+        const thumb = document.createElement('div');
+        thumb.className = 'mobile-scene-thumb' + (index === 0 ? ' active' : '');
+        thumb.dataset.scene = index.toString();
+
+        const img = document.createElement('img');
+        // Map scene index to thumbnail image
+        const sceneNum = videoData.sceneIndex + 1; // sceneIndex is 0-based, images are 1-based
+        img.src = `/assets/center_image_scene_${sceneNum}.png`;
+        img.alt = videoData.title;
+
+        thumb.appendChild(img);
+        thumbsContainer.appendChild(thumb);
+    });
+
+    // Update title and description
+    const title = document.getElementById('mobile-scene-title');
+    const desc = document.getElementById('mobile-scene-desc');
+    if (title && desc && mobileStep1Videos.length > 0) {
+        title.textContent = mobileStep1Videos[0].title;
+        desc.textContent = mobileStep1Videos[0].desc;
     }
-];
+
+    // Re-initialize click handlers
+    initMobileSceneThumbs();
+}
 
 // Update mobile scene overlay UI
 function updateMobileSceneOverlay() {
@@ -5301,8 +5389,10 @@ function updateMobileSceneOverlay() {
     desc.style.opacity = '0';
 
     setTimeout(() => {
-        title.textContent = mobileSceneData[mobileStep1VideoIndex].title;
-        desc.textContent = mobileSceneData[mobileStep1VideoIndex].desc;
+        if (mobileStep1Videos[mobileStep1VideoIndex]) {
+            title.textContent = mobileStep1Videos[mobileStep1VideoIndex].title;
+            desc.textContent = mobileStep1Videos[mobileStep1VideoIndex].desc;
+        }
         title.style.opacity = '1';
         desc.style.opacity = '1';
     }, 150);
@@ -5318,8 +5408,8 @@ function initMobileSceneThumbs() {
             if (mobileStep1VideoIndex === index) return;
 
             mobileStep1VideoIndex = index;
-            if (mobileBgVideo) {
-                mobileBgVideo.src = mobileStep1Videos[mobileStep1VideoIndex];
+            if (mobileBgVideo && mobileStep1Videos[index]) {
+                mobileBgVideo.src = mobileStep1Videos[index].video;
                 mobileBgVideo.load();
                 mobileBgVideo.play().catch(e => console.log('Mobile bg video play blocked:', e));
             }
@@ -5327,9 +5417,6 @@ function initMobileSceneThumbs() {
         });
     });
 }
-
-// Initialize mobile scene thumbs
-initMobileSceneThumbs();
 
 // --- Mobile Retouch Slider ---
 function initMobileRetouchSlider() {
@@ -5458,10 +5545,10 @@ function mobileStep1NextVideo() {
     const mobileBgVideo = document.getElementById('mobile-bg-video');
     if (!mobileBgVideo) return false;
 
-    // If we haven't shown all 3 videos yet, show next video
-    if (mobileStep1VideoIndex < 2) {
+    // If we haven't shown all filtered videos yet, show next video
+    if (mobileStep1VideoIndex < mobileStep1Videos.length - 1) {
         mobileStep1VideoIndex++;
-        mobileBgVideo.src = mobileStep1Videos[mobileStep1VideoIndex];
+        mobileBgVideo.src = mobileStep1Videos[mobileStep1VideoIndex].video;
         mobileBgVideo.load();
         mobileBgVideo.play().catch(e => console.log('Mobile bg video play blocked:', e));
         updateMobileSceneOverlay();
