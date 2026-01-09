@@ -807,8 +807,8 @@ body {
   }
 }
 
-/* Hair Style Video Overlay (Desktop) - Outside main-container */
-.hair-style-video-overlay {
+/* Hair Style Slideshow (Desktop) - Outside main-container */
+.hair-style-slideshow {
   position: fixed;
   top: 0;
   left: 0;
@@ -818,16 +818,20 @@ body {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.5s ease, visibility 0.5s ease;
+  background: transparent;
   pointer-events: none;
-  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.hair-style-video-overlay.active {
+.hair-style-slideshow.active {
   opacity: 1;
   visibility: visible;
 }
 
-.hair-style-video-overlay::before {
+/* Left gradient for Hair Style slideshow */
+.hair-style-slideshow::before {
   content: "";
   position: absolute;
   top: 0;
@@ -842,17 +846,66 @@ body {
     rgba(255, 255, 255, 0) 100%
   );
   pointer-events: none;
+  z-index: 0;
+}
+
+.hair-style-slide {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 45%;
+  max-height: 95%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+  z-index: 1;
+  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.9))
+    drop-shadow(0 0 40px rgba(255, 255, 255, 0.7))
+    drop-shadow(0 0 60px rgba(255, 255, 255, 0.5))
+    drop-shadow(0 0 80px rgba(255, 255, 255, 0.3));
+}
+
+.hair-style-slide.active {
+  opacity: 1;
   z-index: 2;
 }
 
-.hair-style-video {
-  position: absolute;
+.hair-style-slide.fading-out {
+  opacity: 0;
+  z-index: 1;
+}
+
+/* Hair Style White Palette (Desktop) */
+.hair-style-palette-desktop {
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  z-index: 1;
+  z-index: 49;
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  grid-template-rows: repeat(15, 1fr);
+  gap: 6px;
+  padding: 20px;
+  background: #ffffff;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  pointer-events: none;
+}
+
+.hair-style-palette-desktop.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.hair-style-palette-desktop .hair-style-cell {
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
 }
 
 /* Skin Tone Grid Overlay (Desktop) - Outside main-container */

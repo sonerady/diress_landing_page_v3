@@ -1591,8 +1591,7 @@ const colorPaletteGrid = document.getElementById('color-palette-grid');
 const skinTonePaletteGrid = document.getElementById('skin-tone-palette-grid');
 const ethnicityBg = document.getElementById('ethnicity-bg');
 const hairColorSlideshow = document.getElementById('hair-color-slideshow');
-const hairStyleVideoOverlay = document.getElementById('hair-style-video-overlay');
-const hairStyleVideo = document.querySelector('.hair-style-video');
+const hairStyleSlideshow = document.getElementById('hair-style-slideshow');
 const skinToneGridOverlay = document.getElementById('skin-tone-grid-overlay');
 const skinToneGridCells = document.getElementById('skin-tone-grid-cells');
 
@@ -1632,6 +1631,45 @@ function stopHairColorSlideshow() {
     if (hairColorInterval) {
         clearInterval(hairColorInterval);
         hairColorInterval = null;
+    }
+}
+
+// Hair Style Slideshow Animation
+let hairStyleInterval = null;
+let currentHairStyleIndex = 0;
+const hairStyleSlides = document.querySelectorAll('.hair-style-slide');
+
+function startHairStyleSlideshow() {
+    if (hairStyleInterval || hairStyleSlides.length === 0) return;
+
+    currentHairStyleIndex = 0;
+    // Reset all slides
+    hairStyleSlides.forEach((slide, i) => {
+        slide.classList.remove('active', 'fading-out');
+        if (i === 0) slide.classList.add('active');
+    });
+
+    hairStyleInterval = setInterval(() => {
+        const currentSlide = hairStyleSlides[currentHairStyleIndex];
+        const nextIndex = (currentHairStyleIndex + 1) % hairStyleSlides.length;
+        const nextSlide = hairStyleSlides[nextIndex];
+
+        // Fade out current
+        currentSlide.classList.add('fading-out');
+        currentSlide.classList.remove('active');
+
+        // Fade in next
+        nextSlide.classList.add('active');
+        nextSlide.classList.remove('fading-out');
+
+        currentHairStyleIndex = nextIndex;
+    }, 2000); // Change every 2 seconds
+}
+
+function stopHairStyleSlideshow() {
+    if (hairStyleInterval) {
+        clearInterval(hairStyleInterval);
+        hairStyleInterval = null;
     }
 }
 
@@ -1817,6 +1855,51 @@ function stopEthnicityPaletteDesktop() {
     if (ethnicityPaletteAnimationId) {
         cancelAnimationFrame(ethnicityPaletteAnimationId);
         ethnicityPaletteAnimationId = null;
+    }
+}
+
+// Desktop Hair Style White Palette Animation
+const hairStylePaletteDesktop = document.getElementById('hair-style-palette-desktop');
+let hairStylePaletteAnimationId = null;
+
+function generateHairStylePaletteDesktop() {
+    if (!hairStylePaletteDesktop || hairStylePaletteDesktop.children.length > 0) return;
+
+    const cells = [];
+    // 20 columns x 15 rows = 300 cells
+    for (let i = 0; i < 300; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'hair-style-cell';
+        cell.dataset.index = i;
+        hairStylePaletteDesktop.appendChild(cell);
+        cells.push(cell);
+    }
+
+    // Animate with white/light colors (same as ethnicity)
+    let time = 0;
+    function animateHairStylePalette() {
+        time += 0.015;
+        cells.forEach((cell, index) => {
+            const row = Math.floor(index / 20);
+            const col = index % 20;
+
+            // Create flowing white/light gray pattern
+            const wave = Math.sin(time + row * 0.3 + col * 0.2) * 0.5 + 0.5;
+            const lightness = 85 + wave * 15; // 85-100% lightness (very light)
+            const saturation = 5 + wave * 10; // Very low saturation
+            const hue = (time * 20 + index) % 360;
+
+            cell.style.backgroundColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+        });
+        hairStylePaletteAnimationId = requestAnimationFrame(animateHairStylePalette);
+    }
+    animateHairStylePalette();
+}
+
+function stopHairStylePaletteDesktop() {
+    if (hairStylePaletteAnimationId) {
+        cancelAnimationFrame(hairStylePaletteAnimationId);
+        hairStylePaletteAnimationId = null;
     }
 }
 
@@ -2657,9 +2740,11 @@ updateUI = function () {
             if (hairColorSlideshow) hairColorSlideshow.classList.add('active');
             if (skinTonePaletteGrid) skinTonePaletteGrid.classList.remove('active');
             if (ethnicityBg) ethnicityBg.classList.remove('active');
-            // Hide video/grid overlays for Hair Color (it has its own via slideshow)
-            if (hairStyleVideoOverlay) hairStyleVideoOverlay.classList.remove('active');
-            if (hairStyleVideo) hairStyleVideo.pause();
+            // Hide Hair Style overlays for Hair Color (it has its own via slideshow)
+            if (hairStyleSlideshow) hairStyleSlideshow.classList.remove('active');
+            if (hairStylePaletteDesktop) hairStylePaletteDesktop.classList.remove('active');
+            stopHairStyleSlideshow();
+            stopHairStylePaletteDesktop();
             if (skinToneGridOverlay) skinToneGridOverlay.classList.remove('active');
             // Hide Three.js canvas for Hair Color
             if (artWrapper) artWrapper.style.opacity = '0';
@@ -2668,7 +2753,7 @@ updateUI = function () {
             resetMoodAnimations();
             startHairColorSlideshow();
         } else if (currentSubStep === 1) {
-            // Hair Style - show video overlay with gradient
+            // Hair Style - show slideshow with gradient and white palette (like Ethnicity)
             if (customizeVideo) {
                 customizeVideo.classList.add('hidden');
                 customizeVideo.pause();
@@ -2677,16 +2762,20 @@ updateUI = function () {
             if (hairColorSlideshow) hairColorSlideshow.classList.remove('active');
             if (skinTonePaletteGrid) skinTonePaletteGrid.classList.remove('active');
             if (ethnicityBg) ethnicityBg.classList.remove('active');
-            // Show Hair Style video overlay
-            if (hairStyleVideoOverlay) hairStyleVideoOverlay.classList.add('active');
-            if (hairStyleVideo) hairStyleVideo.play().catch(() => {});
+            // Show Hair Style slideshow and white palette
+            if (hairStyleSlideshow) hairStyleSlideshow.classList.add('active');
+            if (hairStylePaletteDesktop) {
+                hairStylePaletteDesktop.classList.add('active');
+                generateHairStylePaletteDesktop();
+            }
             if (skinToneGridOverlay) skinToneGridOverlay.classList.remove('active');
-            // Show Three.js canvas for Hair Style
-            if (artWrapper) artWrapper.style.opacity = '1';
+            // Hide Three.js canvas for Hair Style (we use slideshow instead)
+            if (artWrapper) artWrapper.style.opacity = '0';
             stopSkinToneRotation();
             stopHairColorSlideshow();
             resetEthnicityAnimations();
             resetMoodAnimations();
+            startHairStyleSlideshow();
         } else if (currentSubStep === 2) {
             // Skin Tone - show skin tone grid overlay with gradient
             if (customizeVideo) {
@@ -2697,9 +2786,11 @@ updateUI = function () {
             if (hairColorSlideshow) hairColorSlideshow.classList.remove('active');
             if (skinTonePaletteGrid) skinTonePaletteGrid.classList.remove('active');
             if (ethnicityBg) ethnicityBg.classList.remove('active');
-            // Show Skin Tone grid overlay
-            if (hairStyleVideoOverlay) hairStyleVideoOverlay.classList.remove('active');
-            if (hairStyleVideo) hairStyleVideo.pause();
+            // Hide Hair Style overlays
+            if (hairStyleSlideshow) hairStyleSlideshow.classList.remove('active');
+            if (hairStylePaletteDesktop) hairStylePaletteDesktop.classList.remove('active');
+            stopHairStyleSlideshow();
+            stopHairStylePaletteDesktop();
             if (skinToneGridOverlay) skinToneGridOverlay.classList.add('active');
             // Show Three.js canvas for Skin Tone
             if (artWrapper) artWrapper.style.opacity = '1';
@@ -2719,9 +2810,11 @@ updateUI = function () {
             if (hairColorSlideshow) hairColorSlideshow.classList.remove('active');
             if (skinTonePaletteGrid) skinTonePaletteGrid.classList.remove('active');
             if (ethnicityBg) ethnicityBg.classList.remove('active');
-            // Hide video/grid overlays for Ethnicity
-            if (hairStyleVideoOverlay) hairStyleVideoOverlay.classList.remove('active');
-            if (hairStyleVideo) hairStyleVideo.pause();
+            // Hide Hair Style overlays for Ethnicity
+            if (hairStyleSlideshow) hairStyleSlideshow.classList.remove('active');
+            if (hairStylePaletteDesktop) hairStylePaletteDesktop.classList.remove('active');
+            stopHairStyleSlideshow();
+            stopHairStylePaletteDesktop();
             if (skinToneGridOverlay) skinToneGridOverlay.classList.remove('active');
             // Hide Three.js canvas for Ethnicity (we use slideshow instead)
             if (artWrapper) artWrapper.style.opacity = '0';
@@ -2741,9 +2834,11 @@ updateUI = function () {
             if (hairColorSlideshow) hairColorSlideshow.classList.remove('active');
             if (skinTonePaletteGrid) skinTonePaletteGrid.classList.remove('active');
             if (ethnicityBg) ethnicityBg.classList.remove('active');
-            // Hide video/grid overlays for Mood
-            if (hairStyleVideoOverlay) hairStyleVideoOverlay.classList.remove('active');
-            if (hairStyleVideo) hairStyleVideo.pause();
+            // Hide Hair Style overlays for Mood
+            if (hairStyleSlideshow) hairStyleSlideshow.classList.remove('active');
+            if (hairStylePaletteDesktop) hairStylePaletteDesktop.classList.remove('active');
+            stopHairStyleSlideshow();
+            stopHairStylePaletteDesktop();
             if (skinToneGridOverlay) skinToneGridOverlay.classList.remove('active');
             // Hide Three.js canvas for Mood (we use slideshow instead)
             if (artWrapper) artWrapper.style.opacity = '0';
@@ -2763,9 +2858,11 @@ updateUI = function () {
             if (hairColorSlideshow) hairColorSlideshow.classList.remove('active');
             if (skinTonePaletteGrid) skinTonePaletteGrid.classList.remove('active');
             if (ethnicityBg) ethnicityBg.classList.remove('active');
-            // Hide video/grid overlays for Body Shape
-            if (hairStyleVideoOverlay) hairStyleVideoOverlay.classList.remove('active');
-            if (hairStyleVideo) hairStyleVideo.pause();
+            // Hide Hair Style overlays for Body Shape
+            if (hairStyleSlideshow) hairStyleSlideshow.classList.remove('active');
+            if (hairStylePaletteDesktop) hairStylePaletteDesktop.classList.remove('active');
+            stopHairStyleSlideshow();
+            stopHairStylePaletteDesktop();
             if (skinToneGridOverlay) skinToneGridOverlay.classList.remove('active');
             // Show Three.js canvas for Body Shape
             if (artWrapper) artWrapper.style.opacity = '1';
@@ -2784,9 +2881,11 @@ updateUI = function () {
         if (hairColorSlideshow) hairColorSlideshow.classList.remove('active');
         if (skinTonePaletteGrid) skinTonePaletteGrid.classList.remove('active');
         if (ethnicityBg) ethnicityBg.classList.remove('active');
-        // Hide video/grid overlays when not in Step 3
-        if (hairStyleVideoOverlay) hairStyleVideoOverlay.classList.remove('active');
-        if (hairStyleVideo) hairStyleVideo.pause();
+        // Hide Hair Style overlays when not in Step 3
+        if (hairStyleSlideshow) hairStyleSlideshow.classList.remove('active');
+        if (hairStylePaletteDesktop) hairStylePaletteDesktop.classList.remove('active');
+        stopHairStyleSlideshow();
+        stopHairStylePaletteDesktop();
         if (skinToneGridOverlay) skinToneGridOverlay.classList.remove('active');
         // Show Three.js canvas when not in Step 3
         if (artWrapper) artWrapper.style.opacity = '1';
