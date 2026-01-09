@@ -11,10 +11,6 @@ body {
   overscroll-behavior: none;
 }
 
-html {
-  background-color: #000;
-}
-
 body {
   font-family: "Lato", sans-serif;
   height: 100vh;
@@ -24,14 +20,6 @@ body {
   touch-action: none;
 }
 
-/* iOS Safari/Chrome - Safe area and theme color support */
-@supports (padding: env(safe-area-inset-top)) {
-  html {
-    background-color: #000;
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-}
 
 /* --- Main Container --- */
 .main-container {
