@@ -1577,6 +1577,150 @@ body {
 }
 
 /* ========================================
+   Skin Tone Content (Inside Container) - Substep 2
+   ======================================== */
+
+/* Skin Tone White Palette (Inside) */
+.skintone-palette-inside {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  grid-template-rows: repeat(15, 1fr);
+  gap: 6px;
+  padding: 20px;
+  background: #ffffff;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  pointer-events: none;
+}
+
+.main-container.step-3.substep-2 .skintone-palette-inside {
+  opacity: 1;
+  visibility: visible;
+}
+
+.skintone-palette-inside .skintone-cell-inside {
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+/* Skin Tone Content Overlay */
+.skintone-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 60px 80px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.main-container.step-3.substep-2 .skintone-content {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Skin Tone Slideshow Inside */
+.skintone-slideshow-inside {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 450px;
+  height: 90%;
+  z-index: 5;
+}
+
+.skintone-slide-inside {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+  z-index: 1;
+  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.9))
+    drop-shadow(0 0 40px rgba(255, 255, 255, 0.7))
+    drop-shadow(0 0 60px rgba(255, 255, 255, 0.5))
+    drop-shadow(0 0 80px rgba(255, 255, 255, 0.3));
+}
+
+.skintone-slide-inside.active {
+  opacity: 1;
+  z-index: 2;
+}
+
+.skintone-slide-inside.fading-out {
+  opacity: 0;
+  z-index: 1;
+}
+
+/* Skin Tone Title - Right Side */
+.skintone-title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition-delay: 0.3s;
+  z-index: 15;
+}
+
+.main-container.step-3.substep-2 .skintone-title {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.skintone-title .title-prefix {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #666;
+  letter-spacing: 1px;
+}
+
+.skintone-title .title-skintone {
+  font-family: "Poppins", sans-serif;
+  font-size: 4rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.1;
+  min-width: 280px;
+  transition: opacity 0.3s ease;
+}
+
+.skintone-title .title-suffix {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #666;
+  letter-spacing: 1px;
+}
+
+/* Hide left gradient for Skin Tone substep */
+.main-container.step-3.substep-2 .customize-grid-container::before {
+  display: none;
+}
+
+/* ========================================
    Ethnicity Content (Inside Container) - Substep 3
    ======================================== */
 
