@@ -1,39 +1,6 @@
 import './style.css'
 import * as THREE from 'three'
 
-// Dynamic Theme Color for Mobile Browsers
-// Updates meta theme-color based on current step's color scheme
-function updateThemeColor() {
-    // Theme colors per step (based on header/bottom nav gradient colors)
-    // Step 0: Black (dark gradient header/bottom)
-    // Step 1: Black (dark gradient - scene selection)
-    // Step 2: White (solid white header/bottom)
-    // Step 3: Black (dark gradient - customize model)
-    // Step 4: White (solid white - AI Pose)
-    // Step 5: Black (transparent/dark - backgrounds)
-    // Step 6: White (white gradient - AI Export)
-    // Step 7: White (white gradient - AI Video)
-
-    const themeColors = {
-        0: '#000000', // Virtual Model - dark
-        1: '#000000', // Select Scene - dark
-        2: '#ffffff', // Ecommerce Kits - white
-        3: '#000000', // Customize Model - dark
-        4: '#ffffff', // AI Pose - white
-        5: '#000000', // Backgrounds - dark
-        6: '#ffffff', // AI Export - white
-        7: '#ffffff'  // AI Video - white
-    };
-
-    const color = themeColors[currentStep] || '#000000';
-
-    // Update all theme-color meta tags
-    const themeColorMetas = document.querySelectorAll('meta[name="theme-color"]');
-    themeColorMetas.forEach(meta => {
-        meta.setAttribute('content', color);
-    });
-}
-
 // State
 let currentScene = 0;
 let currentStep = 0;
@@ -1118,9 +1085,6 @@ function transitionToScene(index) {
 // UI
 function updateUI() {
     mainContainer.className = `main-container step-${currentStep} scene-${currentScene} substep-${currentSubStep}`;
-
-    // Dynamic theme-color for mobile browsers (iOS Safari/Chrome)
-    updateThemeColor();
 
     // Control foreground layer visibility for scenes with foreground
     const hasForeground = foregroundImages[currentScene] !== null;
