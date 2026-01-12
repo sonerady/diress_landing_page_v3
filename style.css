@@ -3572,10 +3572,10 @@ footer {
   background: #fff;
   color: #111;
   padding: 10px 14px;
-  border-radius: 10px;
+  border-radius: 14px;
   text-decoration: none;
   transition: all 0.3s ease;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: none;
   box-shadow: none !important;
   width: 160px;
 }
@@ -3583,7 +3583,6 @@ footer {
 .store-btn:hover {
   transform: translateY(-2px);
   background: #fafafa;
-  border-color: rgba(0, 0, 0, 0.15);
 }
 
 .store-btn i {
@@ -3614,6 +3613,69 @@ footer {
   font-size: 0.9rem;
   font-weight: 600;
   color: #000;
+}
+
+/* App Store Button Styling - Dark Gradient (bottom to top) */
+.store-btn:first-child {
+  background: linear-gradient(to top, #000 0%, #2a2a2a 100%);
+}
+
+.store-btn:first-child:hover {
+  background: linear-gradient(to top, #1a1a1a 0%, #3a3a3a 100%);
+}
+
+.store-btn:first-child i {
+  color: #fff;
+}
+
+.store-btn:first-child .btn-text span {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.store-btn:first-child .btn-text strong {
+  color: #fff;
+}
+
+/* Google Play Button Styling - Dark Gradient (bottom to top) */
+.store-btn:nth-child(2) {
+  background: linear-gradient(to top, #000 0%, #2a2a2a 100%);
+}
+
+.store-btn:nth-child(2):hover {
+  background: linear-gradient(to top, #1a1a1a 0%, #3a3a3a 100%);
+}
+
+.store-btn:nth-child(2) i {
+  color: #fff;
+}
+
+.store-btn:nth-child(2) .btn-text span {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.store-btn:nth-child(2) .btn-text strong {
+  color: #fff;
+}
+
+/* Shopify Button Styling - Gradient (bottom to top) */
+.store-btn.shopify-btn {
+  background: linear-gradient(to top, #5E8E3E 0%, #95BF47 100%);
+}
+
+.store-btn.shopify-btn:hover {
+  background: linear-gradient(to top, #6ba045 0%, #a8d154 100%);
+}
+
+.store-btn.shopify-btn i {
+  color: #fff;
+}
+
+.store-btn.shopify-btn .btn-text span {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.store-btn.shopify-btn .btn-text strong {
+  color: #fff;
 }
 
 .socials i {
