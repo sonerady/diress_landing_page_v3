@@ -3268,51 +3268,8 @@ nav a:hover {
   font-weight: bold;
 }
 
-/* Pricing Link Disabled with Tooltip */
 nav li {
   position: relative;
-}
-
-.pricing-link-disabled {
-  position: relative;
-  cursor: pointer;
-}
-
-.pricing-tooltip {
-  position: absolute;
-  top: calc(100% + 10px);
-  left: 50%;
-  transform: translateX(-50%);
-  background: #1a1a1a;
-  color: #fff;
-  padding: 8px 14px;
-  border-radius: 8px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  white-space: nowrap;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-  pointer-events: none;
-  z-index: 200;
-  text-transform: none;
-  letter-spacing: 0;
-}
-
-.pricing-tooltip::before {
-  content: "";
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 6px solid transparent;
-  border-bottom-color: #1a1a1a;
-}
-
-.pricing-link-disabled:hover .pricing-tooltip {
-  opacity: 1;
-  visibility: visible;
-  top: calc(100% + 14px);
 }
 
 .get-started-btn {
@@ -3483,27 +3440,6 @@ nav li {
   color: #333;
 }
 
-/* Mobile Pricing Link Disabled with Tooltip */
-.mobile-nav .mobile-pricing-disabled {
-  position: relative;
-}
-
-.mobile-pricing-tooltip {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  background: #1a1a1a;
-  color: #fff;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 0.6rem;
-  font-weight: 600;
-  white-space: nowrap;
-  opacity: 1;
-  visibility: visible;
-  z-index: 200;
-}
 
 .mobile-get-started-btn {
   position: relative;
@@ -5530,416 +5466,7 @@ footer {
   margin-bottom: 30px;
 }
 
-.pricing-title {
-  font-family: "Playfair Display", serif;
-  font-size: 3rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 12px;
-  letter-spacing: -1px;
-}
-
-.pricing-subtitle {
-  font-family: "Poppins", sans-serif;
-  font-size: 1.1rem;
-  color: #666;
-  margin-bottom: 35px;
-}
-
-/* Billing Toggle */
-.billing-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  background: #fff;
-  padding: 8px 20px;
-  border-radius: 50px;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
-}
-
-.toggle-label {
-  font-family: "Poppins", sans-serif;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #999;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.toggle-label.active {
-  color: #1a1a1a;
-  font-weight: 600;
-}
-
-.toggle-switch {
-  position: relative;
-  width: 50px;
-  height: 26px;
-}
-
-.toggle-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.toggle-slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #1a1a1a;
-  transition: 0.3s;
-  border-radius: 26px;
-}
-
-.toggle-slider:before {
-  position: absolute;
-  content: "";
-  height: 20px;
-  width: 20px;
-  left: 3px;
-  bottom: 3px;
-  background: white;
-  transition: 0.3s;
-  border-radius: 50%;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.toggle-switch input:checked + .toggle-slider {
-  background: #1a1a1a;
-}
-
-.toggle-switch input:checked + .toggle-slider:before {
-  transform: translateX(24px);
-}
-
-.save-badge {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  font-family: "Poppins", sans-serif;
-  font-size: 0.7rem;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 20px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* Pricing Cards */
-.pricing-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 25px;
-  align-items: stretch;
-}
-
-.pricing-card {
-  background: #fff;
-  border-radius: 24px;
-  padding: 35px 30px;
-  position: relative;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 2px solid rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-}
-
-.pricing-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
-}
-
-/* Popular Card Styling */
-.pricing-card.popular {
-  border: 2px solid transparent;
-  background: linear-gradient(#fff, #fff) padding-box,
-    linear-gradient(135deg, #f6d365 0%, #fda085 50%, #f6d365 100%) border-box;
-  overflow: hidden;
-}
-
-.pricing-card.popular .card-gradient-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 140px;
-  background: linear-gradient(
-    180deg,
-    rgba(246, 211, 101, 0.15) 0%,
-    rgba(253, 160, 133, 0.1) 50%,
-    transparent 100%
-  );
-  pointer-events: none;
-}
-
-.popular-badge {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
-  color: white;
-  font-family: "Poppins", sans-serif;
-  font-size: 0.65rem;
-  font-weight: 600;
-  padding: 5px 12px;
-  border-radius: 20px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.card-header {
-  position: relative;
-  z-index: 1;
-  margin-bottom: 25px;
-}
-
-.plan-name {
-  font-family: "Poppins", sans-serif;
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 15px;
-}
-
-.pricing-card.popular .plan-name {
-  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.plan-price {
-  display: flex;
-  align-items: flex-start;
-  gap: 5px;
-}
-
-.plan-price .currency {
-  font-family: "Poppins", sans-serif;
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin-top: 8px;
-}
-
-.plan-price .amount {
-  font-family: "Poppins", sans-serif;
-  font-size: 3.5rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  line-height: 1;
-}
-
-.price-details {
-  display: flex;
-  flex-direction: column;
-  margin-left: 8px;
-  margin-top: 12px;
-}
-
-.price-details .per-period {
-  font-family: "Poppins", sans-serif;
-  font-size: 0.85rem;
-  color: #666;
-}
-
-.price-details .billing-period {
-  font-family: "Poppins", sans-serif;
-  font-size: 0.75rem;
-  color: #999;
-}
-
-/* Plan Button */
-.plan-btn {
-  display: block;
-  width: 100%;
-  padding: 14px 20px;
-  border-radius: 12px;
-  font-family: "Poppins", sans-serif;
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-align: center;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  margin-bottom: 0;
-  background: #f5f5f5;
-  color: #1a1a1a;
-  border: none;
-  cursor: pointer;
-}
-
-.plan-btn:hover {
-  background: #e8e8e8;
-  transform: translateY(-2px);
-}
-
-.plan-btn.primary {
-  background: #1a1a1a;
-  color: #fff;
-}
-
-.plan-btn.primary:hover {
-  background: #333;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-}
-
-/* Plan Button Disabled with Tooltip */
-.plan-btn.plan-btn-disabled {
-  position: relative;
-  cursor: not-allowed;
-  opacity: 0.7;
-}
-
-.plan-btn.plan-btn-disabled:hover {
-  transform: none;
-  background: #f0f0f0;
-}
-
-.plan-btn.plan-btn-disabled.primary:hover {
-  background: #1a1a1a;
-}
-
-.plan-btn-tooltip {
-  position: absolute;
-  bottom: calc(100% + 12px);
-  left: 50%;
-  transform: translateX(-50%);
-  background: #1a1a1a;
-  color: #fff;
-  padding: 12px 16px;
-  border-radius: 10px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  line-height: 1.5;
-  text-align: center;
-  white-space: nowrap;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-  pointer-events: none;
-  z-index: 100;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-}
-
-.plan-btn-tooltip::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 8px solid transparent;
-  border-top-color: #1a1a1a;
-}
-
-.plan-btn.plan-btn-disabled:hover .plan-btn-tooltip {
-  opacity: 1;
-  visibility: visible;
-  bottom: calc(100% + 16px);
-}
-
-/* Plan Features */
-.plan-features {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  flex-grow: 1;
-}
-
-.plan-features li {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 0;
-  font-family: "Poppins", sans-serif;
-  font-size: 0.9rem;
-  color: #444;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.plan-features li:last-child {
-  border-bottom: none;
-}
-
-.plan-features li i {
-  color: #1a1a1a;
-  font-size: 0.8rem;
-  width: 18px;
-  height: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.pricing-card.popular .plan-features li i {
-  color: #f6a654;
-}
-
-.need-more-link {
-  display: block;
-  text-align: center;
-  margin-top: 20px;
-  font-family: "Poppins", sans-serif;
-  font-size: 0.85rem;
-  color: #667eea;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.need-more-link:hover {
-  color: #764ba2;
-}
-
-/* Pricing Page Responsive */
-@media (max-width: 1024px) {
-  .pricing-cards {
-    grid-template-columns: 1fr;
-    max-width: 450px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .pricing-card:last-child {
-    grid-column: span 1;
-    max-width: none;
-  }
-}
-
-@media (max-width: 768px) {
-  #pricing-section {
-    padding: 80px 20px 30px;
-  }
-
-  .pricing-title {
-    font-size: 2rem;
-  }
-
-  .pricing-subtitle {
-    font-size: 0.95rem;
-  }
-
-  .pricing-cards {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .pricing-card:last-child {
-    grid-column: span 1;
-    max-width: none;
-  }
-
-  .billing-toggle {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-  }
-
-  .save-badge {
-    margin-top: 5px;
-  }
-}
+/* Old pricing styles removed — see new styles below in the file */
 
 /* ==========================================
    MOBILE NAVIGATION & BOTTOM GRADIENT
@@ -9472,7 +8999,7 @@ footer {
 }
 
 /* ========================================
-   PRICING PAGE STYLES
+   PRICING PAGE STYLES (client_web design)
    ======================================== */
 
 .pricing-page {
@@ -9481,7 +9008,7 @@ footer {
   left: 0;
   width: 100%;
   height: 100%;
-  background: #fafafa;
+  background: #f8fafc;
   z-index: 10000;
   opacity: 0;
   visibility: hidden;
@@ -9589,9 +9116,9 @@ footer {
 
 /* Pricing Container */
 .pricing-container {
-  max-width: 1200px;
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 120px 40px 60px;
+  padding: 120px 48px 60px;
   min-height: 100vh;
 }
 
@@ -9599,33 +9126,18 @@ footer {
   text-align: center;
 }
 
-.pricing-tag {
-  display: inline-block;
-  padding: 8px 20px;
-  background: rgba(26, 26, 26, 0.05);
-  border-radius: 20px;
-  font-family: "Poppins", sans-serif;
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: #1a1a1a;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 20px;
-}
-
 .pricing-title {
   font-family: "Poppins", sans-serif;
-  font-size: 3rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 15px;
-  line-height: 1.2;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 8px;
 }
 
 .pricing-subtitle {
   font-family: "Poppins", sans-serif;
-  font-size: 1.1rem;
-  color: #666;
+  font-size: 0.95rem;
+  color: #64748b;
   margin-bottom: 40px;
   max-width: 500px;
   margin-left: auto;
@@ -9635,199 +9147,313 @@ footer {
 /* Billing Toggle */
 .billing-toggle {
   display: inline-flex;
-  background: #fff;
-  border-radius: 30px;
-  padding: 5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  margin-bottom: 50px;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 40px;
 }
 
-.billing-btn {
-  padding: 12px 32px;
-  border: none;
-  background: transparent;
+.billing-label {
   font-family: "Poppins", sans-serif;
   font-size: 0.95rem;
   font-weight: 500;
-  color: #666;
+  color: #94a3b8;
   cursor: pointer;
-  border-radius: 25px;
-  transition: all 0.3s ease;
+  transition: color 0.3s ease;
+  user-select: none;
 }
 
-.billing-btn.active {
-  background: #1a1a1a;
-  color: #fff;
+.billing-label.active {
+  color: #0f172a;
+  font-weight: 700;
 }
 
-.billing-btn:hover:not(.active) {
-  color: #1a1a1a;
+/* Switch */
+.billing-switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.billing-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.billing-switch-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: #cbd5e1;
+  border-radius: 26px;
+  transition: background 0.3s ease;
+}
+
+.billing-switch-slider::before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: 3px;
+  bottom: 3px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.billing-switch input:checked + .billing-switch-slider {
+  background: #6366f1;
+}
+
+.billing-switch input:checked + .billing-switch-slider::before {
+  transform: translateX(22px);
+}
+
+.billing-save-badge {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: #dcfce7;
+  color: #16a34a;
 }
 
 /* Pricing Cards */
 .pricing-cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-  margin-top: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+  margin-top: 0;
 }
 
 .pricing-card {
   background: #fff;
-  border-radius: 24px;
-  padding: 40px 30px;
+  border-radius: 20px;
+  padding: 32px 28px;
   text-align: left;
   position: relative;
-  transition: all 0.3s ease;
-  border: 1px solid #eee;
+  transition: all 0.25s ease;
+  border: 2px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
 }
 
 .pricing-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
 }
 
 .pricing-card.popular {
-  border: 2px solid #1a1a1a;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
 
 .popular-badge {
   position: absolute;
-  top: -12px;
+  top: -14px;
   left: 50%;
   transform: translateX(-50%);
-  background: #1a1a1a;
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
   color: #fff;
-  padding: 6px 20px;
+  padding: 5px 18px;
   border-radius: 20px;
   font-family: "Poppins", sans-serif;
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.pricing-card.premium {
-  border: 1px solid #eee;
-}
-
-.premium-badge {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: linear-gradient(90deg, #8b5cf6 0%, #a78bfa 100%);
-  color: #fff;
-  padding: 6px 14px;
-  border-radius: 16px;
-  font-family: "Poppins", sans-serif;
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+/* Enterprise Card */
+.pricing-card.enterprise {
+  border-style: dashed;
+  border-color: #cbd5e1;
+}
+
+.pricing-card.enterprise .price {
+  font-size: 2rem;
+  color: #475569;
+}
+
+.enterprise-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.enterprise-btn i {
+  font-size: 0.85rem;
 }
 
 .card-header {
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 .plan-name {
   font-family: "Poppins", sans-serif;
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 5px;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 4px;
 }
 
 .plan-description {
   font-family: "Poppins", sans-serif;
-  font-size: 0.9rem;
-  color: #888;
+  font-size: 0.85rem;
+  color: #94a3b8;
 }
 
 .card-price {
-  margin-bottom: 30px;
+  margin-bottom: 12px;
   display: flex;
   align-items: baseline;
-  gap: 5px;
+  gap: 4px;
 }
 
 .card-price .price {
   font-family: "Poppins", sans-serif;
-  font-size: 3rem;
-  font-weight: 700;
-  color: #1a1a1a;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #0f172a;
 }
 
 .card-price .period {
   font-family: "Poppins", sans-serif;
-  font-size: 1rem;
-  color: #888;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  font-weight: 500;
 }
 
+/* Card Credits Badge */
+.card-credits {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 10px;
+  background: #f1f5f9;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #6366f1;
+  margin-bottom: 12px;
+}
+
+.card-credits i {
+  font-size: 0.8rem;
+}
+
+.pricing-card.popular .card-credits {
+  background: rgba(99, 102, 241, 0.08);
+}
+
+/* Card Team Info */
+.card-team-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6366f1;
+  margin-bottom: 16px;
+}
+
+.card-team-info i {
+  font-size: 0.75rem;
+}
+
+/* Plan Features */
 .plan-features {
   list-style: none;
   padding: 0;
-  margin: 0 0 30px 0;
+  margin: 0 0 24px 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
 }
 
 .plan-features li {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 0;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 6px 0;
   font-family: "Poppins", sans-serif;
-  font-size: 0.95rem;
-  color: #555;
-  border-bottom: 1px solid #f5f5f5;
-}
-
-.plan-features li:last-child {
+  font-size: 0.85rem;
+  color: #475569;
   border-bottom: none;
 }
 
 .plan-features li i {
-  color: #1a1a1a;
-  font-size: 0.85rem;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #dcfce7;
+  color: #16a34a;
+  font-size: 0.6rem;
+  margin-top: 2px;
 }
 
+.pricing-card.popular .plan-features li i {
+  background: #e0e7ff;
+  color: #4f46e5;
+}
+
+/* Plan Button */
 .plan-btn {
   display: block;
   width: 100%;
-  padding: 16px 24px;
-  background: #fff;
-  border: 2px solid #1a1a1a;
-  color: #1a1a1a;
-  border-radius: 30px;
+  padding: 14px;
+  background: transparent;
+  border: 2px solid #e2e8f0;
+  color: #475569;
+  border-radius: 12px;
   text-decoration: none;
   font-family: "Poppins", sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 0.95rem;
+  font-weight: 700;
   text-align: center;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  margin-top: auto;
 }
 
 .plan-btn:hover {
-  background: #1a1a1a;
-  color: #fff;
+  border-color: #6366f1;
+  color: #6366f1;
+  background: rgba(99, 102, 241, 0.05);
 }
 
 .plan-btn.primary {
-  background: #1a1a1a;
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  border-color: transparent;
   color: #fff;
 }
 
 .plan-btn.primary:hover {
-  background: #333;
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35);
+  transform: translateY(-2px);
 }
 
 /* Pricing Page Responsive */
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
   .pricing-cards {
-    grid-template-columns: 1fr;
-    max-width: 450px;
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 700px;
     margin-left: auto;
     margin-right: auto;
-  }
-
-  .pricing-card:last-child {
-    grid-column: span 1;
-    max-width: none;
   }
 }
 
@@ -9854,13 +9480,6 @@ footer {
     color: #1a1a1a !important;
   }
 
-  /* Hide title and subtitle on mobile */
-  .pricing-title,
-  .pricing-subtitle {
-    display: none;
-  }
-
-  /* Mobile Header for Pricing - same as main header */
   .pricing-header .mobile-header-right {
     display: flex !important;
     align-items: center;
@@ -9976,14 +9595,16 @@ footer {
     padding: 20px 16px 30px;
   }
 
-  .pricing-cards {
-    grid-template-columns: 1fr;
-    gap: 16px;
+  .pricing-title {
+    font-size: 1.4rem;
   }
 
-  .pricing-card:last-child {
-    grid-column: span 1;
-    max-width: none;
+  .pricing-cards {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+    gap: 16px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .pricing-card {
@@ -9991,16 +9612,23 @@ footer {
   }
 
   .card-price .price {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
   }
 
   .billing-toggle {
-    margin-bottom: 0;
+    margin-bottom: 24px;
   }
 
   .billing-btn {
-    padding: 10px 20px;
+    padding: 8px 16px;
     font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .pricing-cards {
+    grid-template-columns: 1fr;
+    max-width: 380px;
   }
 }
 

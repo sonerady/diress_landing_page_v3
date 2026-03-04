@@ -6232,7 +6232,7 @@ function initPricingPage() {
     });
 
     // Check if we should open pricing page on initial load
-    if (window.location.pathname === '/pricing') {
+    if (window.location.pathname === '/pricing' || window.location.pathname === '/subscription') {
         if (pricingPage) {
             pricingPage.classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -6246,34 +6246,47 @@ function initPricingPage() {
         }
     });
 
-    // Handle billing toggle
-    const billingBtns = document.querySelectorAll('.billing-btn');
+    // Handle billing toggle (switch)
+    const billingSwitch = document.getElementById('billing-switch-input');
+    const billingLabels = document.querySelectorAll('.billing-label');
     const monthlyPrices = document.querySelectorAll('.monthly-price');
     const weeklyPrices = document.querySelectorAll('.weekly-price');
     const monthlyPeriods = document.querySelectorAll('.monthly-period');
     const weeklyPeriods = document.querySelectorAll('.weekly-period');
+    const monthlyCredits = document.querySelectorAll('.monthly-credits');
+    const weeklyCredits = document.querySelectorAll('.weekly-credits');
+    const saveBadge = document.querySelector('.billing-save-badge');
 
-    billingBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Update active button
-            billingBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+    const updateBilling = () => {
+        const isMonthly = billingSwitch.checked;
 
-            const billing = btn.dataset.billing;
-
-            if (billing === 'monthly') {
-                monthlyPrices.forEach(el => el.style.display = 'inline');
-                weeklyPrices.forEach(el => el.style.display = 'none');
-                monthlyPeriods.forEach(el => el.style.display = 'inline');
-                weeklyPeriods.forEach(el => el.style.display = 'none');
-            } else {
-                monthlyPrices.forEach(el => el.style.display = 'none');
-                weeklyPrices.forEach(el => el.style.display = 'inline');
-                monthlyPeriods.forEach(el => el.style.display = 'none');
-                weeklyPeriods.forEach(el => el.style.display = 'inline');
-            }
+        // Update label styles
+        billingLabels.forEach(label => {
+            const isActive = (isMonthly && label.dataset.billing === 'monthly') ||
+                             (!isMonthly && label.dataset.billing === 'weekly');
+            label.classList.toggle('active', isActive);
         });
-    });
+
+        // Toggle prices, periods, credits
+        monthlyPrices.forEach(el => el.style.display = isMonthly ? 'inline' : 'none');
+        weeklyPrices.forEach(el => el.style.display = isMonthly ? 'none' : 'inline');
+        monthlyPeriods.forEach(el => el.style.display = isMonthly ? 'inline' : 'none');
+        weeklyPeriods.forEach(el => el.style.display = isMonthly ? 'none' : 'inline');
+        monthlyCredits.forEach(el => el.style.display = isMonthly ? 'inline' : 'none');
+        weeklyCredits.forEach(el => el.style.display = isMonthly ? 'none' : 'inline');
+        if (saveBadge) saveBadge.style.display = isMonthly ? 'inline' : 'none';
+    };
+
+    if (billingSwitch) {
+        billingSwitch.addEventListener('change', updateBilling);
+        // Also allow clicking labels to toggle
+        billingLabels.forEach(label => {
+            label.addEventListener('click', () => {
+                billingSwitch.checked = label.dataset.billing === 'monthly';
+                updateBilling();
+            });
+        });
+    }
 }
 
 // Initialize pricing page on DOM ready

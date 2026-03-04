@@ -82,12 +82,7 @@
               <ul>
                 <li><a href="#" class="active" data-page="home">Home</a></li>
                 <li><a href="#" data-page="contacts">Contacts</a></li>
-                <li>
-                  <a href="javascript:void(0)" class="pricing-link-disabled">
-                    Pricing
-                    <span class="pricing-tooltip">Available on mobile app.<br>Web purchases coming soon!</span>
-                  </a>
-                </li>
+                <li><a href="/pricing" data-page="pricing">Pricing</a></li>
               </ul>
             </nav>
             <a
@@ -140,10 +135,7 @@
             <nav class="mobile-nav">
               <a href="#" class="active" data-page="home">Home</a>
               <a href="#" data-page="contacts">Contacts</a>
-              <a href="javascript:void(0)" class="pricing-link-disabled mobile-pricing-disabled">
-                Pricing
-                <span class="mobile-pricing-tooltip">Buy on App</span>
-              </a>
+              <a href="/pricing" data-page="pricing">Pricing</a>
             </nav>
             <a
               href="https://www.monailisa.com/diress-app"
@@ -1692,16 +1684,18 @@
           <div class="pricing-content">
             <h1 class="pricing-title">Simple, Transparent Pricing</h1>
             <p class="pricing-subtitle">
-              Choose the plan that works best for you. No hidden fees, cancel
-              anytime.
+              Create professional product visuals, stand out in your store, and multiply your sales.
             </p>
 
             <!-- Billing Toggle -->
             <div class="billing-toggle">
-              <button class="billing-btn active" data-billing="monthly">
-                Monthly
-              </button>
-              <button class="billing-btn" data-billing="weekly">Weekly</button>
+              <span class="billing-label" data-billing="weekly">Weekly</span>
+              <label class="billing-switch">
+                <input type="checkbox" id="billing-switch-input" checked />
+                <span class="billing-switch-slider"></span>
+              </label>
+              <span class="billing-label active" data-billing="monthly">Monthly</span>
+              <span class="billing-save-badge">Save ~12%</span>
             </div>
 
             <!-- Pricing Cards -->
@@ -1713,84 +1707,115 @@
                   <p class="plan-description">Perfect for getting started</p>
                 </div>
                 <div class="card-price">
-                  <span class="price monthly-price">$19</span>
-                  <span class="price weekly-price" style="display: none"
-                    >$6</span
-                  >
+                  <span class="price monthly-price">$34.99</span>
+                  <span class="price weekly-price" style="display: none">$9.99</span>
                   <span class="period monthly-period">/month</span>
-                  <span class="period weekly-period" style="display: none"
-                    >/week</span
-                  >
+                  <span class="period weekly-period" style="display: none">/week</span>
+                </div>
+                <div class="card-credits">
+                  <i class="fas fa-bolt"></i>
+                  <span class="monthly-credits">2,400 Credits</span>
+                  <span class="weekly-credits" style="display: none">600 Credits</span>
                 </div>
                 <ul class="plan-features">
-                  <li><i class="fas fa-check"></i> 50 AI-generated photos</li>
-                  <li><i class="fas fa-check"></i> 3 AI model styles</li>
-                  <li><i class="fas fa-check"></i> Standard backgrounds</li>
-                  <li><i class="fas fa-check"></i> 720p export quality</li>
-                  <li><i class="fas fa-check"></i> Email support</li>
+                  <li><i class="fas fa-check"></i> All locations unlocked</li>
+                  <li><i class="fas fa-check"></i> All model features</li>
+                  <li><i class="fas fa-check"></i> Watermark-free results</li>
+                  <li><i class="fas fa-check"></i> Pro tools access</li>
+                  <li><i class="fas fa-check"></i> Video creation</li>
+                  <li><i class="fas fa-check"></i> Catalog quality exports</li>
                 </ul>
-                <a href="javascript:void(0)" class="plan-btn plan-btn-disabled">
-                  Get Started
-                  <span class="plan-btn-tooltip">Purchases are available on mobile app.<br>Web purchases coming soon!</span>
+                <a href="https://app.diress.ai/subscription" target="_blank" class="plan-btn">
+                  Subscribe
                 </a>
               </div>
 
               <!-- Plus Plan -->
               <div class="pricing-card popular">
+                <span class="popular-badge">Recommended</span>
                 <div class="card-header">
                   <h3 class="plan-name">Plus</h3>
                   <p class="plan-description">Best for growing businesses</p>
                 </div>
                 <div class="card-price">
-                  <span class="price monthly-price">$49</span>
-                  <span class="price weekly-price" style="display: none"
-                    >$15</span
-                  >
+                  <span class="price monthly-price">$59.99</span>
+                  <span class="price weekly-price" style="display: none">$17.99</span>
                   <span class="period monthly-period">/month</span>
-                  <span class="period weekly-period" style="display: none"
-                    >/week</span
-                  >
+                  <span class="period weekly-period" style="display: none">/week</span>
+                </div>
+                <div class="card-credits">
+                  <i class="fas fa-bolt"></i>
+                  <span class="monthly-credits">4,800 Credits</span>
+                  <span class="weekly-credits" style="display: none">1,200 Credits</span>
+                </div>
+                <div class="card-team-info">
+                  <i class="fas fa-users"></i> +1 Team Member
                 </div>
                 <ul class="plan-features">
-                  <li><i class="fas fa-check"></i> 200 AI-generated photos</li>
-                  <li><i class="fas fa-check"></i> 10 AI model styles</li>
-                  <li><i class="fas fa-check"></i> Premium backgrounds</li>
-                  <li><i class="fas fa-check"></i> 1080p export quality</li>
-                  <li><i class="fas fa-check"></i> Priority support</li>
+                  <li><i class="fas fa-check"></i> All locations unlocked</li>
+                  <li><i class="fas fa-check"></i> All model features</li>
+                  <li><i class="fas fa-check"></i> Watermark-free results</li>
+                  <li><i class="fas fa-check"></i> Pro tools access</li>
+                  <li><i class="fas fa-check"></i> Video creation</li>
+                  <li><i class="fas fa-check"></i> Catalog quality exports</li>
                 </ul>
-                <a href="javascript:void(0)" class="plan-btn primary plan-btn-disabled">
-                  Get Started
-                  <span class="plan-btn-tooltip">Purchases are available on mobile app.<br>Web purchases coming soon!</span>
+                <a href="https://app.diress.ai/subscription" target="_blank" class="plan-btn primary">
+                  Subscribe
                 </a>
               </div>
 
               <!-- Premium Plan -->
               <div class="pricing-card premium">
-                <span class="premium-badge">Best Value</span>
                 <div class="card-header">
                   <h3 class="plan-name">Premium</h3>
                   <p class="plan-description">For professional studios</p>
                 </div>
                 <div class="card-price">
-                  <span class="price monthly-price">$99</span>
-                  <span class="price weekly-price" style="display: none"
-                    >$29</span
-                  >
+                  <span class="price monthly-price">$99.99</span>
+                  <span class="price weekly-price" style="display: none">$29.99</span>
                   <span class="period monthly-period">/month</span>
-                  <span class="period weekly-period" style="display: none"
-                    >/week</span
-                  >
+                  <span class="period weekly-period" style="display: none">/week</span>
+                </div>
+                <div class="card-credits">
+                  <i class="fas fa-bolt"></i>
+                  <span class="monthly-credits">9,600 Credits</span>
+                  <span class="weekly-credits" style="display: none">2,400 Credits</span>
+                </div>
+                <div class="card-team-info">
+                  <i class="fas fa-users"></i> +2 Team Members
                 </div>
                 <ul class="plan-features">
-                  <li><i class="fas fa-check"></i> Unlimited AI photos</li>
-                  <li><i class="fas fa-check"></i> All AI model styles</li>
-                  <li><i class="fas fa-check"></i> All backgrounds + custom</li>
-                  <li><i class="fas fa-check"></i> 4K export quality</li>
-                  <li><i class="fas fa-check"></i> 24/7 priority support</li>
+                  <li><i class="fas fa-check"></i> All locations unlocked</li>
+                  <li><i class="fas fa-check"></i> All model features</li>
+                  <li><i class="fas fa-check"></i> Watermark-free results</li>
+                  <li><i class="fas fa-check"></i> Pro tools access</li>
+                  <li><i class="fas fa-check"></i> Video creation</li>
+                  <li><i class="fas fa-check"></i> Catalog quality exports</li>
                 </ul>
-                <a href="javascript:void(0)" class="plan-btn plan-btn-disabled">
-                  Get Started
-                  <span class="plan-btn-tooltip">Purchases are available on mobile app.<br>Web purchases coming soon!</span>
+                <a href="https://app.diress.ai/subscription" target="_blank" class="plan-btn">
+                  Subscribe
+                </a>
+              </div>
+
+              <!-- Enterprise Plan -->
+              <div class="pricing-card enterprise">
+                <div class="card-header">
+                  <h3 class="plan-name">Enterprise</h3>
+                  <p class="plan-description">For businesses with large catalogs & teams</p>
+                </div>
+                <div class="card-price">
+                  <span class="price">Custom</span>
+                </div>
+                <ul class="plan-features">
+                  <li><i class="fas fa-check"></i> <strong>Unlimited team members</strong></li>
+                  <li><i class="fas fa-check"></i> <strong>High-volume credit allocation</strong></li>
+                  <li><i class="fas fa-check"></i> API access & integrations</li>
+                  <li><i class="fas fa-check"></i> Dedicated account manager</li>
+                  <li><i class="fas fa-check"></i> Priority processing & support</li>
+                  <li><i class="fas fa-check"></i> Custom pricing based on your needs</li>
+                </ul>
+                <a href="mailto:info@monailisa.com" class="plan-btn enterprise-btn">
+                  <i class="fas fa-envelope"></i> Contact Us
                 </a>
               </div>
             </div>
