@@ -6146,13 +6146,8 @@ if (document.readyState === 'loading') {
 // ========================================
 
 function openPricingPage() {
-    const pricingPage = document.getElementById('pricing-page');
-    if (pricingPage) {
-        pricingPage.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        // Update URL to /pricing
-        history.pushState({ page: 'pricing' }, 'Pricing - Diress', '/pricing');
-    }
+    // Pricing page is temporarily disabled
+    return;
 }
 
 function closePricingPage() {
@@ -6231,12 +6226,9 @@ function initPricingPage() {
         }
     });
 
-    // Check if we should open pricing page on initial load
+    // Pricing page is temporarily disabled — redirect to home if accessed via URL
     if (window.location.pathname === '/pricing' || window.location.pathname === '/subscription') {
-        if (pricingPage) {
-            pricingPage.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
+        history.replaceState(null, '', '/');
     }
 
     // Close on escape key
