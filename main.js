@@ -6146,8 +6146,13 @@ if (document.readyState === 'loading') {
 // ========================================
 
 function openPricingPage() {
-    // Pricing page is temporarily disabled
-    return;
+    const pricingPage = document.getElementById('pricing-page');
+    if (pricingPage) {
+        pricingPage.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        // Update URL to /pricing
+        history.pushState({ page: 'pricing' }, 'Pricing - Diress', '/pricing');
+    }
 }
 
 function closePricingPage() {
@@ -6163,8 +6168,8 @@ function closePricingPage() {
 function initPricingPage() {
     const pricingPage = document.getElementById('pricing-page');
 
-    // Get all nav links with href="/pricing" (internal pricing links)
-    const pricingLinks = document.querySelectorAll('a[href="/pricing"]');
+    // Get all nav links with href="/pricing" or data-page="pricing" (internal pricing links)
+    const pricingLinks = document.querySelectorAll('a[href="/pricing"], a[data-page="pricing"]');
 
     // Open pricing page from internal links
     pricingLinks.forEach(link => {
@@ -6202,7 +6207,7 @@ function initPricingPage() {
     }
 
     // Handle contact header Pricing link click - open pricing page
-    const contactPricingLink = document.querySelector('.contact-header a[href="/pricing"]');
+    const contactPricingLink = document.querySelector('.contact-header a[href="/pricing"], .contact-header a[data-page="pricing"]');
     if (contactPricingLink) {
         contactPricingLink.addEventListener('click', (e) => {
             e.preventDefault();
@@ -6226,9 +6231,9 @@ function initPricingPage() {
         }
     });
 
-    // Pricing page is temporarily disabled — redirect to home if accessed via URL
+    // Open pricing page if accessed via URL directly
     if (window.location.pathname === '/pricing' || window.location.pathname === '/subscription') {
-        history.replaceState(null, '', '/');
+        openPricingPage();
     }
 
     // Close on escape key
